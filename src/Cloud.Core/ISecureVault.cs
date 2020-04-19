@@ -1,6 +1,6 @@
 ﻿namespace Cloud.Core
 {
-    using JetBrains.Annotations;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     
     /// <summary>

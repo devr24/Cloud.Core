@@ -6,9 +6,10 @@ using Xunit;
 
 namespace Cloud.Core.Tests
 {
+    [IsUnit]
     public class StreamExtensionsTest
     {
-        [Fact, IsUnit]
+        [Fact]
         public void Test_SizeSuffix_Throws()
         {
             // Arrange - setup test stream.

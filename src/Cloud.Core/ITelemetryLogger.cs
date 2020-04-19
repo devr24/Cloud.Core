@@ -11,7 +11,7 @@
     /// </summary>
     /// <typeparam name="T">Type of TelemetryLogger.</typeparam>
     /// <seealso cref="Cloud.Core.ITelemetryLogger" />
-    public interface ITelemetryLogger<T>: ITelemetryLogger { }
+    public interface ITelemetryLogger<T> : ITelemetryLogger { }
 
     /// <summary>
     /// Contract for all implementations of the logger.  
@@ -105,6 +105,30 @@
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
         void LogError(Exception ex, Dictionary<string, string> properties = null,
+            [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
+
+        /// <summary>
+        /// Logs error message
+        /// </summary>
+        /// <param name="ex">The exception to log.</param>
+        /// <param name="message">The message to log.</param>
+        /// <param name="properties">The properties to concatenate together and add to the message.</param>
+        /// <param name="callerMemberName">Name of the caller member.</param>
+        /// <param name="callerFilePath">The caller file path.</param>
+        /// <param name="callerLineNumber">The caller line number.</param>
+        void LogError(Exception ex, string message, Dictionary<string, string> properties = null,
+            [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
+
+        /// <summary>
+        /// Logs the metric value.
+        /// </summary>
+        /// <param name="metricName">Name of the metric to log.</param>
+        /// <param name="metricValue">The metric value.</param>
+        /// <param name="properties">The properties to output.</param>
+        /// <param name="callerMemberName">Name of the caller member.</param>
+        /// <param name="callerFilePath">The caller file path.</param>
+        /// <param name="callerLineNumber">The caller line number.</param>
+        void LogMetric(string metricName, double metricValue, Dictionary<string, string> properties,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>

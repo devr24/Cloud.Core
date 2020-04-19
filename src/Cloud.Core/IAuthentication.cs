@@ -5,7 +5,7 @@
     /// <summary>
     /// Interface IAuthentication
     /// </summary>
-    public interface IAuthentication
+    public interface IAuthentication : INamedInstance
     {
         /// <summary>
         /// Property to access authentication token

@@ -2,6 +2,6 @@
 {
     public interface IFeatureFlag
     {
-        bool GetFeatureFlag(string key, string id, bool defaultValue = false);
+        bool GetFeatureFlag(string key, bool defaultValue = false);
     }
 }

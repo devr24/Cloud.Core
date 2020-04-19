@@ -1,4 +1,4 @@
-﻿namespace Cloud.Core
+﻿namespace Cloud.Core.Comparer
 {
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
-using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using Xunit;
 using FluentAssertions;
+using System;
 
 namespace Cloud.Core.Tests
 {
+    [IsUnit]
     public class EnumExtensionsTest
     {
         private enum MyTestEnum
@@ -19,7 +20,7 @@ namespace Cloud.Core.Tests
             Three = 3
         }
 
-        [Fact, IsUnit]
+        [Fact]
         public void Test_ToList_Enum()
         {
             var converted = EnumExtensions.ListFromEnum<MyTestEnum>();
@@ -31,38 +32,38 @@ namespace Cloud.Core.Tests
             converted.Should().Contain("Three");
         }
 
-        [Fact, IsUnit]
+        [Fact]
         public void Test_ToDescription_WithDescription()
         {
             Assert.Equal("one", MyTestEnum.One.ToDescription());
-
+            Assert.Equal("two", MyTestEnum.Two.ToDescription());
         }
 
-        [Fact, IsUnit]
+        [Fact]
         public void Test_ToDescription_WithoutDescription()
         {
             Assert.Equal("Three", MyTestEnum.Three.ToDescription());
         }
 
-        [Fact, IsUnit]
+        [Fact]
         public void Test_ConvertIntToEnum()
         {
             Assert.Equal(MyTestEnum.Three, 3.ConvertIntToEnum<MyTestEnum>());
         }
 
-        [Fact, IsUnit]
+        [Fact]
         public void Test_ConvertStringToEnum()
         {
             Assert.Equal(MyTestEnum.Three, "Three".ConvertStringToEnum<MyTestEnum>());
         }
 
-        [Fact, IsUnit]
+        [Fact]
         public void Test_ConvertToEnum_Positive()
         {
             Assert.Equal(MyTestEnum.Three, EnumExtensions.ConvertToEnum<MyTestEnum>("Three"));
         }
 
-        [Fact, IsUnit]
+        [Fact]
         public void Test_ConvertToEnum_Negative()
         {
             Assert.Equal(MyTestEnum.Zero, EnumExtensions.ConvertToEnum<MyTestEnum>(""));

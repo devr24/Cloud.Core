@@ -4,12 +4,97 @@ namespace System
     using System.IO;
     using System.Text;
     using Text.RegularExpressions;
-
+    
     /// <summary>
     /// String Extensions
     /// </summary>
     public static class StringExtensions
     {
+        private static Regex _textContentCleanExpression = new Regex("[\\W]{1,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Cleans the content of unnecessary characters using the regular expression "[\\W]{1,}".  Replaces with a space.
+        /// </summary>
+        /// <param name="text">The text content to clean.</param>
+        /// <returns>Cleaned System.String.</returns>
+        public static string RemoveNonAlphanumericCharacters(this string text)
+        {
+            return _textContentCleanExpression.Replace(text, " ");
+        }
+        
+
+        /// <summary>
+        /// Removes multiple strings from the source string.
+        /// </summary>
+        /// <param name="str">The string to modify.</param>
+        /// <param name="find">The string sequences to find and remove.</param>
+        /// <returns>System.String.</returns>
+        public static string RemoveMultiple(this string str, params string[] find)
+        {
+            var sb = new StringBuilder(str);
+
+            for (int i = 0; i < find.Length; i++)
+                sb.Replace(find[i], string.Empty);
+
+            return sb.ToString().ToLower();
+        }
+
+        /// <summary>
+        /// Replaces multiple strings with a replacement string.
+        /// </summary>
+        /// <param name="str">The string to modify.</param>
+        /// <param name="replaceWith">The replace with string.</param>
+        /// <param name="find">The string sequences to find and replace.</param>
+        /// <returns>System.String.</returns>
+        public static string ReplaceMultiple(this string str, string replaceWith, params string[] find)
+        {
+            var sb = new StringBuilder(str);
+
+            for (int i = 0; i < find.Length; i++)
+                sb.Replace(find[i], replaceWith);
+
+            return sb.ToString().ToLower();
+        }
+
+        /// <summary>
+        /// Multiline string extension.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        /// <returns>System.String.</returns>
+        public static string MultiLine(params string[] args)
+        {
+            return string.Join(Environment.NewLine, args);
+        }
+
+        /// <summary>
+        /// Sets the default if null.
+        /// </summary>
+        /// <param name="str">The string to check.</param>
+        /// <param name="default">The default value if null.</param>
+        /// <returns>System.String returned.</returns>
+        public static string SetDefaultIfNullOrEmpty(this string str, string @default)
+        {
+            if (str.IsNullOrEmpty())
+                str = @default;
+
+            return str;
+        }
+
+        /// <summary>
+        /// Replaces the specified separators.
+        /// </summary>
+        /// <param name="str">The string to perform replace on.</param>
+        /// <param name="replaceChars">The chars to replace.</param>
+        /// <param name="newVal">The new value.</param>
+        /// <returns>string with characters replaced.</returns>
+        public static string ReplaceAll(this string str, char[] replaceChars, string newVal)
+        {
+            string[] temp;
+
+            temp = str.Split(replaceChars, StringSplitOptions.RemoveEmptyEntries);
+            return string.Join(newVal, temp);
+        }
+        
         /// <summary>
         /// Gets the memory footprint (size) in bytes.
         /// </summary>
@@ -57,6 +142,24 @@ namespace System
         public static string ThrowIfNullOrWhiteSpace(this string value)
         {
             if (value.IsNullOrWhiteSpace())
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentNullException" /> if the given value is <c>null</c>.
+        /// </summary>
+        /// <param name="value">Value to check.</param>
+        /// <returns>
+        /// Returns the original value, if the value is NOT <c>null</c>; otherwise throws an <see cref="ArgumentNullException" />.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">value</exception>
+        public static string ThrowIfNull(this string value)
+        {
+            if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
@@ -149,7 +252,7 @@ namespace System
         /// <returns>Returns <c>True</c>, if the string value contains the comparer, regardless of casing; otherwise returns <c>False</c>.</returns>
         public static bool ContainsEquivalent(this string value, string comparer)
         {
-            value.ThrowIfNullOrWhiteSpace();
+            value.ThrowIfNull();
 
             return value.ToLowerInvariant().Contains(comparer.ToLowerInvariant());
         }
@@ -164,7 +267,7 @@ namespace System
         /// </returns>
         public static bool StartsWithEquivalent(this string value, string comparer)
         {
-            value.ThrowIfNullOrWhiteSpace();
+            value.ThrowIfNull();
 
             return value.StartsWith(comparer, StringComparison.CurrentCultureIgnoreCase);
         }
@@ -177,7 +280,7 @@ namespace System
         /// <returns>Returns <c>True</c>, if the string value ends with the comparer, regardless of casing; otherwise returns <c>False</c>.</returns>
         public static bool EndsWithEquivalent(this string value, string comparer)
         {
-            value.ThrowIfNullOrWhiteSpace();
+            value.ThrowIfNull();
 
             return value.EndsWith(comparer, StringComparison.CurrentCultureIgnoreCase);
         }
@@ -190,7 +293,7 @@ namespace System
         /// <returns>Stream version of string.</returns>
         public static MemoryStream ConvertToStream(this string value, Encoding encoding)
         {
-            value.ThrowIfNullOrWhiteSpace();
+            value.ThrowIfNull();
             return new MemoryStream(encoding.GetBytes(value));
         }
 
@@ -203,6 +306,26 @@ namespace System
         {
             var reader = new StreamReader(stream);
             return reader.ReadToEnd();
+        }
+
+        /// <summary>
+        /// Substrings the specified text using a start and finish search string.
+        /// </summary>
+        /// <param name="str">The string to substitute.</param>
+        /// <param name="start">The start text to find.</param>
+        /// <param name="end">The end text to find.</param>
+        /// <returns>System.String.</returns>
+        public static string Substring(this string str, string start, string end)
+        {
+            try
+            {
+                var indexOfStartStartSize = str.Remove(0, str.IndexOf(start, StringComparison.Ordinal) + start.Length);
+                return indexOfStartStartSize.Remove(indexOfStartStartSize.IndexOf(end, StringComparison.Ordinal), indexOfStartStartSize.Length - indexOfStartStartSize.IndexOf(end, StringComparison.Ordinal)).Trim();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

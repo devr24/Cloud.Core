@@ -1,8 +1,7 @@
-﻿namespace Cloud.Core.Extensions
+﻿namespace System
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System;
     using System.ComponentModel;
 
     /// <summary>
@@ -55,27 +54,29 @@
         /// <summary>
         /// Convert Int to Enum
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The generic object to convert to.</typeparam>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>Type T converted object.</returns>
         public static T ConvertIntToEnum<T>(this int value) where T : struct, IConvertible
         {
             return ConvertToEnum<T>(value);
         }
+
         /// <summary>
         /// Convert String to Enum
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The generic object to convert to.</typeparam>
         /// <param name="value">The value.</param>
-        /// <returns></returns>
+        /// <returns>Type T converted object.</returns>
         public static T ConvertStringToEnum<T>(this string value) where T : struct, IConvertible
         {
             return ConvertToEnum<T>(value);
         }
+
         /// <summary>
         /// Convert to Enum
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The generic object to convert to.</typeparam>
         /// <param name="value">The value.</param>
         /// <returns>Enum of type T.</returns>
         /// <exception cref="ArgumentException">T must be an enumeration type</exception>

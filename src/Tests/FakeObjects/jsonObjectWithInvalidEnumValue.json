@@ -1,0 +1,4 @@
+{
+  "Name": "ObjectWithInvalidValue",
+  "FakeEnum": "WrongValue"
+}
