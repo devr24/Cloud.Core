@@ -1,4 +1,6 @@
-# **Cloud.Core**
+# **Cloud.Core** [![Build status](https://dev.azure.com/cloudcoreproject/CloudCore/_apis/build/status/Cloud.Core/Cloud.Core_Package)](https://dev.azure.com/cloudcoreproject/CloudCore/_build/latest?definitionId=3) ![Code Coverage](https://cloud1core.blob.core.windows.net/codecoveragebadges/Cloud.Core-LineCoverage.png) [![Cloud.Core package in Cloud.Core feed in Azure Artifacts](https://feeds.dev.azure.com/cloudcoreproject/dfc5e3d0-a562-46fe-8070-7901ac8e64a0/_apis/public/Packaging/Feeds/8949198b-5c74-42af-9d30-e8c462acada6/Packages/caf374a4-7e24-4294-9202-3004b7467008/Badge)](https://dev.azure.com/cloudcoreproject/CloudCore/_packaging?_a=package&feed=8949198b-5c74-42af-9d30-e8c462acada6&package=caf374a4-7e24-4294-9202-3004b7467008&preferRelease=true)
+
+
 
 <div id="description">
 
@@ -196,10 +198,10 @@ servuces.AddSingleton<NamedInstanceFactory<TestInterface>>();
 > In the sample above with Dependency Injection, the NamedInstanceFactory will resolve instance X/Y/Z automatically, as they'll be injected into the constuctor during DI initialisation.
 
 
-# Cloud.Core Docker Base Image
+## Cloud.Core Docker Base Image
 The base image for all of our docker files is found within this repo, in the **Cloud.Core.BaseImage** folder.  Update this as required - it's currently configured to run on Alpine Linux and .net Core 3.1 Runtime.
 
-# Cloud.Core Project Templates
+## Cloud.Core Project Templates
 The Cloud.Core project templates can be found in the **Cloud.Core Templates** folder - [read more about modifying and using the templates here](TBC).
 
 ## Test Coverage
