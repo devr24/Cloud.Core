@@ -18,7 +18,7 @@
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             // If the value to convert is blank or null, and the type to convert to is an enum, return the default instance of the enum.
-            if (string.IsNullOrWhiteSpace(reader.Value.ToString()) && objectType.IsEnum)
+            if (string.IsNullOrWhiteSpace(reader.Value?.ToString()) && objectType.IsEnum)
             {
                 return Activator.CreateInstance(objectType);
             }
