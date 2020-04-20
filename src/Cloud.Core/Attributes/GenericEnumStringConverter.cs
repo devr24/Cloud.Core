@@ -1,7 +1,7 @@
 ﻿namespace Newtonsoft.Json.Converters
 {
     using System;
-    using Newtonsoft.Json;
+    using Json;
 
     public class GenericEnumStringConverter : StringEnumConverter
     {
