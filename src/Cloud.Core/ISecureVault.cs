@@ -7,7 +7,7 @@
     /// Contract specifying the functionality of a Secure Vault.
     /// Kept to Get and Set accessors for secrets for simplicity.
     /// </summary>
-    public interface ISecureVault
+    public interface ISecureVault : INamedInstance
     {
         /// <summary>
         /// Sets the secret in the secret vault implementation.
