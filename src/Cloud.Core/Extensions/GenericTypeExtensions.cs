@@ -1,9 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System.Collections.Generic
 {
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Reflection;
+    using ComponentModel;
+    using ComponentModel.DataAnnotations;
+    using Reflection;
 
     /// <summary>
     /// Extension methods for generic type T
@@ -22,9 +22,11 @@ namespace System.Collections.Generic
 
             try
             {
-                //Handling Nullable types i.e, int?, double?, bool? .. etc
+                // Handling Nullable types i.e, int?, double?, bool? .. etc
                 if (Nullable.GetUnderlyingType(typeof(T)) != null)
+                {
                     return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(value);
+                }
 
                 return (T)Convert.ChangeType(value, typeof(T));
             }
@@ -68,7 +70,7 @@ namespace System.Collections.Generic
         /// <typeparam name="T">Type of instance.</typeparam>
         /// <param name="data">Original array that the sub-array will be generated from.</param>
         /// <param name="index">Index to start the sub-array.</param>
-        /// <param name="length">Number of elemented to take from start index.</param>
+        /// <param name="length">Number of elements to take from start index.</param>
         /// <returns>Type T sub-array.</returns>
         public static T[] SubArray<T>(this T[] data, int index, int length)
         {
@@ -87,9 +89,8 @@ namespace System.Collections.Generic
         {
             var items = obj.GetType().GetProperties();
 
-            for (int i = 0; i < items.Length; i++)
+            foreach (var desc in items)
             {
-                var desc = items[i];
                 var val = desc.GetValue(obj);
                 yield return new PropertyDescription(desc, val);
             }
@@ -133,7 +134,7 @@ namespace System.Collections.Generic
         public bool IsSystemType { get; }
 
         /// <summary>
-        /// Value of the objet being described.
+        /// Value of the object being described.
         /// </summary>
         public object Value { get; internal set; }
 
@@ -143,7 +144,7 @@ namespace System.Collections.Generic
         public bool IsEnumerable { get; }
 
         /// <summary>
-        /// Whether the object has the "Key" attribtue associated with it.
+        /// Whether the object has the "Key" attribute associated with it.
         /// </summary>
         public bool HasKeyAttribute { get; }
 

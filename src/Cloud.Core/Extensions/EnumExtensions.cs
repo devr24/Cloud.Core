@@ -1,8 +1,8 @@
 ﻿namespace System
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.ComponentModel;
+    using Collections.Generic;
+    using Linq;
+    using ComponentModel;
 
     /// <summary>
     /// Contains methods that extend the enum struct with utility and mapping methods.
@@ -45,7 +45,9 @@
 
             // Loop through each enum item and add to the return list.
             foreach (var e in Enum.GetValues(type))
+            {
                 list.Add(addSpacesToCapitals ? e.ToString().AddSpaceBeforeCaps() : e.ToString());
+            }
 
             // Order by the keys and return.
             return list.OrderBy(s => s).ToList();

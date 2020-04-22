@@ -1,11 +1,11 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Reflection;
+    using Collections;
+    using Collections.Generic;
+    using ComponentModel.DataAnnotations;
+    using Linq;
+    using Reflection;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -14,14 +14,16 @@ namespace System
     public static class TypeExtensions
     {
         /// <summary>
-        /// Determins whether or not the type is a system type.
+        /// Determines whether or not the type is a system type.
         /// </summary>
         /// <param name="type">Type to check.</param>
         /// <returns>[true] if is a system type, otherwise [false].</returns>
         public static bool IsSystemType(this Type type)
         {
             if (type == null)
+            {
                 return false;
+            }
 
             return
                 type.IsPrimitive ||
@@ -39,22 +41,24 @@ namespace System
         }
 
         /// <summary>
-        /// Determins whether the type can be enumerated.
+        /// Determines whether the type can be enumerated.
         /// </summary>
         /// <param name="type">Type to check.</param>
         /// <returns>[true] if is a enumerable type, otherwise [false].</returns>
         public static bool IsEnumerableType(this Type type)
         {
             if (type == null || type.IsSystemType())
+            {
                 return false;
+            }
 
             return type.IsArray || type.GetInterfaces().Intersect(new [] {
-                    typeof(IList),
-                    typeof(ICollection),
-                    typeof(IEnumerable),
-                    typeof(ICollection),
-                }).Any() ||
-                typeof(IEnumerable<object>).IsAssignableFrom(type);
+                       typeof(IList),
+                       typeof(ICollection),
+                       typeof(IEnumerable),
+                       typeof(ICollection),
+                   }).Any() ||
+                   typeof(IEnumerable<object>).IsAssignableFrom(type);
         }
 
         /// <summary>
@@ -70,7 +74,7 @@ namespace System
         }
 
         /// <summary>
-        /// Determins if the property info contains required attributes.
+        /// Determines if the property info contains required attributes.
         /// Checks "Required", "JsonRequired" and "JsonProperty(Required)" attributes.
         /// </summary>
         /// <param name="prop">Property info to check.</param>
@@ -96,7 +100,7 @@ namespace System
                 if (att.AttributeType == typeof(JsonPropertyAttribute))
                 {
                     var requiredArg = att.NamedArguments?.Where(a => a.MemberName == "Required").FirstOrDefault();
-                    var val = requiredArg.HasValue ? requiredArg.Value.TypedValue.Value : null;
+                    var val = requiredArg?.TypedValue.Value;
 
                     if (val != null)
                     {

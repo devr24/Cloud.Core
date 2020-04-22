@@ -9,6 +9,7 @@ namespace Cloud.Core.Tests
     [IsUnit]
     public class AttributeValidatorTest
     {
+        /// <summary>Check the validate method returns valid as expected.</summary>
         [Fact]
         public void Test_Validator_ValidObject()
         {
@@ -22,6 +23,7 @@ namespace Cloud.Core.Tests
             result.IsValid.Should().BeTrue();
         }
 
+        /// <summary>Check the validate method returns invalid as expected.</summary>
         [Fact]
         public void Test_Validator_InvalidRequired()
         {
@@ -38,6 +40,7 @@ namespace Cloud.Core.Tests
             result.IsValid.Should().BeFalse();
         }
 
+        /// <summary>Check the validate method return invalid due to max length.</summary>
         [Fact]
         public void Test_Validator_InvalidMaxLengthExceeded()
         {
@@ -54,6 +57,7 @@ namespace Cloud.Core.Tests
             result.IsValid.Should().BeFalse();
         }
 
+        /// <summary>Check the validate method return invalid due to invalid range.</summary>
         [Fact]
         public void Test_Validator_InvalidRange()
         {
@@ -70,6 +74,7 @@ namespace Cloud.Core.Tests
             result.IsValid.Should().BeFalse();
         }
 
+        /// <summary>Check the validate method return invalid due to string length.</summary>
         [Fact]
         public void Test_Validator_InvalidStringLength()
         {
@@ -86,6 +91,7 @@ namespace Cloud.Core.Tests
             result.IsValid.Should().BeFalse();
         }
 
+        /// <summary>Check the validate method return invalid due to failing regEx check.</summary>
         [Fact]
         public void Test_Validator_InvalidRegEx()
         {
@@ -118,6 +124,7 @@ namespace Cloud.Core.Tests
             [Range(1, 100)]
             public int RangeTest { get; set; }
 
+            // This is disabled as its not honoured by validator.
             //[DataType(DataType.EmailAddress)]
             //public string DataTypeTest { get; set; }
 

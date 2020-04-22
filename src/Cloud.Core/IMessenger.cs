@@ -46,7 +46,7 @@
         /// <typeparam name="T">Type of messages to complete</typeparam>
         /// <param name="message">The message list.</param>
         /// <returns></returns>
-        Task CompleteAll<T>(IEnumerable<T> message) where T : class;
+        Task Complete<T>(IEnumerable<T> message) where T : class;
 
         /// <summary>
         /// Abandons a message by returning it to the queue.

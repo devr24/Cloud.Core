@@ -9,10 +9,11 @@ namespace Cloud.Core.Tests
     [IsUnit]
     public class StreamExtensionsTest
     {
+        /// <summary>Check the string is converted into stream and back into string as expected.</summary>
         [Fact]
-        public void Test_SizeSuffix_Throws()
+        public void Test_Stream_ConvertToFromString()
         {
-            // Arrange - setup test stream.
+            // Arrange - setup stream.
             string testText = "My Test String";
             Stream textStream = testText.ConvertToStream(Encoding.UTF8);
             byte[] stringBytes = Encoding.UTF8.GetBytes(testText);

@@ -13,15 +13,18 @@ namespace Cloud.Core.Tests
         [Fact]
         public void Test_NamedInstance_MultipleInstanceResolved()
         {
+            // Arrange
             var i1 = new TestInstance1("testInstance1");
             var i2 = new TestInstance2("testInstance2");
             var i3 = new TestInstance3("testInstance3");
 
+            // Act
             var factory = new NamedInstanceFactory<ITestInterface>(new List<ITestInterface> { i1, i2, i3 });
             var lookup1 = factory["testInstance1"];
             var lookup2 = factory["testInstance2"];
             var lookup3 = factory["testInstance3"];
 
+            // Assert
             lookup1.Should().Equals(i1);
             lookup2.Should().Equals(i2);
             lookup3.Should().Equals(i3);
@@ -32,17 +35,20 @@ namespace Cloud.Core.Tests
         [Fact]
         public void Test_NamedInstance_DuplicateInstanceName()
         {
+            // Arrange
             var i1 = new TestInstance1("testInstanceA");
             var i2a = new TestInstance2("testInstanceB");
             var i2b = new TestInstance3("testInstanceB");
             var i2c = new TestInstance3("testInstanceB");
 
+            // Act
             var factory = new NamedInstanceFactory<ITestInterface>(new List<ITestInterface> { i1, i2a, i2b, i2c });
             var lookup1 = factory["testInstanceA"];
             var lookup2a = factory["testInstanceB"];
             var lookup2b = factory["testInstanceB1"];
             var lookup2c = factory["testInstanceB2"];
 
+            // Assert
             lookup1.Should().Equals(i1);
             lookup2a.Should().Equals(i2a);
             lookup2b.Should().Equals(i2b);
@@ -54,7 +60,10 @@ namespace Cloud.Core.Tests
         [Fact]
         public void Test_NamedInstance_NonExistingInstance()
         {
+            // Arrange/Act
             var factory = new NamedInstanceFactory<ITestInterface>(new List<ITestInterface>());
+
+            // Assert
             Assert.Throws<ArgumentException>(() => factory["testInstanceA"]);
         }
 
@@ -62,11 +71,15 @@ namespace Cloud.Core.Tests
         [Fact]
         public void Test_NamedInstance_EmptyNamesAutoset()
         {
+            // Arrange
             var i1 = new TestInstance1("");
             var expectedName1 = nameof(TestInstance1);
             var expectedName2 = expectedName1 + "1";
 
+            // Act
             var factory = new NamedInstanceFactory<ITestInterface>(new List<ITestInterface> { i1, i1 });
+
+            // Assert
             Assert.Throws<ArgumentException>(() => factory[""]);
             factory[expectedName1].Should().NotBeNull();
             factory[expectedName2].Should().NotBeNull();
@@ -77,11 +90,15 @@ namespace Cloud.Core.Tests
         [Fact]
         public void Test_NamedInstance_TryGetValue_ValuesExist()
         {
+            // Arrange
             var i1 = new TestInstance1("");
             var expectedName1 = nameof(TestInstance1);
             var expectedName2 = expectedName1 + "1";
 
+            // Act
             var factory = new NamedInstanceFactory<ITestInterface>(new List<ITestInterface> { i1, i1 });
+
+            // Assert
             Assert.True(factory.TryGetValue(expectedName1, out var value));
             Assert.NotNull(value);
             Assert.True(factory.TryGetValue(expectedName2, out var value2));
@@ -92,9 +109,13 @@ namespace Cloud.Core.Tests
         [Fact]
         public void Test_NamedInstance_TryGetValue_ValuesNotExist()
         {
+            // Arrange
             var i1 = new TestInstance1("");
 
+            // Act
             var factory = new NamedInstanceFactory<ITestInterface>(new List<ITestInterface> { i1, i1 });
+
+            // Assert
             Assert.False(factory.TryGetValue("WrongName", out var value));
             Assert.Null(value);
         }

@@ -333,7 +333,7 @@
         #region Internal/private Methods
 
         /// <summary>
-        /// Internal excute http client request method, called by the public api methods.
+        /// Internal execute http client request method, called by the public api methods.
         /// </summary>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="url">The URL.</param>
@@ -460,10 +460,7 @@
 
             if (disposing)
             {
-                if (_client != null)
-                {
-                    _client.Dispose();
-                }
+                _client?.Dispose();
             }
 
             Disposed = true;

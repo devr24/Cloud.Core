@@ -2,21 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Company>Robert McCabe</Company>
     <IsPackable>true</IsPackable>
     <PackageId>Cloud.Core</PackageId>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageTags>Cloud.Core .net-Core Core interface</PackageTags>
     <PackageReleaseNotes />
     <Description>Cross package functionality for all Cloud Core .net Core packages. Contains the main interface contracts used as a top level API for other packages, this allows us to easily build cross-package functionality without creating a massive dependency chain.</Description>
+    <Authors>Robert McCabe</Authors>
     <Copyright>Aylesbury Solutions Ltd</Copyright>
+    <Company>Aylesbury Solutions Ltd</Company>
     <Version>3.1</Version>
     <PackageIconUrl>https://cloud1core.blob.core.windows.net/icons/CC.png</PackageIconUrl>
-    <Authors>Robert McCabe</Authors>
     <LangVersion>7.3</LangVersion>
     <ProjectGuid>{57EF06EA-0A40-4CF3-8413-A50FB184C505}</ProjectGuid>
     <RepositoryUrl>https://github.com/rmccabe24/Cloud.Core</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>Cloud.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

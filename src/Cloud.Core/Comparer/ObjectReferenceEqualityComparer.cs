@@ -5,9 +5,9 @@
 
     /// <summary>
     /// A generic object comparer that would only use object's reference, 
-    /// ignoring any <see cref="System.IEquatable{T}"/> or <see cref="object.Equals(object)"/>  overrides.
+    /// ignoring any <see cref="System.IEquatable{T}"/> or <see cref="object.Equals(object)"/> overrides.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Object type.</typeparam>
     public class ObjectReferenceEqualityComparer<T> : EqualityComparer<T> where T : class
     {
         private static IEqualityComparer<T> _defaultComparer;
@@ -15,7 +15,7 @@
         /// <summary>
         /// Utility static reference to avoid instantiation all the time.
         /// </summary>
-        public new static IEqualityComparer<T> Default => _defaultComparer ?? (_defaultComparer = new ObjectReferenceEqualityComparer<T>());
+        public static new IEqualityComparer<T> Default => _defaultComparer ?? (_defaultComparer = new ObjectReferenceEqualityComparer<T>());
 
         /// <summary>
         /// Determines whether the specified objects are equal.

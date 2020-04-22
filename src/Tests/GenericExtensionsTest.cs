@@ -12,70 +12,120 @@ namespace Cloud.Core.Tests
     [IsUnit]
     public class GenericExtensionsTest
     {
+        /// <summary>Verify object type is changed as expected.</summary>
         [Fact]
-        public void Test_ChangeType()
+        public void Test_Object_ChangeType()
         {
+            // Arrange
             var mytest = "0";
+
+            // Act
             var changed = mytest.ChangeType<int>();
+
+            // Assert
             changed.GetType().Should().Be(typeof(int));
         }
 
+        /// <summary>Verify list object is null or default check works as expected.</summary>
         [Fact]
-        public void Test_IsNullOrDefault_NullList()
+        public void Test_ListObject_IsNullOrDefault()
         {
+            // Arrange
             List<string> obj = null;
-            Assert.True(obj.IsNullOrDefault());
+
+            // Act
+            var result = obj.IsNullOrDefault();
+
+            // Assert
+            Assert.True(result);
         }
 
+        /// <summary>Verify object is null or default check works as expected.</summary>
         [Fact]
-        public void Test_IsNullOrDefault_NullObj()
+        public void Test_NullObject_IsNullOrDefault()
         {
+            // Arrange
             object obj = null;
-            Assert.True(obj.IsNullOrDefault());
+
+            // Act
+            var result = obj.IsNullOrDefault();
+
+            // Assert
+            Assert.True(result);
         }
 
+        /// <summary>Verify non-null list is null or default check works as expected.</summary>
         [Fact]
-        public void Test_IsNullOrDefault_NullList_Negative()
+        public void Test_NonNullList_IsNullOrDefault()
         {
+            // Arrange
             var obj = new List<string> { "test" };
-            Assert.False(obj.IsNullOrDefault());
+
+            // Act
+            var result = obj.IsNullOrDefault();
+
+            // Assert
+            Assert.False(result);
         }
 
+        /// <summary>Verify non-null string is null or default check works as expected.</summary>
         [Fact]
-        public void Test_IsNullOrDefault_NullObj_Negative()
+        public void Test_StringObject_IsNullOrDefault()
         {
+            // Arrange
             object obj = "string";
-            Assert.False(obj.IsNullOrDefault());
+
+            // Act
+            var result = obj.IsNullOrDefault();
+
+            // Assert
+            Assert.False(result);
         }
 
+        /// <summary>Verify null list throws if null or default works as expected.</summary>
         [Fact]
-        public void Test_ThrowIfNullOrDefault_ThrowNullList()
+        public void Test_NullList_ThrowIfNullOrDefault()
         {
+            // Act
             List<string> obj = null;
+
+            // Act/Assert
             Assert.Throws<ArgumentNullException>(() => obj.ThrowIfNullOrDefault());
         }
 
+        /// <summary>Verify null object throws if null or default works as expected.</summary>
         [Fact]
-        public void Test_ThrowIfNullOrDefault_ThrowNullObj()
+        public void Test_NullObject_ThrowIfNullOrDefault()
         {
+            // Act
             object obj = null;
+
+            // Act/Assert
             Assert.Throws<ArgumentNullException>(() => obj.ThrowIfNullOrDefault());
         }
 
+        /// <summary>Verify a sub array can be taken from a source array.</summary>
         [Fact]
-        public void Test_SubArray()
+        public void Test_Array_SubArray()
         {
+            // Arrange
             var testData = new string[] { "1", "2", "3", "4", "5" };
+
+            // Act
             var subArray = testData.SubArray(0, 3);
+
+            // Assert
             subArray.Length.Should().Be(3);
             subArray[0].Should().Be("1");
             subArray[1].Should().Be("2");
             subArray[2].Should().Be("3");
         }
 
+        /// <summary>Verify an object can be converted into a list of property desciptions.</summary>
         [Fact]
-        public void Test_PropertyDescription()
+        public void Test_PropertyDescription_ToList()
         {
+            // Arrange
             var testData = new TestClass { 
                 PropA = "PropAVal",
                 PropB = "PropBVal",
@@ -84,7 +134,10 @@ namespace Cloud.Core.Tests
                 PropE = new List<int> { 1, 2, 3 }
             };
 
+            // Act
             var props = testData.GetPropertyDescription().ToList();
+
+            // Assert
             props.Count.Should().Be(5);
             
             props[0].Name.Should().Be("PropA");

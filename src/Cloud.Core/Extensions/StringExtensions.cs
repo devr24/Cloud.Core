@@ -1,16 +1,17 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System
 {
-    using System.IO;
-    using System.Text;
+    using IO;
+    using Text;
     using Text.RegularExpressions;
+    using Diagnostics.CodeAnalysis;
     
     /// <summary>
-    /// String Extensions
+    /// String Extension methods.
     /// </summary>
     public static class StringExtensions
     {
-        private static Regex _textContentCleanExpression = new Regex("[\\W]{1,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex TextContentCleanExpression = new Regex("[\\W]{1,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Cleans the content of unnecessary characters using the regular expression "[\\W]{1,}".  Replaces with a space.
@@ -19,9 +20,8 @@ namespace System
         /// <returns>Cleaned System.String.</returns>
         public static string RemoveNonAlphanumericCharacters(this string text)
         {
-            return _textContentCleanExpression.Replace(text, " ");
+            return TextContentCleanExpression.Replace(text, " ");
         }
-        
 
         /// <summary>
         /// Removes multiple strings from the source string.
@@ -33,9 +33,11 @@ namespace System
         {
             var sb = new StringBuilder(str);
 
-            for (int i = 0; i < find.Length; i++)
-                sb.Replace(find[i], string.Empty);
-
+            foreach (var s in find)
+            {
+                sb.Replace(s, string.Empty);
+            }
+        
             return sb.ToString().ToLower();
         }
 
@@ -50,8 +52,10 @@ namespace System
         {
             var sb = new StringBuilder(str);
 
-            for (int i = 0; i < find.Length; i++)
-                sb.Replace(find[i], replaceWith);
+            foreach (var s in find)
+            {
+                sb.Replace(s, replaceWith);
+            }
 
             return sb.ToString().ToLower();
         }
@@ -75,7 +79,9 @@ namespace System
         public static string SetDefaultIfNullOrEmpty(this string str, string @default)
         {
             if (str.IsNullOrEmpty())
+            {
                 str = @default;
+            }
 
             return str;
         }
@@ -89,9 +95,7 @@ namespace System
         /// <returns>string with characters replaced.</returns>
         public static string ReplaceAll(this string str, char[] replaceChars, string newVal)
         {
-            string[] temp;
-
-            temp = str.Split(replaceChars, StringSplitOptions.RemoveEmptyEntries);
+            var temp = str.Split(replaceChars, StringSplitOptions.RemoveEmptyEntries);
             return string.Join(newVal, temp);
         }
         
@@ -104,7 +108,9 @@ namespace System
         public static long GetSizeInBytes(this string str, Encoding encoding)
         {
             if (str.IsNullOrEmpty())
+            {
                 return 0;
+            }
 
             return encoding.GetByteCount(str);
         }
@@ -177,7 +183,9 @@ namespace System
         public static string AddSpaceBeforeCaps(this string str)
         {
             if (str == null)
+            {
                 return null;
+            }
 
             return Regex.Replace(str, "([a-z])([A-Z])", "$1 $2");
         }
@@ -291,18 +299,30 @@ namespace System
         /// <param name="value">The string value to convert.</param>
         /// <param name="encoding">The encoding of the string.</param>
         /// <returns>Stream version of string.</returns>
-        public static MemoryStream ConvertToStream(this string value, Encoding encoding)
+        public static MemoryStream ConvertToStream(this string value, [NotNull]Encoding encoding)
         {
             value.ThrowIfNull();
             return new MemoryStream(encoding.GetBytes(value));
         }
 
         /// <summary>
-        /// Froms the stream.
+        /// Converts string to byte array.
         /// </summary>
-        /// <param name="stream">The stream.</param>
+        /// <param name="value">The string value to convert.</param>
+        /// <param name="encoding">The encoding of the string.</param>
+        /// <returns>Byte array version of string.</returns>
+        public static byte[] ConvertToBytes(this string value, [NotNull]Encoding encoding)
+        {
+            value.ThrowIfNull();
+            return encoding.GetBytes(value);
+        }
+
+        /// <summary>
+        /// Reads the contents of a stream and returns the string.
+        /// </summary>
+        /// <param name="stream">The stream to convert from.</param>
         /// <returns>System.String.</returns>
-        public static string ConvertToString(this MemoryStream stream)
+        public static string ReadContents(this MemoryStream stream)
         {
             var reader = new StreamReader(stream);
             return reader.ReadToEnd();

@@ -1,8 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System.Collections.Generic
 {
-    using System;
-    using System.Reflection;
+    using Reflection;
     using Linq;
 
     /// <summary>
@@ -21,7 +20,9 @@ namespace System.Collections.Generic
         public static void AddRange<T, O>(this Dictionary<T, O> source, Dictionary<T, O> range)
         {
             foreach (var item in range)
+            {
                 source.Add(item.Key, item.Value);
+            }
         }
 
         /// <summary>
@@ -35,7 +36,9 @@ namespace System.Collections.Generic
         public static void AddRange<T, O>(this Dictionary<T, O> source, KeyValuePair<T, O>[] range)
         {
             foreach (var item in range)
+            {
                 source.Add(item.Key, item.Value);
+            }
         }
 
         /// <summary>
@@ -55,16 +58,13 @@ namespace System.Collections.Generic
             source.Clear();
         }
 
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
+        /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <param name="collection">The collection to concatenate.</param>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
-        public static string ToDelimitedString(this Dictionary<string, string> collection)
+        /// <param name="delimiter">Delimiter to join the values with.  Defaults to ";".</param>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
+        public static string ToDelimitedString(this Dictionary<string, string> collection, string delimiter = ";")
         {
-            return string.Join(";", collection.Select(x => x.Key + "=" + x.Value).ToArray()); 
+            return string.Join(delimiter, collection.Select(x => x.Key + "=" + x.Value).ToArray()); 
         }
 
         /// <summary>
@@ -128,6 +128,7 @@ namespace System.Collections.Generic
         /// <returns>List of key value pairs representing the dictionary.</returns>
         public static KeyValuePair<T, J>[] ToArray<T, J>(this Dictionary<T, J> source)
         {
+            // Convert the source using the ToList extension and then convert the results of that to an array.
             return source.ToList().ToArray();
         }
 

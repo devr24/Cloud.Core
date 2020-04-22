@@ -10,15 +10,16 @@
         /// </summary>
         /// <param name="headers">Request headers to parse.</param>
         /// <param name="headerName">Name of header to find.</param>
+        /// <param name="delimiter">The delimiter. Defaults to ";".</param>
         /// <returns>String version of the values collection, delimited by semi-colon.</returns>
-        public static string GetHeaderValue(this HttpRequestHeaders headers, string headerName)
+        public static string GetHeaderValue(this HttpRequestHeaders headers, string headerName, string delimiter = ";")
         {
             // Loop through the headers until the header with the key matching the headerName passed, then return its value.
             foreach (var header in headers)
             {
                 if (header.Key == headerName)
                 {
-                    return string.Join(";", header.Value);
+                    return string.Join(delimiter, header.Value);
                 }
             }
             return null;

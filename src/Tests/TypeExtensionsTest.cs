@@ -12,17 +12,29 @@ namespace Cloud.Core.Tests
     [IsUnit]
     public class TypeExtensionsTest
     {
+        /// <summary>Verify object type is or is not a system type as expected.</summary>
         [Fact]
-        public void Test_CheckSystemType()
+        public void Test_Type_IsSystemType()
         {
+            // Arrange
             var testData = new TestClass() { PropA = "test", PropB = "test" };
-            testData.PropA.GetType().IsSystemType().Should().BeTrue();
-            testData.PropB.GetType().IsSystemType().Should().BeTrue();
+
+            // Act
+            var propA = testData.PropA.GetType().IsSystemType();
+            var propB = testData.PropB.GetType().IsSystemType();
+            var propOther = testData.GetType().IsSystemType();
+
+            // Assert
+            propA.Should().BeTrue();
+            propB.Should().BeTrue();
+            propOther.Should().BeFalse();
         }
 
+        /// <summary>Verify list of property info generated matches expected types.</summary>
         [Fact]
-        public void Test_CheckRequiredProperties()
+        public void Test_Type_GetRequiredProperties()
         {
+            // Arrange
             var testData = new TestClass
             {
                 PropA = "PropAVal",
@@ -31,7 +43,11 @@ namespace Cloud.Core.Tests
                 PropD = new int[] { 1, 2, 3 },
                 PropE = new List<int> { 1, 2, 3 }
             };
+
+            // Act
             var requiredProps = typeof(TestClass).GetRequiredProperties().ToList();
+
+            // Assert
             requiredProps.Count.Should().Be(3);
             requiredProps[0].PropertyType.Should().Be(testData.PropA.GetType());
             requiredProps[1].PropertyType.Should().Be(testData.PropD.GetType());
@@ -49,6 +65,9 @@ namespace Cloud.Core.Tests
             public int[] PropD { get; set; }
             [JsonRequired]
             public IEnumerable<int> PropE { get; set; }
+            public TestOther PropOther { get; set; }
         }
+
+        private class TestOther { }
     }
 }
