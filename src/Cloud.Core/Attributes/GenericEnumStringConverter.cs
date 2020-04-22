@@ -3,6 +3,11 @@
     using System;
     using Json;
 
+    /// <summary>
+    /// Extension methods for Json Generic Enum String Converter.
+    /// Implements the <see cref="Newtonsoft.Json.Converters.StringEnumConverter" />
+    /// </summary>
+    /// <seealso cref="Newtonsoft.Json.Converters.StringEnumConverter" />
     public class GenericEnumStringConverter : StringEnumConverter
     {
         /// <summary>

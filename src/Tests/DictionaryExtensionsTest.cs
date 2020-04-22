@@ -62,13 +62,14 @@ namespace Cloud.Core.Tests
         public void Test_Dictionary_ToList()
         {
             // Arrange
-            var dictionarySource = new Dictionary<string, object>();
-            
-            // Act
-            dictionarySource.Add("A", 1);
-            dictionarySource.Add("B", 2);
-            dictionarySource.Add("C", 3);
+            var dictionarySource = new Dictionary<string, object>
+            {
+                { "A", 1 },
+                { "B", 2 },
+                { "C", 3 }
+            };
 
+            // Act
             var list = dictionarySource.ToList();
 
             // Assert
@@ -82,13 +83,14 @@ namespace Cloud.Core.Tests
         public void Test_Dictionary_ToArray()
         {
             // Arrange
-            var dictionarySource = new Dictionary<string, object>();
-            
-            // Act
-            dictionarySource.Add("A", 1);
-            dictionarySource.Add("B", 2);
-            dictionarySource.Add("C", 3);
+            var dictionarySource = new Dictionary<string, object>
+            {
+                { "A", 1 },
+                { "B", 2 },
+                { "C", 3 }
+            };
 
+            // Act
             var list = dictionarySource.ToArray();
 
             // Assert
@@ -102,13 +104,14 @@ namespace Cloud.Core.Tests
         public void Test_Dictionary_ToObject()
         {
             // Arrange
-            var dictionary = new Dictionary<string, object>();
-            
-            // Act
-            dictionary.Add("PropA", "test");
-            dictionary.Add("PropB", 1);
-            dictionary.Add("PropC", true);
+            var dictionary = new Dictionary<string, object>
+            {
+                { "PropA", "test" },
+                { "PropB", 1 },
+                { "PropC", true }
+            };
 
+            // Act
             var objTest = dictionary.ToObject<Test>();
             
             // Assert

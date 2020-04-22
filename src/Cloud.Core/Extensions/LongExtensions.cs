@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System
 {
+    /// <summary>
+    /// Extension methods for Long.
+    /// </summary>
     public static class LongExtensions
     {
         internal static readonly DateTime Utc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

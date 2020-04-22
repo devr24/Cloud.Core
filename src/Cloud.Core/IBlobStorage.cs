@@ -101,7 +101,7 @@
         /// <summary>
         /// Lists the root folders from storage.
         /// </summary>
-        /// <returns><see cref="System.Collections.IEnumerable"/> of <see cref="System.string"/> root folder names.</returns>
+        /// <returns><see cref="System.Collections.IEnumerable"/> of <see cref="string"/> root folder names.</returns>
         Task<IEnumerable<string>> ListFolders();
 
         /// <summary>Gets the BLOB item (no lock).</summary>
@@ -303,7 +303,7 @@
     {
         /// <summary>Failed the transfer</summary>
         Failed,
-        /// <summary>Tranferred successfully</summary>
+        /// <summary>Transferred successfully</summary>
         Transferred,
         /// <summary>Skipped the transfer</summary>
         Skipped

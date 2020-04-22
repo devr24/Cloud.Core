@@ -19,7 +19,6 @@
         DateTimeOffset AccessExpiry { get; set; }
     }
 
-
     /// <summary>
     /// Class to allow us to pass permission and expiry properties to Blob Storage to retrieve Access Url
     /// </summary>
@@ -36,7 +35,7 @@
         public DateTimeOffset AccessExpiry { get; set; }
 
         /// <summary>
-        /// Instaniate a new instance of the SignedAccessConfig with the supplied parameters
+        /// Instantiate a new instance of the SignedAccessConfig with the supplied parameters
         /// </summary>
         /// <param name="accessPermissions">Permissions requested for the Access URL</param>
         /// <param name="accessExpiry">Expiry for the Access URL</param>
@@ -52,13 +51,37 @@
     /// </summary>
     public enum AccessPermission
     {
+        /// <summary>
+        /// No access.
+        /// </summary>
         None,
+        /// <summary>
+        /// Read access.
+        /// </summary>
         Read,
+        /// <summary>
+        /// Write access.
+        /// </summary>
         Write,
+        /// <summary>
+        /// Delete access.
+        /// </summary>
         Delete,
+        /// <summary>
+        /// List information access.
+        /// </summary>
         List,
+        /// <summary>
+        /// Add access.
+        /// </summary>
         Add,
+        /// <summary>
+        /// Create access.
+        /// </summary>
         Create,
+        /// <summary>
+        /// Update access.
+        /// </summary>
         Update
     }
 }

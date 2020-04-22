@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System.IO
 {
+    /// <summary>
+    /// Extension methods for Stream.
+    /// </summary>
     public static class StreamExtensions
     {
         /// <summary>

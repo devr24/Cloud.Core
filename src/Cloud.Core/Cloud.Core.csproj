@@ -17,9 +17,6 @@
     <ProjectGuid>{57EF06EA-0A40-4CF3-8413-A50FB184C505}</ProjectGuid>
     <RepositoryUrl>https://github.com/rmccabe24/Cloud.Core</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <DocumentationFile>Cloud.Core.xml</DocumentationFile>
   </PropertyGroup>
 

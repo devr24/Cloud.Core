@@ -101,7 +101,7 @@ namespace Cloud.Core.Tests
         {
             // Arrange
             long size = 1048576 * 1024;
-            size = size * 1024;
+            size *= 1024;
 
             // Act/Assert
             Assert.Equal("1.0 TB", size.ToSizeSuffix());
@@ -113,8 +113,8 @@ namespace Cloud.Core.Tests
         {
             // Arrange
             long size = 1048576 * 1024;
-            size = size * 1024;
-            size = size * 1024;
+            size *= 1024;
+            size *= 1024;
             // we calculate it in this way, using multiplies, because we cannot declare a variable inline with the size that's required to test this.
 
             // Act/Assert
@@ -127,9 +127,9 @@ namespace Cloud.Core.Tests
         {
             // Arrange
             long size = 1048576 * 1024;
-            size = size * 1024;
-            size = size * 1024;
-            size = size * 1000;
+            size *= 1024;
+            size *= 1024;
+            size *= 1000;
             // we calculate it in this way, using multiplies, because we cannot declare a variable inline with the size that's required to test this.
 
             // Act/Assert

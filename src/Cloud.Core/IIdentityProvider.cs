@@ -113,8 +113,17 @@ namespace Cloud.Core
     /// </summary>
     public enum IdentityType
     {
+        /// <summary>
+        /// All identity types.
+        /// </summary>
         All = -1,
+        /// <summary>
+        /// User identities type.
+        /// </summary>
         User,
+        /// <summary>
+        /// Group identity type.
+        /// </summary>
         Group
     }
 }

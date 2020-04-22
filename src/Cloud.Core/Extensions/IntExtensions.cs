@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System
 {
+    /// <summary>
+    /// Extension methods for Integers.
+    /// </summary>
     public static class IntExtensions
     {
         internal static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB" }; // extend if you REALLY want to...

@@ -8,6 +8,10 @@
     /// </summary>
     public interface INamedInstance
     {
+        /// <summary>
+        /// Gets or sets the name for the implementor of the INamedInstance interface.
+        /// </summary>
+        /// <value>The name.</value>
         string Name { get; set; }
     }
 
@@ -18,6 +22,12 @@
     public class NamedInstanceFactory<T>
         where T : INamedInstance
     {
+        /// <summary>
+        /// Gets the object type T, using the specified name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>T.</returns>
+        /// <exception cref="ArgumentException">name</exception>
         public T this[string name]
         {
             get
@@ -30,6 +40,12 @@
             }
         }
 
+        /// <summary>
+        /// Tries the get value.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <returns><c>true</c> if successfully found the value, <c>false</c> otherwise.</returns>
         public bool TryGetValue(string name, out T value)
         {
             if (Clients.TryGetValue(name, out var returnValue))
@@ -44,6 +60,10 @@
 
         internal readonly IDictionary<string, T> Clients = new Dictionary<string, T>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NamedInstanceFactory{T}"/> class.
+        /// </summary>
+        /// <param name="clients">The clients.</param>
         public NamedInstanceFactory(IEnumerable<T> clients)
         {
             foreach (var client in clients)
@@ -56,7 +76,7 @@
                     name = client.GetType().Name;
                 }
 
-                // Autogenerate new name (rather than erroring at the moment - might change later) if it already exists.
+                // Auto-generate new name (rather than erroring at the moment - might change later) if it already exists.
                 if (Clients.ContainsKey(name))
                 {
                     var generatedName = GenerateName(name);

@@ -20,6 +20,10 @@
 
         internal virtual HttpClient Client => _client;
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="ApiService"/> is disposed.
+        /// </summary>
+        /// <value><c>true</c> if disposed; otherwise, <c>false</c>.</value>
         public bool Disposed { get; private set; }
 
         /// <summary>
