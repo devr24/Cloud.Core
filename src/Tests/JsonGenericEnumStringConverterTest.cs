@@ -2,6 +2,7 @@
 using Cloud.Core.Tests.FakeObjects;
 using Newtonsoft.Json;
 using Cloud.Core.Testing;
+using FluentAssertions;
 using Xunit;
 
 namespace Cloud.Core.Tests
@@ -87,7 +88,7 @@ namespace Cloud.Core.Tests
             Assert.True(!string.IsNullOrWhiteSpace(jsonString));
             Assert.Equal("ObjectWithValue", testObject.Name);
             Assert.Equal(FakeEnum.Known2, testObject.FakeEnum);
-            Assert.Equal(testObject, deserializedObject);
+            testObject.Should().BeEquivalentTo(deserializedObject);
         }
 
         /// <summary>Verify that when no value is specified, that serializing and deserializing works as expected.</summary>
@@ -107,7 +108,7 @@ namespace Cloud.Core.Tests
             Assert.True(!string.IsNullOrWhiteSpace(jsonString));
             Assert.Equal("ObjectWithDefaultValue", testObject.Name);
             Assert.Equal(FakeEnum.Default, testObject.FakeEnum);
-            Assert.Equal(testObject, deserializedObject);
+            testObject.Should().BeEquivalentTo(deserializedObject);
         }
     }
 }
