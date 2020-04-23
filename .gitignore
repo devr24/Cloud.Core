@@ -252,4 +252,4 @@ paket-files/
 *.sln.iml
 /src/Tests/coverage.json
 /src/Tests/coverage.opencover.xml
-**/Cloud.Core.*.xml
+Cloud.Core*.xml
