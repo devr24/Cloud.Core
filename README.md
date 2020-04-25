@@ -134,6 +134,21 @@ public void CheckModelIsValid(TestClass example)
 	...
 }
 ```
+Another validation example could be:
+
+```csharp
+try
+{
+    example.ThrowIfInvalid();
+}
+catch (ValidateException vx)
+{
+    foreach(var err in vx.Errors)
+	{
+	    Console.WriteLine($"Members: {string.Join(",", err.MemberNames)}, Message: {err.ErrorMessage}");
+	}
+}
+```
 
 This now saves manually implementing validation methods in your POCO classes.
   

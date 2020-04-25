@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Cloud.Core.Attributes;
+using Cloud.Core.Exceptions;
 using Cloud.Core.Testing;
-using Cloud.Core.Validation;
 using FluentAssertions;
 using Xunit;
 
@@ -38,6 +39,21 @@ namespace Cloud.Core.Tests
 
             // Assert
             result.IsValid.Should().BeFalse();
+        }
+
+        /// <summary>Check the validate method returns invalid as expected.</summary>
+        [Fact]
+        public void Test_Validator_ValidationException()
+        {
+            // Arrange
+            var t = new TestClass()
+            {
+                // Empty the required field so it fails validation.
+                RequiredTest = null
+            };
+
+            // Act/Assert
+            Assert.Throws<ValidateException>(() => t.ThrowIfInvalid());
         }
 
         /// <summary>Check the validate method return invalid due to max length.</summary>
