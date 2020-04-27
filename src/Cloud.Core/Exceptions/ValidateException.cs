@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
-    using Attributes;
+    using Validation;
 
     /// <summary>
     /// Class Validate exception.

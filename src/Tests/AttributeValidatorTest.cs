@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Cloud.Core.Attributes;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Cloud.Core.Validation;
 using Cloud.Core.Exceptions;
 using Cloud.Core.Testing;
 using FluentAssertions;
@@ -22,6 +23,21 @@ namespace Cloud.Core.Tests
 
             // Assert
             result.IsValid.Should().BeTrue();
+        }
+
+        /// <summary>Check the validate method returns invalid as expected.</summary>
+        [Fact]
+        public void Test_Validator_ThrowWhenInvalid()
+        {
+            // Arrange
+            var t = new TestClass()
+            {
+                // Empty the required field so it fails validation.
+                RequiredTest = null
+            };
+
+            // Act/Assert
+            Assert.Throws<ValidateException>(() => t.ThrowIfInvalid());
         }
 
         /// <summary>Check the validate method returns invalid as expected.</summary>

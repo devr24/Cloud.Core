@@ -1,4 +1,4 @@
-﻿namespace Cloud.Core.Attributes
+﻿namespace Cloud.Core.Validation
 {
     using System;
     using System.Collections.Generic;
