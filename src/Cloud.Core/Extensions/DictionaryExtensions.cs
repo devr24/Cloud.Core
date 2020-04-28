@@ -92,8 +92,10 @@ namespace System.Collections.Generic
         /// <param name="source">Source object to convert.</param>
         /// <param name="bindingAttr">Types of attributes to bind (if need to be specific).</param>
         /// <returns>IDictionary object representing the object passed in.</returns>
-        public static IDictionary<string, object> AsDictionary(this object source, 
+        /// <exception cref="InvalidCastException">Cannot automatically cast enumerable to dictionary</exception>
+        public static IDictionary<string, object> AsDictionary<T>(this T source, 
             BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+            where T: class, new()
         {
             return source.GetType().GetProperties(bindingAttr).ToDictionary
             (
