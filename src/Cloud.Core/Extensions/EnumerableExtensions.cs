@@ -2,12 +2,48 @@
 namespace System.Collections.Generic
 {
     using Linq;
+    using Concurrent;
+    using Threading.Tasks;
 
     /// <summary>
     /// Extension methods for <see cref="IEnumerable{T}"/>.
     /// </summary>
     public static class EnumerableExtensions
     {
+        /// <summary>
+        /// Parallels for each asynchronous.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="funcBody">The function body.</param>
+        /// <param name="maxDoP">The maximum degrees of parallelism.</param>
+        /// <returns>Task.</returns>
+        public static Task ParallelForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> funcBody, int maxDoP = 0)
+        {
+            if (maxDoP == 0 || maxDoP > Environment.ProcessorCount)
+            {
+                maxDoP = Environment.ProcessorCount;
+            }
+
+            async Task AwaitPartition(IEnumerator<T> partition)
+            {
+                using (partition)
+                {
+                    while (partition.MoveNext())
+                    {
+                        await funcBody(partition.Current);
+                    }
+                }
+            }
+
+            return Task.WhenAll(
+                Partitioner
+                    .Create(source)
+                    .GetPartitions(maxDoP)
+                    .AsParallel()
+                    .Select(AwaitPartition));
+        }
+
         /// <summary>
         /// Checks whether the given list of items contains the item or not, regardless of casing.
         /// </summary>

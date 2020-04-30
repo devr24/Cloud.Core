@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cloud.Core.Testing;
+using FluentAssertions;
 using Xunit;
 
 namespace Cloud.Core.Tests
@@ -53,6 +55,38 @@ namespace Cloud.Core.Tests
 
             // Assert
             Assert.Equal(countList, new List<int>{ 2, 2, 1 });
+        }
+
+        /// <summary>Verify object type is or is not a system type as expected.</summary>
+        [Fact]
+        public async Task Test_Type_IsSystemType()
+        {
+            // Arrange
+            var count = 0;
+
+            // Act
+            await GetEnumerableItems().ParallelForEachAsync((item) =>
+            {
+                count++;
+                return Task.FromResult(true);
+            });
+
+            // Assert
+            count.Should().Be(10);
+        }
+
+        private IEnumerable<AsyncSample> GetEnumerableItems()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Task.Delay(i * 50).GetAwaiter().GetResult();
+                yield return new AsyncSample { PropA = i.ToString() };
+            }
+        }
+
+        private class AsyncSample
+        {
+            public string PropA { get; set; }
         }
     }
 }
