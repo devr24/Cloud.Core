@@ -216,11 +216,9 @@ servuces.AddSingleton<NamedInstanceFactory<TestInterface>>();
 > In the sample above with Dependency Injection, the NamedInstanceFactory will resolve instance X/Y/Z automatically, as they'll be injected into the constuctor during DI initialisation.
 
 
-## Cloud.Core Docker Base Image
-The base image for all of our docker files is found within this repo, in the **Cloud.Core.BaseImage** folder.  Update this as required - it's currently configured to run on Alpine Linux and .net Core 3.1 Runtime.
 
 ## Cloud.Core Project Templates
-The Cloud.Core project templates can be found in the **Cloud.Core Templates** folder - [read more about modifying and using the templates here](TBC).
+The Cloud.Core project templates can be found in the **Cloud.Core Templates** folder - [read more about modifying and using the templates here](https://dev.azure.com/cloudcoreproject/CloudCore/_wiki/wikis/CloudCore.wiki/35/Cloud.Core-Templates).
 
 ## Test Coverage
 A threshold will be added to this package to ensure the test coverage is above 80% for branches, functions and lines.  If it's not above the required threshold 
@@ -239,6 +237,7 @@ IDE of Visual Studio or Visual Studio Code, can be downloaded here:
 https://visualstudio.microsoft.com/downloads/
 
 ## How to access this package
+
 All of the Cloud.Core.* packages are published to a public NuGet feed.  To consume this on your local development machine, please add the following feed to your feed sources in Visual Studio:
 https://dev.azure.com/cloudcoreproject/CloudCore/_packaging?_a=feed&feed=Cloud.Core
  
