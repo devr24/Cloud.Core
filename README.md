@@ -237,7 +237,6 @@ IDE of Visual Studio or Visual Studio Code, can be downloaded here:
 https://visualstudio.microsoft.com/downloads/
 
 ## How to access this package
-
 All of the Cloud.Core.* packages are published to a public NuGet feed.  To consume this on your local development machine, please add the following feed to your feed sources in Visual Studio:
 https://dev.azure.com/cloudcoreproject/CloudCore/_packaging?_a=feed&feed=Cloud.Core
  
