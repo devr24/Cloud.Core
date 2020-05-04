@@ -13,6 +13,8 @@
     <Company>Aylesbury Solutions Ltd</Company>
     <Version>3.1</Version>
     <PackageIcon>icon.png</PackageIcon>
+	<license type="expression">MIT</license>
+    <PackageIconUrl>https://cloud1core.blob.core.windows.net/icons/CC.png</PackageIconUrl>
     <LangVersion>7.3</LangVersion>
     <ProjectGuid>{57EF06EA-0A40-4CF3-8413-A50FB184C505}</ProjectGuid>
     <RepositoryUrl>https://github.com/rmccabe24/Cloud.Core</RepositoryUrl>
