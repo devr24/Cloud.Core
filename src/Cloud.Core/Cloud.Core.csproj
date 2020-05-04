@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <IsPackable>true</IsPackable>
-    <PackageId>Cloud.Core.Common</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageTags>Cloud.Core .net-Core Core interface Cloud.Core.Common common</PackageTags>
+    <PackageId>Cloud.Core</PackageId>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageTags>Cloud.Core .net-Core Core interface Cloud.Core common</PackageTags>
     <PackageReleaseNotes />
     <Description>Cross package functionality for all Cloud Core .net Core packages. Contains the main interface contracts used as a top level API for other packages, this allows us to easily build cross-package functionality without creating a massive dependency chain.</Description>
     <Authors>Robert McCabe</Authors>
