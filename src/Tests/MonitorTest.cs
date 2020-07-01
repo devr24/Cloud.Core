@@ -15,23 +15,17 @@ namespace Cloud.Core.Tests
         public async Task Test_ConflictException_WithMessage()
         {
             // Arrange.
-            var hasTicked = false;
-            TimeSpan? timeTicked = null;
-            var monitor = new MonitorService(3);
+            var monitor = new MonitorService(1);
             
             // Act.
             monitor.BackgroundTimerTick += (elapsed) => {
-                hasTicked = true;
-                if (timeTicked == null)
-                    timeTicked = elapsed;
+                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(3));
             };
 
-            await Task.Delay(7000);
+            await Task.Delay(3000);
 
             // Assert.
             monitor.AppName.Should().Be(AppDomain.CurrentDomain.FriendlyName);
-            hasTicked.Should().BeTrue();
-            timeTicked.Value.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(3));
         }
     }
 }
