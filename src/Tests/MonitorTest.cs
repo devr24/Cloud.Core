@@ -12,7 +12,7 @@ namespace Cloud.Core.Tests
     {
         /// <summary>Ensure conflict exception type is captured.</summary>
         [Fact]
-        public async void Test_ConflictException_WithMessage()
+        public async Task Test_ConflictException_WithMessage()
         {
             // Arrange.
             var hasTicked = false;
@@ -26,7 +26,7 @@ namespace Cloud.Core.Tests
                     timeTicked = elapsed;
             };
 
-            await Task.Delay(3000);
+            await Task.Delay(7000);
 
             // Assert.
             monitor.AppName.Should().Be(AppDomain.CurrentDomain.FriendlyName);
