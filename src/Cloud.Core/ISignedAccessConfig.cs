@@ -16,7 +16,7 @@
         /// <summary>
         /// Expiry time of the Access URL
         /// </summary>
-        DateTimeOffset AccessExpiry { get; set; }
+        DateTimeOffset? AccessExpiry { get; set; }
     }
 
     /// <summary>
@@ -32,14 +32,14 @@
         /// <summary>
         /// Required Expiry for the Access URL
         /// </summary>
-        public DateTimeOffset AccessExpiry { get; set; }
+        public DateTimeOffset? AccessExpiry { get; set; }
 
         /// <summary>
         /// Instantiate a new instance of the SignedAccessConfig with the supplied parameters
         /// </summary>
         /// <param name="accessPermissions">Permissions requested for the Access URL</param>
         /// <param name="accessExpiry">Expiry for the Access URL</param>
-        public SignedAccessConfig(List<AccessPermission> accessPermissions, DateTimeOffset accessExpiry)
+        public SignedAccessConfig(List<AccessPermission> accessPermissions, DateTimeOffset? accessExpiry)
         {
             AccessPermissions = accessPermissions;
             AccessExpiry = accessExpiry;
