@@ -68,8 +68,8 @@ namespace Cloud.Core.Services
         public MonitorService(MonitorConfig config, ILogger<MonitorService> logger)
         {
             if (config == null)
-                _config = new MonitorConfig();
-
+                config = new MonitorConfig();
+            _config = config;
             _logger = logger;
 
             StartMonitor();
