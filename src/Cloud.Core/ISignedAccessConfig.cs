@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Class containing Access Config, permissions required and Access Expiry
+    /// Interface containing Access Config, permissions required and Access Expiry
     /// </summary>
     public interface ISignedAccessConfig
     {
@@ -39,7 +39,7 @@
         /// </summary>
         /// <param name="accessPermissions">Permissions requested for the Access URL</param>
         /// <param name="accessExpiry">Expiry for the Access URL</param>
-        public SignedAccessConfig(List<AccessPermission> accessPermissions, DateTimeOffset? accessExpiry)
+        public SignedAccessConfig(List<AccessPermission> accessPermissions, DateTimeOffset? accessExpiry = null)
         {
             AccessPermissions = accessPermissions;
             AccessExpiry = accessExpiry;
