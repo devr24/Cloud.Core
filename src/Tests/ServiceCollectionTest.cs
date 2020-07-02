@@ -13,7 +13,7 @@ namespace Cloud.Core.Tests
     {
         /// <summary>Check the string is converted into stream and back into string as expected.</summary>
         [Fact]
-        public async void Test_ServiceCollectionExtension_AddNamedInstance()
+        public void Test_ServiceCollectionExtension_AddNamedInstance()
         {
             // Arrange/Act.
             var services = new ServiceCollection();
