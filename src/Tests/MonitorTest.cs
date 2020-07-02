@@ -21,7 +21,7 @@ namespace Cloud.Core.Tests
             
             // Act.
             monitor.BackgroundTimerTick += (elapsed) => {
-                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(3));
+                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(0));
             };
 
             await Task.Delay(3000);
@@ -59,7 +59,7 @@ namespace Cloud.Core.Tests
 
             // Act.
             monitor.BackgroundTimerTick += (elapsed) => {
-                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(3));
+                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(0));
             };
 
             await Task.Delay(3000);
@@ -70,17 +70,10 @@ namespace Cloud.Core.Tests
 
         /// <summary>Ensure monitor is created with both null constuctor.</summary>
         [Fact]
-        public async Task Test_MonitorTimer_NullsConstructor()
+        public void Test_MonitorTimer_NullsConstructor()
         {
             // Arrange.
             var monitor = new MonitorService(null, null);
-
-            // Act.
-            monitor.BackgroundTimerTick += (elapsed) => {
-                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(3));
-            };
-
-            await Task.Delay(3000);
 
             // Assert.
             monitor.AppName.Should().Be(AppDomain.CurrentDomain.FriendlyName);
