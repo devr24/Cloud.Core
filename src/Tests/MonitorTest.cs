@@ -40,7 +40,7 @@ namespace Cloud.Core.Tests
 
             // Act.
             monitor.BackgroundTimerTick += (elapsed) => {
-                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(3));
+                elapsed.Should().BeGreaterOrEqualTo(TimeSpan.FromSeconds(0));
             };
 
             await Task.Delay(3000);
