@@ -54,7 +54,6 @@ namespace Cloud.Core.Tests
         public async Task Test_MonitorTimer_ConfigConstructor()
         {
             // Arrange.
-            var mockLogger = new Mock<ILogger<MonitorService>>();
             var monitor = new MonitorService(new MonitorConfig(1), null);
 
             // Act.
@@ -63,6 +62,18 @@ namespace Cloud.Core.Tests
             };
 
             await Task.Delay(3000);
+
+            // Assert.
+            monitor.AppName.Should().Be(AppDomain.CurrentDomain.FriendlyName);
+        }
+
+        /// <summary>Ensure monitor is created with logger constuctor.</summary>
+        [Fact]
+        public void Test_MonitorTimer_LoggerConstructor()
+        {
+            // Arrange.
+            var mockLogger = new Mock<ILogger<MonitorService>>();
+            var monitor = new MonitorService(mockLogger.Object);
 
             // Assert.
             monitor.AppName.Should().Be(AppDomain.CurrentDomain.FriendlyName);
