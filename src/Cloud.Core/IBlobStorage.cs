@@ -223,12 +223,21 @@
         /// Copies the content of one directory to another on the server side.
         /// Avoids having to download all items and reupload them to somewhere else on the client side.
         /// </summary>
-        /// <param name="sourceDirectoryPath"></param>
-        /// <param name="destinationDirectoryPath"></param>
+        /// <param name="sourceDirectoryPath">The source path.</param>
+        /// <param name="destinationDirectoryPath">The destination path.</param>
         /// <param name="transferEvent"></param>
         /// <returns>Result from the  server side transfer.</returns>
         Task<ITransferResult> CopyDirectory(string sourceDirectoryPath, string destinationDirectoryPath,
             Action<TransferEventType, ITransferEvent> transferEvent = null);
+
+        /// <summary>
+        /// Copies the file from one directory to another on the server side.
+        /// Avoids having to download the file and reupload it somewhere else from the client side.
+        /// </summary>
+        /// <param name="sourceFilePath">The source path.</param>
+        /// <param name="destinationFilePath">The destination path.</param>
+        /// <returns>Task.</returns>
+        Task CopyFile(string sourceFilePath, string destinationFilePath);
 
         /// <summary>
         /// Gets a Signed Access Url to the specified blob with the provided Access Config
