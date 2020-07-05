@@ -27,9 +27,11 @@
 
         /// <summary>Gets or sets the message text.</summary>
         public string Text { get; set; }
-
+        
+        // ReSharper Disable All
         /// <summary>Collection of Sms links to attach to the message.</summary>
         public List<SmsLink> Links { get; } = new List<SmsLink>();
+        // ReSharper Restore All
 
         /// <summary>Gets the text plus links together as the "full content" of the message.</summary>
         public string FullContent => $"{Text}{(Links.Any() ? "\n" : string.Empty)}{string.Join("\n", Links.Select(l => l.ToString()))}";
