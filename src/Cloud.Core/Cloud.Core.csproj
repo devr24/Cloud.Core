@@ -23,9 +23,10 @@
 	    Full API Documentation can be found here:
 	    https://cloud1core.blob.core.windows.net/docs/Cloud.Core/api/index.html
     </PackageReleaseNotes>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://dev.azure.com/cloudcoreproject/CloudCore/</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -35,4 +36,11 @@
     <PackageReference Include="Polly" Version="7.2.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.3" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
 </Project>
