@@ -1,7 +1,9 @@
 ﻿namespace Cloud.Core
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Contract for a Named Instance implementation.  Enables support for the Named Instance Factory.
@@ -41,7 +43,7 @@
         }
 
         /// <summary>
-        /// Tries the get value.
+        /// Tries to get the instance.  Returns true if found and false if not.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
@@ -56,6 +58,20 @@
 
             value = default;
             return false;
+        }
+
+        /// <summary>List of instances within the named instance factory.</summary>
+        /// <returns>List&lt;T&gt;. List of instances in the factory.</returns>
+        public List<T> GetInstances()
+        {
+            return Clients.Values.ToList();
+        }
+
+        /// <summary>List of instance names within the named instance factory.</summary>
+        /// <returns>List&lt;System.String&gt;. List of named instance names.</returns>
+        public List<string> GetInstanceNames()
+        {
+            return Clients.Keys.ToList();
         }
 
         internal readonly IDictionary<string, T> Clients = new Dictionary<string, T>();
