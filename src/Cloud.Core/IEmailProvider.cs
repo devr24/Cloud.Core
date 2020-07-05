@@ -23,7 +23,7 @@
     {
         /// <summary>Gets or sets the recipient list (send as blind carbon copy).</summary>
         /// <value>List of string recipients.</value>
-        public List<EmailRecipient> To { get; set; }
+        public List<EmailRecipient> To { get; } = new List<EmailRecipient>();
 
         /// <summary>Gets or sets the email subject.</summary>
         /// <value>The email subject.</value>
@@ -45,7 +45,7 @@
 
         /// <summary>Gets or sets the email attachments.</summary>
         /// <value>The attachments.</value>
-        public List<EmailAttachment> Attachments { get; set; } = new List<EmailAttachment>();
+        public List<EmailAttachment> Attachments { get; } = new List<EmailAttachment>();
     }
 
     /// <summary>Email recipient.</summary>
