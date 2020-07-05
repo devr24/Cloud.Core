@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <IsPackable>true</IsPackable>
     <PackageId>Cloud.Core</PackageId>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Cloud.Core .net-Core Core interface Cloud.Core common</PackageTags>
     <PackageReleaseNotes />
     <Description>Cross package functionality for all Cloud Core .net Core packages. Contains the main interface contracts used as a top level API for other packages, this allows us to easily build cross-package functionality without creating a massive dependency chain.</Description>
@@ -25,8 +25,18 @@
     </PackageReleaseNotes>
     <PackageProjectUrl>https://dev.azure.com/cloudcoreproject/CloudCore/</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ITelemetryLogger.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ITelemetryLogger.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 	<ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
@@ -35,11 +45,5 @@
     <PackageReference Include="Polly" Version="7.2.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.3" />
   </ItemGroup>
-
-	<ItemGroup>
-	  <None Include="..\..\LICENSE">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
-	</ItemGroup>
+	
 </Project>
