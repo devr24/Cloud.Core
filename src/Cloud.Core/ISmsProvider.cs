@@ -29,7 +29,7 @@
         public string Text { get; set; }
 
         /// <summary>Collection of Sms links to attach to the message.</summary>
-        public List<SmsLink> Links { get; set; }
+        public List<SmsLink> Links { get; } = new List<SmsLink>();
 
         /// <summary>Gets the text plus links together as the "full content" of the message.</summary>
         public string FullContent => $"{Text}{(Links.Any() ? "\n" : string.Empty)}{string.Join("\n", Links.Select(l => l.ToString()))}";
