@@ -23,7 +23,6 @@
 	    Full API Documentation can be found here:
 	    https://cloud1core.blob.core.windows.net/docs/Cloud.Core/api/index.html
     </PackageReleaseNotes>
-    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://dev.azure.com/cloudcoreproject/CloudCore/</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
