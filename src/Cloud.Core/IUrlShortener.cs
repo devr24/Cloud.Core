@@ -9,11 +9,11 @@
         /// <summary>Shorten the passed in link.</summary>
         /// <param name="original">Original link to shorten.</param>
         /// <returns>Task ILinkShortenResult with the short link.</returns>
-        Task<ILinkShortenResult> ShortenLink(Uri original);
+        Task<IUrlShortenResult> ShortenLink(Uri original);
     }
 
     /// <summary>Interface for shorten result.</summary>
-    public interface ILinkShortenResult
+    public interface IUrlShortenResult
     {
         /// <summary>Original source link to shorten.</summary>
         Uri SourceLink { get; set; }
