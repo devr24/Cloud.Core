@@ -242,5 +242,6 @@ https://dev.azure.com/cloudcoreproject/CloudCore/_packaging?_a=feed&feed=Cloud.C
  
 For help setting up, follow this article: https://docs.microsoft.com/en-us/vsts/package/nuget/consume?view=vsts
 
-
+<a href="https://dev.azure.com/cloudcoreproject/CloudCore" target="_blank">
 <img src="https://cloud1core.blob.core.windows.net/icons/cloud_core_small.PNG" />
+</a>

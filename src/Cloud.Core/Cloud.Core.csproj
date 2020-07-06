@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <IsPackable>true</IsPackable>
     <PackageId>Cloud.Core</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageTags>Cloud.Core .net-Core Core interface Cloud.Core common</PackageTags>
     <PackageReleaseNotes />
     <Description>Cross package functionality for all Cloud Core .net Core packages. Contains the main interface contracts used as a top level API for other packages, this allows us to easily build cross-package functionality without creating a massive dependency chain.</Description>
@@ -12,7 +12,6 @@
     <Copyright>Aylesbury Solutions Ltd</Copyright>
     <Company>Aylesbury Solutions Ltd</Company>
     <Version>3.1</Version>
-	<PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageIconUrl>https://cloud1core.blob.core.windows.net/icons/CC.png</PackageIconUrl>
     <LangVersion>7.3</LangVersion>
     <ProjectGuid>{49353CB1-6857-4E9E-B65C-A9A894025902}</ProjectGuid>
@@ -25,7 +24,7 @@
     </PackageReleaseNotes>
     <PackageProjectUrl>https://dev.azure.com/cloudcoreproject/CloudCore/</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	<PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 	<ItemGroup>
