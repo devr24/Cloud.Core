@@ -1,6 +1,7 @@
 ﻿namespace Cloud.Core
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -10,11 +11,13 @@
         /// <summary>Sent an email synchronously.</summary>
         /// <param name="email">The email to send.</param>
         /// <returns><c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
+        /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
         bool Send(EmailMessage email);
 
         /// <summary>Sends an email asynchronously.</summary>
         /// <param name="email">The email to send.</param>
         /// <returns>Task&lt;System.Boolean&gt;. <c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
+        /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
         Task<bool> SendAsync(EmailMessage email);
     }
 
@@ -52,9 +55,11 @@
     public class EmailRecipient
     {
         /// <summary>Email recipient name.</summary>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>Email recipient address.</summary>
+        [Required]
         public string Address { get; set; }
     }
 

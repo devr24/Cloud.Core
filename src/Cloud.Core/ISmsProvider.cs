@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,11 +12,13 @@
         /// <summary>Send sms synchronously.</summary>
         /// <param name="sms">The sms to send.</param>
         /// <returns><c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
+        /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
         bool Send(SmsMessage sms);
 
         /// <summary>Sends sms asynchronously.</summary>
         /// <param name="sms">The sms to send.</param>
         /// <returns>Task&lt;System.Boolean&gt;. <c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
+        /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
         Task<bool> SendAsync(SmsMessage sms);
     }
 
@@ -41,9 +44,11 @@
     public class SmsLink
     {
         /// <summary>Title for the Sms link.</summary>
+        [Required]
         public string Title { get; set; }
 
         /// <summary>Uri for the Sms link.</summary>
+        [Required]
         public Uri Link { get; set; }
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>

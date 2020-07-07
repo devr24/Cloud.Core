@@ -9,6 +9,7 @@
         /// <summary>Shorten the passed in link.</summary>
         /// <param name="original">Original link to shorten.</param>
         /// <returns>Task ILinkShortenResult with the short link.</returns>
+        /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
         Task<IUrlShortenResult> ShortenLink(Uri original);
     }
 
@@ -20,5 +21,11 @@
 
         /// <summary>Shortened version of the link.</summary>
         Uri ShortLink { get; set; }
+
+        /// <summary>Value indicating whether the shortening result <see cref="IUrlShortenResult"/> was a success.</summary>
+        bool Success { get; set; }
+
+        /// <summary>Result message - populated if an error occurs</summary>
+        string Message { get; set; }
     }
 }

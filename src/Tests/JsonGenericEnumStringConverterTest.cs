@@ -110,5 +110,45 @@ namespace Cloud.Core.Tests
             Assert.Equal(FakeEnum.Default, testObject.FakeEnum);
             testObject.Should().BeEquivalentTo(deserializedObject);
         }
+
+        /// <summary>Verifies conversion happens as expected.</summary>
+        [Fact]
+        public void Test_JsonConvertExtension_TryDesrialize_Success()
+        {
+            // Arrange
+            var example = new ExampleModel { 
+                Prop1 = "a",
+                Prop2 = "b"
+            };
+
+            // Act
+            var serializedVersion = JsonConvert.SerializeObject(example);
+            var result = JsonConvertExtensions.TryDeserialize<ExampleModel>(serializedVersion);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Prop1.Should().Be(example.Prop1);
+            result.Prop2.Should().Be(example.Prop2);
+        }
+
+        /// <summary>Verifies conversion fails as expected but no exception is thrown.</summary>
+        [Fact]
+        public void Test_JsonConvertExtension_TryDesrialize_Failure()
+        {
+            // Arrange
+            var notDeserializable = "asdasdasdasd";
+
+            // Act
+            var result = JsonConvertExtensions.TryDeserialize<ExampleModel>(notDeserializable);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        private class ExampleModel
+        {
+            public string Prop1 { get; set; }
+            public string Prop2 { get; set; }
+        }
     }
 }
