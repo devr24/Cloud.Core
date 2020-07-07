@@ -55,7 +55,7 @@
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return $"{Title}: {Link.AbsoluteUri}";
+            return $"{Title}: {Link?.AbsoluteUri}";
         }
     }
 }
