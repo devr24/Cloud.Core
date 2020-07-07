@@ -21,10 +21,8 @@
         /// <summary>Request object.</summary>
         public T RequestObject { get; }
 
-#pragma warning disable CS1570 // XML comment has badly formed XML
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestFailedException<typeparamref name="T"/>"/> class.
+        /// Initializes a new instance of the <see cref="RequestFailedException{T}"/> class.
         /// </summary>
         /// <param name="responseStatus">The response http status.</param>
         /// <param name="responseBody">The response body.</param>
@@ -51,7 +49,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestFailedException<typeparamref name="T"/>"/> class.
+        /// Initializes a new instance of the <see cref="RequestFailedException{T}"/> class.
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
@@ -66,13 +64,10 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestFailedException<typeparamref name="T"/>"/> class.
+        /// Initializes a new instance of the <see cref="RequestFailedException{T}"/>"/> class.
         /// </summary>
         /// <param name="info">Serialization information.</param>
         /// <param name="context">Streaming context.</param>
         protected RequestFailedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-#pragma warning restore CS1570 // XML comment has badly formed XML
-
     }
 }
