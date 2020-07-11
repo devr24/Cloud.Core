@@ -30,7 +30,7 @@
         /// Initializes a new instance of the <see cref="ValidateException"/> class.
         /// </summary>
         /// <param name="result">The validation result to build from.</param>
-        public ValidateException([NotNull]ValidateResult result) : base("Validation failed")
+        public ValidateException(ValidateResult result) : base("Validation failed")
         {
             Errors = result.Errors;
         }

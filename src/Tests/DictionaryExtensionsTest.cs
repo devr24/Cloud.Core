@@ -26,6 +26,34 @@ namespace Cloud.Core.Tests
             dictionary.AddOrUpdate(new KeyValuePair<string, string>("Property1", "TEST1"));
             dictionary.Keys.Count.Should().Be(3);
 
+            dictionary.AddOrUpdate("Property4", "PropValue");
+            dictionary.AddOrUpdate("Property4", "PropValue4");
+            dictionary.Keys.Count.Should().Be(4);
+
+            dictionary["Property1"].Should().Be("TEST1");
+            dictionary.ContainsKey("Property1").Should().BeTrue();
+            dictionary.ContainsKey("Property2").Should().BeTrue();
+            dictionary.ContainsKey("Property3").Should().BeTrue();
+            dictionary.ContainsKey("Property4").Should().BeTrue();
+        }
+
+        /// <summary>Check a value can be added to or updated if already exists.</summary>
+        [Fact]
+        public void Test_IDictionary_AddOrUpdateValue()
+        {
+            // Arrange/Act
+            IDictionary<string,string> dictionary = new Dictionary<string, string> {
+                { "Property1", "PropValue1" },
+                { "Property2", "PropValue2" },
+                { "Property3", "PropValue3" }
+            };
+
+            // Assert
+            dictionary["Property1"].Should().Be("PropValue1");
+            dictionary.AddOrUpdate(new KeyValuePair<string, string>("Property1", "TEST1"));
+            dictionary.Keys.Count.Should().Be(3);
+
+            dictionary.AddOrUpdate("Property4", "PropValue");
             dictionary.AddOrUpdate("Property4", "PropValue4");
             dictionary.Keys.Count.Should().Be(4);
 

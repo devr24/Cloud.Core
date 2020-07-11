@@ -27,7 +27,7 @@
         /// <param name="responseStatus">The response http status.</param>
         /// <param name="responseBody">The response body.</param>
         /// <param name="requestObject">The request object.</param>
-        public RequestFailedException(HttpStatusCode responseStatus, string responseBody, T requestObject)
+        public RequestFailedException(HttpStatusCode responseStatus, string responseBody, T requestObject) : base("Request failed")
         {
             ResponseStatusCode = responseStatus;
             ResponseBody = responseBody;

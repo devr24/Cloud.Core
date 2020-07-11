@@ -1,5 +1,10 @@
-﻿using Cloud.Core.Exceptions;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Net;
+using Cloud.Core.Exceptions;
 using Cloud.Core.Testing;
+using Cloud.Core.Validation;
 using FluentAssertions;
 using Xunit;
 
@@ -187,6 +192,174 @@ namespace Cloud.Core.Tests
                 efx.MaxSizeBytes.Should().Be(100000);
                 efx.CurrentSizeBytes.Should().Be(10000);
                 efx.PercentUsed.Should().Be(10);
+            }
+        }
+
+        /// <summary>Tests throwing of a validation exception with the default constructor.</summary>
+        [Fact]
+        public void Test_ValidationException_DefaultConstructor()
+        {
+            try
+            {
+                throw new ValidateException();
+            }
+            catch (ValidateException vx)
+            {
+                // Assert
+                vx.GetType().Should().Be(typeof(ValidateException));
+            }
+        }
+
+        /// <summary>Tests throwing of a validation exception with message.</summary>
+        [Fact]
+        public void Test_ValidationException_WithValidationMessage()
+        {
+            try
+            {
+                throw new ValidateException("example");
+            }
+            catch (ValidateException vx)
+            {
+                // Assert
+                vx.GetType().Should().Be(typeof(ValidateException));
+                vx.Message.Should().Be("example");
+            }
+        }
+
+        /// <summary>Tests throwing of a validation exception with inner exception.</summary>
+        [Fact]
+        public void Test_ValidationException_WithValidationInnerException()
+        {
+            try
+            {
+                var errors = new List<ValidationResult>();
+                throw new ValidateException("example", new System.Exception("inner example"));
+            }
+            catch (ValidateException vx)
+            {
+                // Assert
+                vx.GetType().Should().Be(typeof(ValidateException));
+                vx.Message.Should().Be("example");
+                vx.InnerException.Message.Should().Be("inner example");
+            }
+        }
+
+        /// <summary>Tests throwing of a validation exception with validation result.</summary>
+        [Fact]
+        public void Test_ValidationException_WithValidationResult()
+        {
+            try
+            {
+                var errors = new List<ValidationResult> { 
+                    new ValidationResult("example")
+                };
+                var errorResult = new ValidateResult(errors);
+                throw new ValidateException(errorResult);
+            }
+            catch (ValidateException vx)
+            {
+                // Assert
+                vx.GetType().Should().Be(typeof(ValidateException));
+                vx.Errors.First().ErrorMessage.Should().Be("example");
+            }
+        }
+
+        /// <summary>Tests throwing of a template exception with the default constructor.</summary>
+        [Fact]
+        public void Test_TemplateMappingException_DefaultConstructor()
+        {
+            try
+            {
+                throw new TemplateMappingException("example", "template1", true, null, null);
+            }
+            catch (TemplateMappingException tmx)
+            {
+                // Assert
+                tmx.GetType().Should().Be(typeof(TemplateMappingException));
+                tmx.Message.Should().Be("example");
+                tmx.TemplateName.Should().Be("template1");
+                tmx.TemplateFound.Should().BeTrue();
+                tmx.TemplateKeys.Should().BeNull();
+                tmx.ModelKeyValues.Should().BeNull();
+            }
+        }
+
+        /// <summary>Tests throwing of a template exception with an inner exception.</summary>
+        [Fact]
+        public void Test_TemplateMappingException_WithException()
+        {
+            try
+            {
+                throw new TemplateMappingException("example", new System.Exception("inner example"), "template1", true, null, null);
+            }
+            catch (TemplateMappingException tmx)
+            {
+                // Assert
+                tmx.GetType().Should().Be(typeof(TemplateMappingException));
+                tmx.InnerException.Message.Should().Be("inner example");
+                tmx.Message.Should().Be("example");
+                tmx.TemplateName.Should().Be("template1");
+                tmx.TemplateFound.Should().BeTrue();
+                tmx.TemplateKeys.Should().BeNull();
+                tmx.ModelKeyValues.Should().BeNull();
+            }
+        }
+
+        /// <summary>Tests throwing of a request failed exception with the default constructor.</summary>
+        [Fact]
+        public void Test_RequestFailedException_DefaultConstructor()
+        {
+            try
+            {
+                throw new RequestFailedException<string>(HttpStatusCode.BadRequest, "failed", "test");
+            }
+            catch (RequestFailedException<string> rx)
+            {
+                // Assert
+                rx.GetType().Should().Be(typeof(RequestFailedException<string>));
+                rx.Message.Should().Be("Request failed");
+                rx.ResponseStatusCode.Should().Be(400);
+                rx.ResponseBody.Should().Be("failed");
+                rx.RequestObject.Should().Be("test");
+            }
+        }
+
+        /// <summary>Tests throwing of a request failed exception with message.</summary>
+        [Fact]
+        public void Test_RequestFailedException_WithMessage()
+        {
+            try
+            {
+                throw new RequestFailedException<string>("example", HttpStatusCode.BadRequest, "failed", "test");
+            }
+            catch (RequestFailedException<string> rx)
+            {
+                // Assert
+                rx.GetType().Should().Be(typeof(RequestFailedException<string>));
+                rx.Message.Should().Be("example");
+                rx.InnerException.Message.Should().Be("inner example");
+                rx.ResponseStatusCode.Should().Be(400);
+                rx.ResponseBody.Should().Be("failed");
+                rx.RequestObject.Should().Be("test");
+            }
+        }
+
+        /// <summary>Tests throwing of a request failed exception with exception.</summary>
+        [Fact]
+        public void Test_RequestFailedException_WithException()
+        {
+            try
+            {
+                throw new RequestFailedException<string>("example", new System.Exception("inner example"), HttpStatusCode.BadRequest, "failed", "test");
+            }
+            catch (RequestFailedException<string> rx)
+            {
+                // Assert
+                rx.GetType().Should().Be(typeof(RequestFailedException<string>));
+                rx.Message.Should().Be("example");
+                rx.ResponseStatusCode.Should().Be(400);
+                rx.ResponseBody.Should().Be("failed");
+                rx.RequestObject.Should().Be("test");
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Cloud.Core.Tests
         [Theory]
         [InlineData("A10", "A2", 8)]
         [InlineData("A2", "A10", -8)]
+        [InlineData("A1", "A1", 0)]
         [InlineData(null, "A10", -1)]
         [InlineData("5", "A10", -1)]
         public void Test_SemiNumericComparer(string s1, string s2, int expectedResult)
