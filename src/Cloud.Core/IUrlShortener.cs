@@ -2,7 +2,6 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
 
     /// <summary>Interface for Url shortening service implementations.</summary>
     public interface IUrlShortener
@@ -27,7 +26,6 @@
         bool Success { get; set; }
 
         /// <summary>Result message - populated if an error occurs</summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         string Message { get; set; }
     }
 }

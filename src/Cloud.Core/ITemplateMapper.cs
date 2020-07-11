@@ -11,7 +11,7 @@
         /// <summary>Gets the result of the html template lookup.</summary>
         /// <param name="templateName">Name of the template to load contents of.</param>
         /// <returns>Task&lt;TemplateInfo&gt; template information found.</returns>
-        Task<TemplateResult> GetTemplateContent(string templateName);
+        Task<ITemplateResult> GetTemplateContent(string templateName);
 
         /// <summary>
         /// Maps to HTML and retuns the raw html string.
@@ -41,18 +41,18 @@
     }
 
     /// <summary>Template lookup result.</summary>
-    public class TemplateResult
+    public class ITemplateResult
     {
         /// <summary>Name of the template requested.</summary>
-        public string TemplateName { get; set; }
+        string TemplateName { get; set; }
 
         /// <summary>Whether the template requested was actually found <c>true</c> or not <c>false</c>.</summary>
-        public bool TemplateFound { get; set; }
+        bool TemplateFound { get; set; }
 
         /// <summary>The list of Keys found on the template.</summary>
-        public List<string> TemplateKeys { get; set; }
+        List<string> TemplateKeys { get; set; }
 
         /// <summary>Content of the template.</summary>
-        public string TemplateContent { get; set; }
+        string TemplateContent { get; set; }
     }
 }

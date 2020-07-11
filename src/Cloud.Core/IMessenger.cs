@@ -25,6 +25,22 @@
         IMessageEntity<T> ReceiveOneEntity<T>() where T : class;
 
         /// <summary>
+        /// Read a batch of typed messages in a synchronous manner.
+        /// </summary>
+        /// <typeparam name="T">Type of object on the entity.</typeparam>
+        /// <param name="batchSize">Size of the batch.</param>
+        /// <returns>IMessageItem&lt;T&gt;.</returns>
+        List<T> ReceiveBatch<T>(int batchSize) where T : class;
+
+        /// <summary>
+        /// Receives a batch of message in a synchronous manner of type IMessageEntity types.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="batchSize">Size of the batch.</param>
+        /// <returns>IMessageEntity&lt;T&gt;.</returns>
+        List<IMessageEntity<T>> ReceiveBatchEntity<T>(int batchSize) where T : class;
+
+        /// <summary>
         /// Read additional properties from a message.
         /// </summary>
         /// <typeparam name="T">Type T of message.</typeparam>
