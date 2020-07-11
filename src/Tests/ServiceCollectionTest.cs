@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Cloud.Core.Testing;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,12 +68,12 @@ namespace Cloud.Core.Tests
         {
             public string Name { get; set; } = "EmailExample";
 
-            public bool Send(EmailMessage email)
+            public bool Send(IEmailMessage email)
             {
                 return true;
             }
 
-            public Task<bool> SendAsync(EmailMessage email)
+            public Task<bool> SendAsync(IEmailMessage email)
             {
                 return Task.FromResult(true);
             }
@@ -80,15 +83,54 @@ namespace Cloud.Core.Tests
         {
             public string Name { get; set; } = "SmsExample";
 
-            public bool Send(SmsMessage sms)
+            public bool Send(FakeSmsMessage sms)
             {
                 return true;
             }
 
-            public Task<bool> SendAsync(SmsMessage sms)
+            public bool Send(ISmsMessage sms)
+            {
+                return true;
+            }
+            public Task<bool> SendAsync(ISmsMessage sms)
             {
                 return Task.FromResult(true);
             }
+        }
+
+        private class FakeEmailMessage : IEmailMessage
+        {
+            public List<IEmailRecipient> To => throw new System.NotImplementedException();
+
+            public string Subject { get; set; }
+            public string TemplateName { get; set; }
+            public string Content { get; set; }
+            public bool IsPlainText { get; set; }
+
+            public List<IEmailAttachment> Attachments => throw new System.NotImplementedException();
+        }
+
+        private class FakeSmsMessage : ISmsMessage
+        {
+            public FakeSmsMessage()
+            {
+                var a = new List<FakeSmsLink>();
+                List<ISmsLink> links = a.Select(l => l as ISmsLink).ToList<ISmsLink>();
+                Links = links;
+            }
+
+            public List<string> To { get; set; }
+            public string Text { get; set; }
+
+            public List<ISmsLink> Links { get; }
+
+            public string FullContent => Text;
+        }
+
+        public class FakeSmsLink : ISmsLink
+        {
+            public string Title { get;set; }
+            public Uri Link { get; set; }
         }
     }
 }

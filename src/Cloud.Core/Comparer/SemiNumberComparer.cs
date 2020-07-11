@@ -24,9 +24,8 @@
             s1 = s1.SetDefaultIfNullOrEmpty("");
             s2 = s2.SetDefaultIfNullOrEmpty("");
 
-            int s1r, s2r;
-            var s1n = IsNumeric(s1, out s1r);
-            var s2n = IsNumeric(s2, out s2r);
+            var s1n = IsNumeric(s1, out var s1r);
+            var s2n = IsNumeric(s2, out var s2r);
 
             if (s1n && s2n) return s1r - s2r;
             else if (s1n) return -1;
