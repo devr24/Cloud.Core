@@ -52,6 +52,20 @@ namespace Cloud.Core.Tests
             replaced.Should().Be("my text string text here");
         }
 
+        /// <summary>Ensure default if null or emtype sets the default value as expected.</summary>
+        [Fact]
+        public void Test_String_DefaultIfNullOrEmtpy()
+        {
+            // Arrange
+            var original = "";
+
+            // Act
+            original = original.DefaultIfNullOrEmtpy("default");
+
+            // Assert
+            original.Should().Be("default");
+        }
+
         /// <summary>Ensure multiple lines are created as expected.</summary>
         [Fact]
         public void Test_String_MultiLine()

@@ -41,7 +41,7 @@
     }
 
     /// <summary>Template lookup result.</summary>
-    public class ITemplateResult
+    public interface ITemplateResult
     {
         /// <summary>Name of the template requested.</summary>
         string TemplateName { get; set; }

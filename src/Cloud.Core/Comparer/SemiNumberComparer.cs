@@ -4,6 +4,8 @@ namespace Cloud.Core.Comparer
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -21,6 +23,9 @@ namespace Cloud.Core.Comparer
         /// <returns>System.Int32.</returns>
         public int Compare(string s1, string s2)
         {
+            s1 = s1.SetDefaultIfNullOrEmpty("");
+            s2 = s2.SetDefaultIfNullOrEmpty("");
+
             int s1r, s2r;
             var s1n = IsNumeric(s1, out s1r);
             var s2n = IsNumeric(s2, out s2r);
@@ -42,7 +47,7 @@ namespace Cloud.Core.Comparer
                 else if (num2.Success) return -1;
             }
 
-            return string.Compare(s1, s2, true);
+            return string.Compare(s1, s2, true, CultureInfo.InvariantCulture);
         }
 
         /// <summary>

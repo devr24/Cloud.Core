@@ -6,8 +6,25 @@ using Xunit;
 namespace Cloud.Core.Tests
 {
     [IsUnit]
-    public class ObjectReferenceEqualityComparerTest
+    public class ObjectComparerTest
     {
+        [Theory]
+        [InlineData("A10", "A2", 8)]
+        [InlineData("A2", "A10", -8)]
+        [InlineData(null, "A10", -1)]
+        [InlineData("5", "A10", -1)]
+        public void Test_SemiNumericComparer(string s1, string s2, int expectedResult)
+        {
+            /// Arrange
+            var comparer = new SemiNumericComparer();
+
+            // Act
+            var result = comparer.Compare(s1, s2);
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
+
         /// <summary>Ensure object reference equality is equal for ints.</summary>
         [Fact]
         public void Test_ObjectReferenceEqualityComparer_EqualsOnInts()

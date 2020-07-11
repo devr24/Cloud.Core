@@ -23,6 +23,18 @@ namespace System
             return TextContentCleanExpression.Replace(text, " ");
         }
 
+        /// <summary>Defaults the string if null or emtpy.</summary>
+        /// <param name="source">The source.</param>
+        /// <param name="defaultValue">The default value.</param>
+        public static string DefaultIfNullOrEmtpy(this string source, string defaultValue)
+        {
+            if (source.IsNullOrEmpty())
+            {
+                return defaultValue;
+            }
+            return source;
+        } 
+
         /// <summary>
         /// Removes multiple strings from the source string.
         /// </summary>
