@@ -1,17 +1,16 @@
-﻿#pragma warning disable CS1584 // XML comment has syntactically incorrect cref attribute
-#pragma warning disable CS1658 // Warning is overriding an error
-namespace Cloud.Core.Comparer
+﻿namespace Cloud.Core.Comparer
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text.RegularExpressions;
 
     /// <summary>
     /// Semi Numeric Comparer can be used to compare any two strings with semi-numeric properties.
-    /// Implements the <see cref="IComparer{string}" />
+    /// Implements the <see cref="IComparer" />
     /// </summary>
-    /// <seealso cref="IComparer{string}" />
+    /// <seealso cref="IComparer" />
     public class SemiNumericComparer : IComparer<string>
     {
         /// <summary>
@@ -61,5 +60,3 @@ namespace Cloud.Core.Comparer
         }
     }
 }
-#pragma warning restore CS1584 // XML comment has syntactically incorrect cref attribute
-#pragma warning restore CS1658 // Warning is overriding an error
