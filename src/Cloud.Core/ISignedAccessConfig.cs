@@ -20,33 +20,6 @@
     }
 
     /// <summary>
-    /// Class to allow us to pass permission and expiry properties to Blob Storage to retrieve Access Url
-    /// </summary>
-    public class SignedAccessConfig : ISignedAccessConfig
-    {
-        /// <summary>
-        /// List of Permissions the Access URL should have
-        /// </summary>
-        public List<AccessPermission> AccessPermissions { get; set; }
-
-        /// <summary>
-        /// Required Expiry for the Access URL
-        /// </summary>
-        public DateTimeOffset? AccessExpiry { get; set; }
-
-        /// <summary>
-        /// Instantiate a new instance of the SignedAccessConfig with the supplied parameters
-        /// </summary>
-        /// <param name="accessPermissions">Permissions requested for the Access URL</param>
-        /// <param name="accessExpiry">Expiry for the Access URL</param>
-        public SignedAccessConfig(List<AccessPermission> accessPermissions, DateTimeOffset? accessExpiry = null)
-        {
-            AccessPermissions = accessPermissions;
-            AccessExpiry = accessExpiry;
-        }
-    }
-
-    /// <summary>
     /// List of available permissions for accessing items within Storage.
     /// </summary>
     public enum AccessPermission

@@ -39,6 +39,12 @@ The Cloud.Core package contains the following interfaces:
 - `IMessenger` & `IReactiveMessenger` - Contract for defining a message queuing implementations.
 - `ITableStorage` - Contract for data table storage (not relational table storage).
 
+#### Integrations
+- `IAddressLookup` - Address search contract.
+- `IEmailProvider` - Email provider contract.
+- `ISmsProvider` - Sms provider contract.
+- `ITemplateMapper` -  Template injector service contract.
+
 Various extensions methods exist within this API.  Any general purpose reuable extension methods should be added to this package.
 
 Cloud.Core specific exceptions also exist within this API.
