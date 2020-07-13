@@ -1,6 +1,7 @@
 ﻿namespace Cloud.Core
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -11,59 +12,55 @@
         /// <param name="email">The email to send.</param>
         /// <returns><c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
         /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
-        bool Send(IEmailMessage email);
+        bool Send(EmailMessage email);
 
         /// <summary>Sends an email asynchronously.</summary>
         /// <param name="email">The email to send.</param>
         /// <returns>Task&lt;System.Boolean&gt;. <c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
         /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
-        Task<bool> SendAsync(IEmailMessage email);
+        Task<bool> SendAsync(EmailMessage email);
     }
 
     /// <summary>Email message.</summary>
-    public interface IEmailMessage
+    public class EmailMessage
     {
         /// <summary>Gets or sets the recipient list (send as blind carbon copy).</summary>
-        List<IEmailRecipient> To { get; }
+        /// <value>List of string recipients.</value>
+        public List<string> To { get; } = new List<string>();
 
         /// <summary>Gets or sets the email subject.</summary>
-        string Subject { get; set; }
+        /// <value>The email subject.</value>
+        public string Subject { get; set; }
 
         /// <summary>Gets or sets the name of the email template to use.</summary>
-        string TemplateName { get; set; }
+        /// <value>The name of the template.</value>
+        public string TemplateName { get; set; }
 
         /// <summary>Gets or sets the email content.</summary>
-        string Content { get; set; }
+        /// <value>The email content.</value>
+        public string Content { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is plain text.
         /// </summary>
-        bool IsPlainText { get; set; }
+        /// <value><c>true</c> if this instance is plain text; otherwise, <c>false</c>.</value>
+        public bool IsPlainText { get; set; }
 
         /// <summary>Gets or sets the email attachments.</summary>
-        List<IEmailAttachment> Attachments { get; }
-    }
-
-    /// <summary>Email recipient.</summary>
-    public interface IEmailRecipient
-    {
-        /// <summary>Email recipient name.</summary>
-        string Name { get; set; }
-
-        /// <summary>Email recipient address.</summary>
-        string Address { get; set; }
+        /// <value>The attachments.</value>
+        public List<EmailAttachment> Attachments { get; } = new List<EmailAttachment>();
     }
 
     /// <summary>Email attachment.</summary>
-    public interface IEmailAttachment
+    public class EmailAttachment
     {
         /// <summary>Attachment file name.</summary>
-        string Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>Attachment content type, example 'application/pdf'.</summary>
-        string ContentType { get; set; }
+        public string ContentType { get; set; }
 
         /// <summary>Content of the attachment.</summary>
-        Stream Content { get; set; }
+        public Stream Content { get; set; }
     }
 }
