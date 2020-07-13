@@ -1,4 +1,4 @@
-﻿namespace Cloud.Core
+﻿namespace Cloud.Core.Notification
 {
     using System;
     using System.Collections.Generic;

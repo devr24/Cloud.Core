@@ -1,7 +1,6 @@
-﻿namespace Cloud.Core
+﻿namespace Cloud.Core.Notification
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Threading.Tasks;
 

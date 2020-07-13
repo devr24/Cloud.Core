@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Cloud.Core;
+    using Cloud.Core.Notification;
 
     /// <summary>Service Collection extensions.</summary>
     public static class ServiceCollectionExtensions

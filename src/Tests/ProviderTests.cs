@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cloud.Core.Notification;
 using Cloud.Core.Testing;
 using FluentAssertions;
 using Xunit;
@@ -24,7 +25,7 @@ namespace Cloud.Core.Tests
             // Act
             emailMessage.To.AddRange(new List<string> { 
                 "a@a.com",
-                "b@b.com"            
+                "b@b.com"
             });
             emailMessage.Attachments.AddRange(new List<EmailAttachment> { 
                 new EmailAttachment { 
