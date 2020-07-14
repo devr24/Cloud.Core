@@ -71,7 +71,17 @@ namespace Cloud.Core.Tests
                 return true;
             }
 
+            public bool Send(EmailTemplateMessage templatedEmail)
+            {
+                return true;
+            }
+
             public Task<bool> SendAsync(EmailMessage email)
+            {
+                return Task.FromResult(true);
+            }
+
+            public Task<bool> SendAsync(EmailTemplateMessage templatedEmail)
             {
                 return Task.FromResult(true);
             }
