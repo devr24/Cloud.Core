@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Cloud.Core.Notification;
 using Cloud.Core.Testing;
@@ -68,6 +69,7 @@ namespace Cloud.Core.Tests
                 }
             });
             var templateObjectJson = emailMessage.TemplateObjectAsJson();
+            var attachment = emailMessage.Attachments.First();
 
             // Assert
             emailMessage.TemplateId.Should().Be("test");
@@ -76,6 +78,9 @@ namespace Cloud.Core.Tests
             emailMessage.Attachments.Count.Should().Be(1);
             templateObjectJson.Should().NotBeNullOrEmpty();
             templateObjectJson.Should().Be("{\"PropAKey\":\"PropAVal\",\"PropBKey\":10,\"PropCKey\":[\"a\",\"b\",\"c\"]}");
+            attachment.ContentType.Should().Be("text/plain");
+            attachment.Name.Should().Be("example.txt");
+            attachment.Content.Length.Should().BeGreaterThan(0);
         }
 
         [Fact]
