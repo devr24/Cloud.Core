@@ -5,7 +5,8 @@ namespace System
     using Text;
     using Text.RegularExpressions;
     using Diagnostics.CodeAnalysis;
-    
+    using System.Collections.Generic;
+
     /// <summary>
     /// String Extension methods.
     /// </summary>
@@ -33,7 +34,7 @@ namespace System
                 return defaultValue;
             }
             return source;
-        } 
+        }
 
         /// <summary>
         /// Removes multiple strings from the source string.
@@ -49,7 +50,7 @@ namespace System
             {
                 sb.Replace(s, string.Empty);
             }
-        
+
             return sb.ToString().ToLower();
         }
 
@@ -110,7 +111,7 @@ namespace System
             var temp = str.Split(replaceChars, StringSplitOptions.RemoveEmptyEntries);
             return string.Join(newVal, temp);
         }
-        
+
         /// <summary>
         /// Gets the memory footprint (size) in bytes.
         /// </summary>
@@ -311,7 +312,7 @@ namespace System
         /// <param name="value">The string value to convert.</param>
         /// <param name="encoding">The encoding of the string.</param>
         /// <returns>Stream version of string.</returns>
-        public static MemoryStream ConvertToStream(this string value, [NotNull]Encoding encoding)
+        public static MemoryStream ConvertToStream(this string value, [NotNull] Encoding encoding)
         {
             value.ThrowIfNull();
             return new MemoryStream(encoding.GetBytes(value));
@@ -323,7 +324,7 @@ namespace System
         /// <param name="value">The string value to convert.</param>
         /// <param name="encoding">The encoding of the string.</param>
         /// <returns>Byte array version of string.</returns>
-        public static byte[] ConvertToBytes(this string value, [NotNull]Encoding encoding)
+        public static byte[] ConvertToBytes(this string value, [NotNull] Encoding encoding)
         {
             value.ThrowIfNull();
             return encoding.GetBytes(value);
@@ -358,6 +359,123 @@ namespace System
             {
                 return null;
             }
+        }
+
+        /// <summary>Get a string between a start and end index.</summary>
+        /// <param name="source">The source string.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="endIndex">The end index.</param>
+        /// <returns>System.String.</returns>
+        public static string Between(this string source, int startIndex, int endIndex)
+        {
+            return source.Substring(startIndex, endIndex - startIndex);
+        }
+
+        /// <summary>Find mulitple strings between a start delimiter and end delimiter.</summary>
+        /// <param name="source">The source.</param>
+        /// <param name="startDelimiter">The start delimiter.</param>
+        /// <param name="endDelimiter">The end delimiter.</param>
+        /// <returns>List&lt;System.String&gt;.</returns>
+        public static List<string> FindBetweenDelimiters(this string source, string startDelimiter, string endDelimiter)
+        {
+            var keys = new List<string>();
+            var searchIndex = 0;
+
+            do
+            {
+                var findResult = FindBetweenDelimitersFromIndex(source, searchIndex, startDelimiter, endDelimiter);
+
+                if (findResult.HasFound == false)
+                {
+                    searchIndex = source.Length;
+                }
+                else
+                {
+                    keys.Add(findResult.Content);
+                    searchIndex = findResult.EndIndex;
+                }
+            } while (searchIndex < source.Length);
+            
+            return keys;
+        }
+
+        /// <summary>Finds strings between two delimiters (above a given start index).</summary>
+        /// <param name="source">The source.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="startDelimiter">The start delimiter.</param>
+        /// <param name="endDelimiter">The end delimiter.</param>
+        /// <returns>FindResult.</returns>
+        private static FindResult FindBetweenDelimitersFromIndex(string source, int startIndex, string startDelimiter, string endDelimiter)
+        {
+            var result = new FindResult
+            {
+                // Set the start index, if start is not found, return.
+                StartIndex = source.IndexOf(startDelimiter, startIndex)
+            };
+
+            if (result.StartIndex == -1)
+            {
+                return result;       
+            }
+
+            // We have to increase the start index by the length of the start delimiter.
+            result.StartIndex += startDelimiter.Length;
+
+            // find end delimiter index (index greater than end index).  If not found, return.
+            result.EndIndex = source.IndexOf(endDelimiter, result.StartIndex);
+
+            // Verify the start index is the expected last occurence of the delimiter.
+            var confirmedStartIndex = CheckForMaxIndex(source, startDelimiter, result.StartIndex, result.EndIndex);
+            if (confirmedStartIndex != result.StartIndex)
+            {
+                result.StartIndex = confirmedStartIndex;
+            }
+
+            if (result.EndIndex == -1 || result.EndIndex <= result.StartIndex)
+            {
+                return result;
+            }
+
+            // Pick out the content string between the start and end index and return.
+            result.Content = source.Between(result.StartIndex, result.EndIndex);
+            result.HasFound = true;
+            return result;
+        }
+
+        /// <summary>Ensures the start index is the last occurence of the delimiter before the end index.</summary>
+        /// <param name="source">The source.</param>
+        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="startindex">The startindex.</param>
+        /// <param name="endindex">The endindex.</param>
+        /// <returns>System.Int32.</returns>
+        private static int CheckForMaxIndex(string source, string delimiter, int startindex, int endindex)
+        {
+            var lastFround = startindex;
+            int returnIndex;
+
+            do
+            {
+                returnIndex = source.IndexOf(delimiter, lastFround);
+
+                if ((returnIndex > endindex) || returnIndex == -1)
+                {
+                    returnIndex = -1;
+                }
+                else
+                {
+                    lastFround = returnIndex + delimiter.Length;
+                }
+            } while (returnIndex != -1);
+
+            return lastFround;
+        }
+
+        private class FindResult
+        {
+            public bool HasFound { get; set; } = false;
+            public int StartIndex { get; set; } = -1;
+            public int EndIndex { get; set; } = -1;
+            public string Content { get; set; }
         }
     }
 }

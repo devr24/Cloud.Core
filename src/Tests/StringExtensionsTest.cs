@@ -4,12 +4,35 @@ using System.Text;
 using Cloud.Core.Testing;
 using Xunit;
 using FluentAssertions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cloud.Core.Tests
 {
     [IsUnit]
     public class StringExtensionsTest
     {
+[Theory]
+[InlineData("{{", "}}", "OBJECT1,OBJECT2,OBJECT3")]
+[InlineData("<<", ">>", "OBJECT4")]
+[InlineData("mollit", "est", " anim id ")]
+[InlineData("[[", ">>", "OBJECT5")]
+public void Test_String_FindBetweenDelimiters(string startDelimiter, string endDelimiter, string expected)
+{
+    // Arrange
+    var expectedResult = expected.Split(",").ToHashSet();
+    var searchString = "Lorem ipsum dolor sit amet, {{OBJECT1}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+        "quis nostrud exercitation {{OBJECT2}} laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
+        "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+
+    // Act
+    var results = searchString.FindBetweenDelimiters(startDelimiter, endDelimiter);
+
+    // Assert
+    results.Should().BeEquivalentTo(expectedResult);
+    results.Count.Should().Be(expectedResult.Count);
+}
+
         /// <summary>Ensure non-alphanumeric characters are removed from the given string.</summary>
         [Fact]
         public void Test_String_CleanContent()
