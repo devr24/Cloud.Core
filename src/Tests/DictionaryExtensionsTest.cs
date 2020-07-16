@@ -72,14 +72,16 @@ namespace Cloud.Core.Tests
             var objTest = new Test {
                 PropA = "test",
                 PropB = 1,
-                PropC = true
+                PropC = true,
+                PropD = null,
+                PropZ = null
             };
 
             // Act
             var dictionary = objTest.AsDictionary();
             
             // Assert
-            dictionary.Keys.Count.Should().Be(3);
+            dictionary.Keys.Count.Should().Be(5);
             dictionary.ContainsKey("PropA").Should().BeTrue();
             dictionary.ContainsKey("PropB").Should().BeTrue();
             dictionary.ContainsKey("PropC").Should().BeTrue();
