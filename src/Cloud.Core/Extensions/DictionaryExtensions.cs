@@ -89,12 +89,12 @@ namespace System.Collections.Generic
         /// <summary>
         /// Converts object to IDictionary{string,object}.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="source">Source object to convert.</param>
         /// <param name="bindingAttr">Types of attributes to bind (if need to be specific).</param>
         /// <returns>IDictionary object representing the object passed in.</returns>
         /// <exception cref="InvalidCastException">Cannot automatically cast enumerable to dictionary</exception>
-        public static IDictionary<string, object> AsDictionary<T>(this T source, 
-            BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        public static IDictionary<string, object> AsDictionary<T>(this T source, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
             where T: class, new()
         {
             return source.GetType().GetProperties(bindingAttr).ToDictionary
@@ -102,6 +102,77 @@ namespace System.Collections.Generic
                 propInfo => propInfo.Name,
                 propInfo => propInfo.GetValue(source, null)
             );
+        }
+
+        /// <summary>
+        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties 
+        /// i.e. a class could be reflected as:
+        ///     "Prop1"    "Value1"
+        ///     "Prop2:A"  "Value2"
+        ///     "Prop2:B"  "Value3"
+        ///     "Prop2:C"  "Value4"
+        ///     "Prop3"    true
+        ///     "Prop4"    500
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="prefix">The prefix.</param>
+        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="bindingAttr">The binding attribute.</param>
+        /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
+        public static Dictionary<string, object> AsFlatDictionary<T>(this T source, string prefix = "", string delimiter = ":", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+            where T : class, new()
+        {
+            var returnDict = new Dictionary<string, object>();
+            var rootItems = source.GetType().GetProperties(bindingAttr);
+
+            // If the reflected values length is zero, just add now to the dictionary.
+            if (rootItems.Length == 0)
+            {
+                returnDict.Add(prefix, source);
+            }
+            else
+            {
+                if (!prefix.IsNullOrEmpty())
+                    prefix += delimiter;
+
+                // Loop through each reflected property in order to build up the returned dictionary key/values.
+                foreach (var item in rootItems)
+                {
+                    var value = item.GetValue(source, null);
+
+                    if (value == null)
+                    {
+                        // If we dont have a value, add as empty string.
+                        returnDict.Add($"{prefix}{item.Name}", "");
+                    }
+                    else if (item.PropertyType.IsEnumerableType())
+                    {
+                        // If this is an enumerable, then loop through each item and get its value for the dictionary.
+                        IEnumerable vals = value as IEnumerable;
+                        var index = 0;
+
+                        foreach (var val in vals)
+                        {
+                            returnDict.AddRange(val.AsFlatDictionary($"{prefix}{item.Name}[{index}]"));
+                            index++;
+                        }
+                    }
+                    else if (item.PropertyType.IsSystemType())
+                    {
+                        // If this is a plain old system type, then just add straight into the dictionary.
+                        returnDict.Add($"{prefix}{item.Name}", value);
+                    }
+                    else
+                    {
+                        // Otherwise, reflect all properties of this complex type in the next level of the dictionary.
+                        returnDict.AddRange(value.AsFlatDictionary($"{prefix}{item.Name}"));
+                    }
+                }
+            }
+
+            // Return final resulting flat dictionary.
+            return returnDict;
         }
 
         /// <summary>

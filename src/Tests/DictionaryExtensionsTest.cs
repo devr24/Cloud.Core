@@ -127,6 +127,50 @@ namespace Cloud.Core.Tests
             list[2].Value.Should().Be(3);
         }
 
+        [Fact]
+        public void Test_Object_ToFlatDictionary()
+        {
+            var objTest = new Test
+            {
+                PropA = "test1",
+                PropB = 1,
+                PropC = true,
+                PropD = new SubItem
+                {
+                    PropE = "test2",
+                    PropF = new List<int> { 1, 2, 3 }
+                },
+                PropZ = new Test
+                {
+                    PropA = "test3",
+                    PropB = 1,
+                    PropC = true,
+                    PropD = new SubItem
+                    {
+                        PropE = "test4",
+                        PropF = new List<int> { 1, 1, 1 }
+                    }
+                }
+            };
+
+            var result = objTest.AsFlatDictionary();
+            result.Should().NotBeNull();
+            result.Keys.Contains("PropA").Should().BeTrue();
+            result.Keys.Contains("PropB").Should().BeTrue();
+            result.Keys.Contains("PropC").Should().BeTrue();
+            result.Keys.Contains("PropD:PropE").Should().BeTrue();
+            result.Keys.Contains("PropD:PropF[0]").Should().BeTrue();
+            result.Keys.Contains("PropD:PropF[1]").Should().BeTrue();
+            result.Keys.Contains("PropD:PropF[2]").Should().BeTrue();
+            result.Keys.Contains("PropZ:PropA").Should().BeTrue();
+            result.Keys.Contains("PropZ:PropB").Should().BeTrue();
+            result.Keys.Contains("PropZ:PropC").Should().BeTrue();
+            result.Keys.Contains("PropZ:PropD:PropE").Should().BeTrue();
+            result.Keys.Contains("PropZ:PropD:PropF[0]").Should().BeTrue();
+            result.Keys.Contains("PropZ:PropD:PropF[1]").Should().BeTrue();
+            result.Keys.Contains("PropZ:PropD:PropF[2]").Should().BeTrue();
+        }
+
         /// <summary>Check dictionary can be converted into an object.</summary>
         [Fact]
         public void Test_Dictionary_ToObject()
@@ -136,16 +180,35 @@ namespace Cloud.Core.Tests
             {
                 { "PropA", "test" },
                 { "PropB", 1 },
-                { "PropC", true }
+                { "PropC", true },
+                { "PropD", new SubItem {
+                        PropE = "PropE",
+                        PropF = new List<int> { 1, 2, 3 }
+                    } 
+                }
+            };
+            var objToDictionary = new Test
+            {
+                PropA = "test",
+                PropB = 1,
+                PropC = true,
+                PropD = new SubItem
+                {
+                    PropE = "PropE",
+                    PropF = new List<int> { 1, 2, 3 }
+                }
             };
 
             // Act
             var objTest = dictionary.ToObject<Test>();
-            
+            var dict = objToDictionary.AsDictionary();
+
             // Assert
             objTest.PropA.Should().Be("test");
             objTest.PropB.Should().Be(1);
             objTest.PropC.Should().BeTrue();
+
+            dict.Keys.Contains("PropA").Should().BeTrue();
         }
 
         /// <summary>Check dictionary can have all elements from an existing dictionary appended on.</summary>
@@ -246,6 +309,14 @@ namespace Cloud.Core.Tests
             public string PropA { get; set; }
             public int PropB { get; set; }
             public bool PropC { get; set; }
+            public SubItem PropD { get; set; }
+            public Test PropZ { get; set; }
+        }
+
+        public class SubItem
+        {
+            public string PropE { get; set; }
+            public List<int> PropF { get; set; }
         }
     }
 }
