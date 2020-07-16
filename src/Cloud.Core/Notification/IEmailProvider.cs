@@ -1,5 +1,6 @@
 ﻿namespace Cloud.Core.Notification
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
@@ -54,6 +55,9 @@
     /// </summary>
     public class EmailTemplateMessage
     {
+        private Type _templateObjectType;
+        private object _templateObject;
+
         /// <summary>List of email recipient (each sent as blind carbon copy).</summary>
         public List<string> To { get; } = new List<string>();
 
@@ -64,7 +68,23 @@
         public string TemplateId { get; set; }
 
         /// <summary>The object to map to the email template.</summary>
-        public object TemplateObject { get; set; }
+        public object TemplateObject
+        {
+            get {
+                return Convert.ChangeType(_templateObject, _templateObjectType);
+            }
+            set {
+                _templateObjectType = value.GetType();
+                _templateObject = value;
+            }
+        }
+
+        /// <summary>Gets the type of the template object.</summary>
+        /// <returns>Type of the template object.</returns>
+        public Type GetTemplateObjectType()
+        {
+            return _templateObjectType;
+        }
 
         /// <summary>Email template object as a json string.</summary>
         /// <returns>System.String json representation of templated object.</returns>

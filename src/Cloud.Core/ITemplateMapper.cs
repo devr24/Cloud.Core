@@ -9,42 +9,42 @@
     public interface ITemplateMapper
     {
         /// <summary>Gets the result of the html template lookup.</summary>
-        /// <param name="templateName">Name of the template to load contents of.</param>
+        /// <param name="templateId">Name of the template to load contents of.</param>
         /// <returns>Task&lt;TemplateInfo&gt; template information found.</returns>
-        Task<ITemplateResult> GetTemplateContent(string templateName);
+        Task<ITemplateResult> GetTemplateContent(string templateId);
 
         /// <summary>
         /// Maps to HTML and retuns the raw html string.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="model">The model.</param>
-        /// <param name="templateName">Name of the template.</param>
+        /// <param name="templateId">Name of the template.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<string> MapToHtml<T>(T model, string templateName);
+        Task<string> MapToHtml<T>(T model, string templateId);
 
         /// <summary>Maps a model into HTML and returns the result as a PDF base64 string.</summary>
         /// <typeparam name="T">Model to map into the Html.</typeparam>
         /// <param name="model">The model.</param>
-        /// <param name="templateName">Name of the template to map to.</param>
+        /// <param name="templateId">Name of the template to map to.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<string> MapToHtmlAsPdfBase64<T>(T model, string templateName);
+        Task<string> MapToHtmlAsPdfBase64<T>(T model, string templateId);
 
         /// <summary>Maps a model into HTML and returns the result as a PDF stream.</summary>
         /// <typeparam name="T">Model to map into the Html.</typeparam>
         /// <param name="model">The model.</param>
-        /// <param name="templateName">Name of the template to map to.</param>
+        /// <param name="templateId">Name of the template to map to.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<Stream> MapToHtmlAsPdfStream<T>(T model, string templateName);
+        Task<Stream> MapToHtmlAsPdfStream<T>(T model, string templateId);
     }
 
     /// <summary>Template lookup result.</summary>
     public interface ITemplateResult
     {
         /// <summary>Name of the template requested.</summary>
-        string TemplateName { get; set; }
+        string TemplateId { get; set; }
 
         /// <summary>Whether the template requested was actually found <c>true</c> or not <c>false</c>.</summary>
         bool TemplateFound { get; set; }

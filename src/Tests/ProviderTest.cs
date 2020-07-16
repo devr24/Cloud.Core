@@ -10,7 +10,7 @@ using Xunit;
 namespace Cloud.Core.Tests
 {
     [IsUnit]
-    public class ProviderTests
+    public class ProviderTest
     {
         [Fact]
         public void Test_EmailMessage_Creation()

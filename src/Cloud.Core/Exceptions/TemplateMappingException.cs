@@ -13,7 +13,7 @@
     public class TemplateMappingException : Exception
     {
         /// <summary>Name of the template requested.</summary>
-        public string TemplateName { get; }
+        public string TemplateId { get; }
 
         /// <summary>Whether the template requested was actually found <c>true</c> or not <c>false</c>.</summary>
         public bool TemplateFound { get; }
@@ -28,13 +28,13 @@
         /// Initializes a new instance of the <see cref="TemplateMappingException" /> class.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
-        /// <param name="templateName">Name of the template requested.</param>
+        /// <param name="templateId">Name of the template requested.</param>
         /// <param name="templateFound">Whether the template was found (<c>true</c> if [template found], otherwise <c>false</c>).</param>
         /// <param name="templateKeys">Template keys found.</param>
         /// <param name="modelKeyValues">The model keys and values.</param>
-        public TemplateMappingException(string message, string templateName, bool templateFound, List<string> templateKeys, Dictionary<string, string> modelKeyValues) : base(message) 
+        public TemplateMappingException(string message, string templateId, bool templateFound, List<string> templateKeys, Dictionary<string, string> modelKeyValues) : base(message) 
         {
-            TemplateName = templateName;
+            TemplateId = templateId;
             TemplateFound = templateFound;
             TemplateKeys = templateKeys;
             ModelKeyValues = modelKeyValues;
@@ -45,13 +45,13 @@
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
-        /// <param name="templateName">Name of the template requested.</param>
+        /// <param name="templateId">Name of the template requested.</param>
         /// <param name="templateFound">Whether the template was found (<c>true</c> if [template found], otherwise <c>false</c>).</param>
         /// <param name="templateKeys">Template keys found.</param>
         /// <param name="modelKeyValues">The model keys and values.</param>
-        public TemplateMappingException(string message, Exception innerException, string templateName, bool templateFound, List<string> templateKeys, Dictionary<string, string> modelKeyValues) : base(message, innerException)
+        public TemplateMappingException(string message, Exception innerException, string templateId, bool templateFound, List<string> templateKeys, Dictionary<string, string> modelKeyValues) : base(message, innerException)
         {
-            TemplateName = templateName;
+            TemplateId = templateId;
             TemplateFound = templateFound;
             TemplateKeys = templateKeys;
             ModelKeyValues = modelKeyValues;

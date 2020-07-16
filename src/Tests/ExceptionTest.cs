@@ -277,7 +277,7 @@ namespace Cloud.Core.Tests
                 // Assert
                 tmx.GetType().Should().Be(typeof(TemplateMappingException));
                 tmx.Message.Should().Be("example");
-                tmx.TemplateName.Should().Be("template1");
+                tmx.TemplateId.Should().Be("template1");
                 tmx.TemplateFound.Should().BeTrue();
                 tmx.TemplateKeys.Should().BeNull();
                 tmx.ModelKeyValues.Should().BeNull();
@@ -298,7 +298,7 @@ namespace Cloud.Core.Tests
                 tmx.GetType().Should().Be(typeof(TemplateMappingException));
                 tmx.InnerException.Message.Should().Be("inner example");
                 tmx.Message.Should().Be("example");
-                tmx.TemplateName.Should().Be("template1");
+                tmx.TemplateId.Should().Be("template1");
                 tmx.TemplateFound.Should().BeTrue();
                 tmx.TemplateKeys.Should().BeNull();
                 tmx.ModelKeyValues.Should().BeNull();
