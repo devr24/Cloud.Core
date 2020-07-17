@@ -105,22 +105,23 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties 
+        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties
         /// i.e. a class could be reflected as:
-        ///     "Prop1"    "Value1"
-        ///     "Prop2:A"  "Value2"
-        ///     "Prop2:B"  "Value3"
-        ///     "Prop2:C"  "Value4"
-        ///     "Prop3"    true
-        ///     "Prop4"    500
+        /// "Prop1"    "Value1"
+        /// "Prop2:A"  "Value2"
+        /// "Prop2:B"  "Value3"
+        /// "Prop2:C"  "Value4"
+        /// "Prop3"    true
+        /// "Prop4"    500
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">The source.</param>
         /// <param name="prefix">The prefix.</param>
-        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="keyDelimiter">The delimiter.</param>
+        /// <param name="keyCasing">The string casing for outputted keys.</param>
         /// <param name="bindingAttr">The binding attribute.</param>
         /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
-        public static Dictionary<string, object> AsFlatDictionary<T>(this T source, string prefix = "", string delimiter = ":", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        public static Dictionary<string, object> AsFlatDictionary<T>(this T source, string prefix = "", string keyDelimiter = ":", StringCasing keyCasing = StringCasing.RetainExisiting, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
             where T : class, new()
         {
             var returnDict = new Dictionary<string, object>();
@@ -134,17 +135,18 @@ namespace System.Collections.Generic
             else
             {
                 if (!prefix.IsNullOrEmpty())
-                    prefix += delimiter;
+                    prefix += keyDelimiter;
 
                 // Loop through each reflected property in order to build up the returned dictionary key/values.
                 foreach (var item in rootItems)
                 {
                     var value = item.GetValue(source, null);
+                    var key = $"{prefix}{item.Name}".WithCasing(keyCasing);
 
                     if (value == null)
                     {
                         // If we dont have a value, add as empty string.
-                        returnDict.Add($"{prefix}{item.Name}", "");
+                        returnDict.Add(key, "");
                     }
                     else if (item.PropertyType.IsEnumerableType())
                     {
@@ -154,19 +156,19 @@ namespace System.Collections.Generic
 
                         foreach (var val in vals)
                         {
-                            returnDict.AddRange(val.AsFlatDictionary($"{prefix}{item.Name}[{index}]"));
+                            returnDict.AddRange(val.AsFlatDictionary($"{key}[{index}]", keyDelimiter, keyCasing));
                             index++;
                         }
                     }
                     else if (item.PropertyType.IsSystemType())
                     {
                         // If this is a plain old system type, then just add straight into the dictionary.
-                        returnDict.Add($"{prefix}{item.Name}", value);
+                        returnDict.Add($"{key}", value);
                     }
                     else
                     {
                         // Otherwise, reflect all properties of this complex type in the next level of the dictionary.
-                        returnDict.AddRange(value.AsFlatDictionary($"{prefix}{item.Name}"));
+                        returnDict.AddRange(value.AsFlatDictionary($"{key}", keyDelimiter, keyCasing));
                     }
                 }
             }

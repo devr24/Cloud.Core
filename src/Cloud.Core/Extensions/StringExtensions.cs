@@ -7,12 +7,40 @@ namespace System
     using Diagnostics.CodeAnalysis;
     using System.Collections.Generic;
 
+    /// <summary>Enum string casing type.</summary>
+    public enum StringCasing
+    {
+        /// <summary>Uppercase string.</summary>
+        Uppercase,
+        /// <summary>Lowercase string.</summary>
+        Lowercase,
+        /// <summary>Retains exisiting casing.</summary>
+        RetainExisiting
+    }
+
     /// <summary>
     /// String Extension methods.
     /// </summary>
     public static class StringExtensions
     {
         private static readonly Regex TextContentCleanExpression = new Regex("[\\W]{1,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        /// <summary>Sets the string casing.</summary>
+        /// <param name="source">The source string to modify.</param>
+        /// <param name="casing">The casing to set.</param>
+        /// <returns>System.String.</returns>
+        public static string WithCasing(this string source, StringCasing casing)
+        {
+            switch (casing)
+            {
+                case StringCasing.Uppercase:
+                    return source.ToUpperInvariant();
+                case StringCasing.Lowercase:
+                    return source.ToLowerInvariant();
+                default:
+                    return source;
+            }
+        }
 
         /// <summary>
         /// Cleans the content of unnecessary characters using the regular expression "[\\W]{1,}".  Replaces with a space.
