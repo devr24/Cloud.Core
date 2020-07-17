@@ -88,7 +88,7 @@
 
         /// <summary>Email template object as a json string.</summary>
         /// <returns>System.String json representation of templated object.</returns>
-        public string TemplateObjectAsJson()
+        public string GetTemplateObjectAsJson()
         {
             return JsonConvert.SerializeObject(TemplateObject);
         }

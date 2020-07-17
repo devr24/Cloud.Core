@@ -68,7 +68,7 @@ namespace Cloud.Core.Tests
                     Content = "text".ConvertToStream(Encoding.UTF8)
                 }
             });
-            var templateObjectJson = emailMessage.TemplateObjectAsJson();
+            var templateObjectJson = emailMessage.GetTemplateObjectAsJson();
             var attachment = emailMessage.Attachments.First();
 
             // Assert

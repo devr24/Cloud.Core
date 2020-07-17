@@ -35,7 +35,8 @@ namespace Cloud.Core.Tests
             var serialized = JsonConvert.SerializeObject(templatedEmail.TemplateObject);
 
             // Assert
-            templatedEmail.TemplateObjectAsJson().Should().Be(serialized);
+            templatedEmail.TemplateObject.GetType().Should().Be(templatedEmail.GetTemplateObjectType());
+            templatedEmail.GetTemplateObjectAsJson().Should().Be(serialized);
             templatedEmail.GetTemplateObjectType().Should().Be(typeof(Test));
         }
 
