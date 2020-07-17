@@ -178,8 +178,8 @@ namespace Cloud.Core.Tests
             result.Keys.Contains("PropZ:PropD:PropF[0]").Should().BeTrue();
             result.Keys.Contains("PropZ:PropD:PropF[1]").Should().BeTrue();
             result.Keys.Contains("PropZ:PropD:PropF[2]").Should().BeTrue();
-            lowercaseResult.Keys.Contains("PROPA").Should().BeTrue();
-            uppercaseResult.Keys.Contains("propa").Should().BeTrue();
+            lowercaseResult.Keys.Contains("propa").Should().BeTrue();
+            uppercaseResult.Keys.Contains("PROPA").Should().BeTrue();
         }
 
         /// <summary>Check dictionary can be converted into an object.</summary>
