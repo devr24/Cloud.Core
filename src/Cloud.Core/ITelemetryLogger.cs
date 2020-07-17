@@ -60,7 +60,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogInformation<T>(string message, object objectToLog,
+        void LogInformation(string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -82,7 +82,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogCritical<T>(string message, object objectToLog,
+        void LogCritical(string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -104,7 +104,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogCritical<T>(Exception ex, object objectToLog,
+        void LogCritical(Exception ex, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -126,7 +126,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogWarning<T>(string message, object objectToLog,
+        void LogWarning(string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -148,7 +148,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogWarning<T>(Exception ex, object objectToLog,
+        void LogWarning(Exception ex, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -181,7 +181,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogError<T>(Exception ex, object objectToLog,
+        void LogError(Exception ex, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -205,7 +205,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogError<T>(Exception ex, string message, object objectToLog,
+        void LogError(Exception ex, string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -229,7 +229,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogMetric<T>(string metricName, double metricValue, object objectToLog,
+        void LogMetric(string metricName, double metricValue, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
