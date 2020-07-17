@@ -38,7 +38,7 @@
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogVerbose(string message, objecobject objectToLog,
+        void LogVerbose(string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
