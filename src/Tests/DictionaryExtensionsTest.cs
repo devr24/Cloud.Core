@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Cloud.Core.Testing;
+using Cloud.Core.Extensions;
 using FluentAssertions;
 using Xunit;
 
@@ -127,6 +128,59 @@ namespace Cloud.Core.Tests
             list[0].Value.Should().Be(1);
             list[1].Value.Should().Be(2);
             list[2].Value.Should().Be(3);
+        }
+
+        /// <summary>Verify the conversion of an object to dictionary (string key/object) works as expected.</summary>
+        [Fact]
+        public void Test_Object_ToFlatStringDictionary()
+        {
+            // Arrange
+            var objTest = new Test
+            {
+                PropA = "test1",
+                PropB = 1,
+                PropC = true,
+                PropD = new SubItem
+                {
+                    PropE = "test2",
+                    PropF = new List<int> { 1, 2, 3 }
+                },
+                PropZ = new Test
+                {
+                    PropA = "test3",
+                    PropB = 1,
+                    PropC = true,
+                    PropD = new SubItem
+                    {
+                        PropE = "test4",
+                        PropF = new List<int> { 1, 1, 1 }
+                    }
+                }
+            };
+
+            // Act
+            var result = objTest.AsFlatStringDictionary();
+            var lowercaseResult = objTest.AsFlatDictionary(System.StringCasing.Lowercase);
+            var uppercaseResult = objTest.AsFlatDictionary(System.StringCasing.Uppercase);
+
+            // Assert
+            result.Should().NotBeNull();
+            result["PropA"].Should().Be("test1");
+            result["PropB"].Should().Be("1");
+            result["PropC"].Should().Be("True");
+            result["PropD:PropE"].Should().Be("test2");
+            result["PropD:PropF[0]"].Should().Be("1");
+            result["PropD:PropF[1]"].Should().Be("2");
+            result["PropD:PropF[2]"].Should().Be("3");
+            result["PropZ:PropA"].Should().Be("test3");
+            result["PropZ:PropB"].Should().Be("1");
+            result["PropZ:PropC"].Should().Be("True");
+            result["PropZ:PropD:PropE"].Should().Be("test4");
+            result["PropZ:PropD:PropF[0]"].Should().Be("1");
+            result["PropZ:PropD:PropF[1]"].Should().Be("1");
+            result["PropZ:PropD:PropF[2]"].Should().Be("1");
+            lowercaseResult["propa"].Should().Be("test1");
+            uppercaseResult["PROPA"].Should().Be("test1");
         }
 
         /// <summary>Verify the conversion of an object to dictionary works as expected.</summary>
