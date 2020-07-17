@@ -7,10 +7,10 @@
 
     /// <summary>
     /// Interface ITelemetryLogger with type
-    /// Implements the <see cref="Cloud.Core.ITelemetryLogger" />
+    /// Implements the <see cref="ITelemetryLogger" />
     /// </summary>
     /// <typeparam name="T">Type of TelemetryLogger.</typeparam>
-    /// <seealso cref="Cloud.Core.ITelemetryLogger" />
+    /// <seealso cref="ITelemetryLogger" />
     public interface ITelemetryLogger<T> : ITelemetryLogger { }
 
     /// <summary>
@@ -33,13 +33,12 @@
         /// <summary>
         /// Logs verbose message, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="message">The message to log.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogVerbose<T>(string message, T objectToLog,
+        void LogVerbose(string message, objecobject objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -56,13 +55,12 @@
         /// <summary>
         /// Logs information message, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="message">The message to log.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogInformation<T>(string message, T objectToLog,
+        void LogInformation<T>(string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -79,13 +77,12 @@
         /// <summary>
         /// Logs critical message, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="message">The message to log.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogCritical<T>(string message, T objectToLog,
+        void LogCritical<T>(string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -102,13 +99,12 @@
         /// <summary>
         /// Logs critical exception, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="ex">The exception to log as critical.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogCritical<T>(Exception ex, T objectToLog,
+        void LogCritical<T>(Exception ex, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -125,13 +121,12 @@
         /// <summary>
         /// Logs warning message, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="message">The message to log.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogWarning<T>(string message, T objectToLog,
+        void LogWarning<T>(string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -148,13 +143,12 @@
         /// <summary>
         /// Logs warning exception, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="ex">The exception to log.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogWarning<T>(Exception ex, T objectToLog,
+        void LogWarning<T>(Exception ex, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -182,13 +176,12 @@
         /// <summary>
         /// Logs error exception, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="ex">The exception to log.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogError<T>(Exception ex, T objectToLog,
+        void LogError<T>(Exception ex, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -206,14 +199,13 @@
         /// <summary>
         /// Logs error exception, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="ex">The exception to log.</param>
         /// <param name="message">The message to log.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogError<T>(Exception ex, string message, T objectToLog,
+        void LogError<T>(Exception ex, string message, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>
@@ -231,14 +223,13 @@
         /// <summary>
         /// Logs the metric value, with an object which is serialized and logged.
         /// </summary>
-        /// <typeparam name="T">Type of object to log.</typeparam>
         /// <param name="metricName">Name of the metric to log.</param>
         /// <param name="metricValue">The metric value.</param>
         /// <param name="objectToLog">Object instance to serialize and log.</param>
         /// <param name="callerMemberName">Name of the caller member.</param>
         /// <param name="callerFilePath">The caller file path.</param>
         /// <param name="callerLineNumber">The caller line number.</param>
-        void LogMetric<T>(string metricName, double metricValue, T objectToLog,
+        void LogMetric<T>(string metricName, double metricValue, object objectToLog,
             [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1);
 
         /// <summary>

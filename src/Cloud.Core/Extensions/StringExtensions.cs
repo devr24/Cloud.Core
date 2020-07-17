@@ -15,7 +15,7 @@ namespace System
         /// <summary>Lowercase string.</summary>
         Lowercase,
         /// <summary>Retains exisiting casing.</summary>
-        RetainExisiting
+        Unchanged
     }
 
     /// <summary>

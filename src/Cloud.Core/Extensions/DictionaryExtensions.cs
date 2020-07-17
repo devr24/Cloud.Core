@@ -91,15 +91,16 @@ namespace System.Collections.Generic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">Source object to convert.</param>
+        /// <param name="keyCasing">The casing for the outputted key.</param>
         /// <param name="bindingAttr">Types of attributes to bind (if need to be specific).</param>
         /// <returns>IDictionary object representing the object passed in.</returns>
         /// <exception cref="InvalidCastException">Cannot automatically cast enumerable to dictionary</exception>
-        public static IDictionary<string, object> AsDictionary<T>(this T source, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        public static IDictionary<string, object> AsDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
             where T: class, new()
         {
             return source.GetType().GetProperties(bindingAttr).ToDictionary
             (
-                propInfo => propInfo.Name,
+                propInfo => propInfo.Name.WithCasing(keyCasing),
                 propInfo => propInfo.GetValue(source, null)
             );
         }
@@ -116,12 +117,12 @@ namespace System.Collections.Generic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">The source.</param>
-        /// <param name="prefix">The prefix.</param>
         /// <param name="keyDelimiter">The delimiter.</param>
         /// <param name="keyCasing">The string casing for outputted keys.</param>
+        /// <param name="prefix">The prefix.</param>
         /// <param name="bindingAttr">The binding attribute.</param>
         /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
-        public static Dictionary<string, object> AsFlatDictionary<T>(this T source, string prefix = "", string keyDelimiter = ":", StringCasing keyCasing = StringCasing.RetainExisiting, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        public static Dictionary<string, object> AsFlatDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, string keyDelimiter = ":", string prefix = "", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
             where T : class, new()
         {
             var returnDict = new Dictionary<string, object>();
@@ -156,7 +157,7 @@ namespace System.Collections.Generic
 
                         foreach (var val in vals)
                         {
-                            returnDict.AddRange(val.AsFlatDictionary($"{key}[{index}]", keyDelimiter, keyCasing));
+                            returnDict.AddRange(val.AsFlatDictionary(keyCasing, keyDelimiter, $"{key}[{index}]"));
                             index++;
                         }
                     }
@@ -168,7 +169,7 @@ namespace System.Collections.Generic
                     else
                     {
                         // Otherwise, reflect all properties of this complex type in the next level of the dictionary.
-                        returnDict.AddRange(value.AsFlatDictionary($"{key}", keyDelimiter, keyCasing));
+                        returnDict.AddRange(value.AsFlatDictionary(keyCasing, keyDelimiter, key));
                     }
                 }
             }

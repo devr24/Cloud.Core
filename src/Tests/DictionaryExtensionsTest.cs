@@ -129,9 +129,11 @@ namespace Cloud.Core.Tests
             list[2].Value.Should().Be(3);
         }
 
+        /// <summary>Verify the conversion of an object to dictionary works as expected.</summary>
         [Fact]
         public void Test_Object_ToFlatDictionary()
         {
+            // Arrange
             var objTest = new Test
             {
                 PropA = "test1",
@@ -155,7 +157,12 @@ namespace Cloud.Core.Tests
                 }
             };
 
+            // Act
             var result = objTest.AsFlatDictionary();
+            var lowercaseResult = objTest.AsFlatDictionary(System.StringCasing.Lowercase);
+            var uppercaseResult = objTest.AsFlatDictionary(System.StringCasing.Uppercase);
+
+            // Assert
             result.Should().NotBeNull();
             result.Keys.Contains("PropA").Should().BeTrue();
             result.Keys.Contains("PropB").Should().BeTrue();
@@ -171,6 +178,8 @@ namespace Cloud.Core.Tests
             result.Keys.Contains("PropZ:PropD:PropF[0]").Should().BeTrue();
             result.Keys.Contains("PropZ:PropD:PropF[1]").Should().BeTrue();
             result.Keys.Contains("PropZ:PropD:PropF[2]").Should().BeTrue();
+            lowercaseResult.Keys.Contains("PROPA").Should().BeTrue();
+            uppercaseResult.Keys.Contains("propa").Should().BeTrue();
         }
 
         /// <summary>Check dictionary can be converted into an object.</summary>
