@@ -403,8 +403,9 @@ namespace System
         /// <param name="source">The source.</param>
         /// <param name="startDelimiter">The start delimiter.</param>
         /// <param name="endDelimiter">The end delimiter.</param>
+        /// <param name="casing">The casing of the found keys.</param>
         /// <returns>List&lt;System.String&gt;.</returns>
-        public static List<string> FindBetweenDelimiters(this string source, string startDelimiter, string endDelimiter)
+        public static List<string> FindBetweenDelimiters(this string source, string startDelimiter, string endDelimiter, StringCasing casing = StringCasing.Unchanged)
         {
             var keys = new List<string>();
             var searchIndex = 0;
@@ -419,7 +420,7 @@ namespace System
                 }
                 else
                 {
-                    keys.Add(findResult.Content);
+                    keys.Add(findResult.Content.WithCasing(casing));
                     searchIndex = findResult.EndIndex;
                 }
             } while (searchIndex < source.Length);
@@ -427,7 +428,9 @@ namespace System
             return keys;
         }
 
-        /// <summary>Finds strings between two delimiters (above a given start index).</summary>
+        /// <summary>
+        /// Finds strings between two delimiters (above a given start index).
+        /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="startIndex">The start index.</param>
         /// <param name="startDelimiter">The start delimiter.</param>
