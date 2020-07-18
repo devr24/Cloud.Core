@@ -16,28 +16,25 @@
         /// <summary>
         /// Maps to HTML and retuns the raw html string.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="model">The model.</param>
         /// <param name="templateId">Name of the template.</param>
+        /// <param name="model">The model.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<string> MapToHtml<T>(T model, string templateId);
+        Task<string> MapToHtml(string templateId, object model);
 
         /// <summary>Maps a model into HTML and returns the result as a PDF base64 string.</summary>
-        /// <typeparam name="T">Model to map into the Html.</typeparam>
-        /// <param name="model">The model.</param>
         /// <param name="templateId">Name of the template to map to.</param>
+        /// <param name="model">The model.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<string> MapToHtmlAsPdfBase64<T>(T model, string templateId);
+        Task<string> MapToHtmlAsPdfBase64(string templateId, object model);
 
         /// <summary>Maps a model into HTML and returns the result as a PDF stream.</summary>
-        /// <typeparam name="T">Model to map into the Html.</typeparam>
-        /// <param name="model">The model.</param>
         /// <param name="templateId">Name of the template to map to.</param>
+        /// <param name="model">The model.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<Stream> MapToHtmlAsPdfStream<T>(T model, string templateId);
+        Task<Stream> MapToHtmlAsPdfStream(string templateId, object model);
     }
 
     /// <summary>Template lookup result.</summary>
