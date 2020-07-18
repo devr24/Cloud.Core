@@ -188,7 +188,7 @@ namespace Cloud.Core.Tests
         public void Test_Object_ToFlatDictionary()
         {
             // Arrange
-            var objTest = new Test
+            object objTest = new Test
             {
                 PropA = "test1",
                 PropB = 1,

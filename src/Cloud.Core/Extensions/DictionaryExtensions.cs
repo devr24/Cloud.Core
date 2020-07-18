@@ -179,6 +179,28 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
+        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties
+        /// i.e. a class could be reflected as:
+        /// "Prop1"    "Value1"
+        /// "Prop2:A"  "Value2"
+        /// "Prop2:B"  "Value3"
+        /// "Prop2:C"  "Value4"
+        /// "Prop3"    true
+        /// "Prop4"    500
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="keyDelimiter">The delimiter.</param>
+        /// <param name="keyCasing">The string casing for outputted keys.</param>
+        /// <param name="prefix">The prefix.</param>
+        /// <param name="bindingAttr">The binding attribute.</param>
+        /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
+        public static Dictionary<string, object> AsFlatDictionary(this object source, StringCasing keyCasing = StringCasing.Unchanged, string keyDelimiter = ":", string prefix = "", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        {
+            return source.AsFlatDictionary<object>(keyCasing, keyDelimiter, prefix, bindingAttr);
+        }
+
+        /// <summary>
         /// Convert a dictionary to a list of key value pairs.
         /// </summary>
         /// <typeparam name="T">Key type.</typeparam>
