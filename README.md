@@ -44,6 +44,7 @@ The Cloud.Core package contains the following interfaces:
 - `IEmailProvider` - Email provider contract.
 - `ISmsProvider` - Sms provider contract.
 - `ITemplateMapper` -  Template injector service contract.
+- `IUrlShortener` -  Url shorten service contract.
 
 Various extensions methods exist within this API.  Any general purpose reuable extension methods should be added to this package.
 
