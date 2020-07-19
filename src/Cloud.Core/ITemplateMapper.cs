@@ -14,16 +14,16 @@
         Task<ITemplateResult> GetTemplateContent(string templateId);
 
         /// <summary>
-        /// Maps to template and retuns the raw template result string.
+        /// Maps to a stored template (identified by template Id) and retuns the raw template result string.
         /// </summary>
         /// <param name="templateId">Identity of the template to load.</param>
         /// <param name="model">The model.</param>
         /// <returns>Task&lt;TemplateInfo&gt; template mapping information.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<ITemplateResult> MapTemplateUsingId(string templateId, object model);
+        Task<ITemplateResult> MapTemplateId(string templateId, object model);
 
         /// <summary>
-        /// Maps to template and retuns the raw template result string.
+        /// Maps to template content passed and retuns the raw template result string.
         /// </summary>
         /// <param name="templateContent">Content of the template to map.</param>
         /// <param name="model">The model to use during replacement.</param>
@@ -63,12 +63,6 @@
     /// <summary>Template mapping result.</summary>
     public interface ITemplateResult
     {
-        /// <summary>Name of the template requested.</summary>
-        string TemplateId { get; set; }
-
-        /// <summary>Whether the template requested was actually found <c>true</c> or not <c>false</c>.</summary>
-        bool TemplateFound { get; set; }
-
         /// <summary>The list of Keys found on the template.</summary>
         List<string> TemplateKeys { get; set; }
 
