@@ -9,10 +9,5 @@
     /// <seealso cref="Attribute" />
     public class PersonalDataAttribute : Attribute
     {
-        /// <summary>Initializes a new instance of the <see cref="PersonalDataAttribute"/> class.</summary>
-        public PersonalDataAttribute() : base()
-        {
-
-        }
     }
 }
