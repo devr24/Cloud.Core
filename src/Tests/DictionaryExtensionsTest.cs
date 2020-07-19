@@ -84,7 +84,7 @@ namespace Cloud.Core.Tests
             var dictionary = objTest.AsDictionary();
             
             // Assert
-            dictionary.Keys.Count.Should().Be(5);
+            dictionary.Keys.Count.Should().BeGreaterOrEqualTo(5);
             dictionary.ContainsKey("PropA").Should().BeTrue();
             dictionary.ContainsKey("PropB").Should().BeTrue();
             dictionary.ContainsKey("PropC").Should().BeTrue();
@@ -186,7 +186,7 @@ namespace Cloud.Core.Tests
             result["PropZ:PropD:PropF[2]"].Should().Be("1");
             lowercaseResult["propa"].Should().Be("test1");
             lowercaseResult["password"].Should().Be("*****");
-            lowercaseResult["phonenumber"].Should().Be("");
+            lowercaseResult["phonenumber"].Should().Be(null);
             uppercaseResult["PASSWORD"].Should().NotBe("*****");
         }
 
