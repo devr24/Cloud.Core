@@ -258,6 +258,13 @@ namespace System.Collections.Generic
             where T : class, new()
         {
             var returnDict = new Dictionary<string, object>();
+
+            // Return empty dictionary if the source is null.
+            if (source == null)
+            {
+                return returnDict;
+            }
+
             var rootItems = source.GetType().GetProperties(bindingAttr);
 
             // If the reflected values length is zero, just add now to the dictionary.

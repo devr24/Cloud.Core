@@ -30,7 +30,7 @@
                 where T : class, new()
         {
             // Return final resulting flat dictionary.
-            return source.GetFlatDictionary<T>(keyCasing, keyDelimiter, string.Empty, maskPiiData, bindingAttr);
+            return source.GetFlatDictionary(keyCasing, keyDelimiter, string.Empty, maskPiiData, bindingAttr);
         }
 
         private static Dictionary<string, string> GetFlatDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, string keyDelimiter = ":", 
@@ -38,6 +38,13 @@
                 where T : class, new()
         {
             var returnDict = new Dictionary<string, string>();
+
+            // Return empty dictionary if the source is null.
+            if (source == null)
+            {
+                return returnDict;
+            }
+
             var rootItems = source.GetType().GetProperties(bindingAttr);
 
             // If the reflected values length is zero, just add now to the dictionary.
