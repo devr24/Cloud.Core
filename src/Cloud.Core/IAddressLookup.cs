@@ -36,10 +36,10 @@
         double Longitude { get; set; }
 
         /// <summary>Whether the [address was found] or not.</summary>
-        bool AddressFound { get; set; }
+        bool AddressFound { get; }
 
         /// <summary>Number of addresses found.</summary>
-        int AddressCount { get; set; }
+        int AddressCount { get; }
 
         /// <summary>Addresses found.</summary>
         List<IAddress> Addresses { get; set; }
@@ -49,10 +49,10 @@
     public interface IAddress
     {
         /// <summary>Address in a single displayable format.</summary>
-        string DisplayAddress { get; set; }
+        string DisplayAddress { get; }
 
         /// <summary>Main address.</summary>
-        string AddressLine1 { get; set; }
+        string AddressLine1 { get; }
 
         /// <summary>Array of address parts formatted by address line number.</summary>
         List<string> FormattedAddress { get; set; }
