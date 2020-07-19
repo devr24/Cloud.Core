@@ -79,7 +79,7 @@ namespace System
                 sb.Replace(s, string.Empty);
             }
 
-            return sb.ToString().ToLower();
+            return sb.ToString();
         }
 
         /// <summary>
@@ -98,7 +98,25 @@ namespace System
                 sb.Replace(s, replaceWith);
             }
 
-            return sb.ToString().ToLower();
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Efficiently replace strings.
+        /// </summary>
+        /// <param name="str">String to replace.</param>
+        /// <param name="replacements">All the replacements to make, key to find, value to replace with.</param>
+        /// <returns></returns>
+        public static string ReplaceMultiple(this string str, Dictionary<string,string> replacements)
+        {
+            var sb = new StringBuilder(str);
+
+            foreach (var s in replacements.Keys)
+            {
+                sb.Replace(s, replacements[s]);
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
