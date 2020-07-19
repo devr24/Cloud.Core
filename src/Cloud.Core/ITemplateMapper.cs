@@ -8,33 +8,42 @@
     /// <summary>Interface for ITemplateMapper implementations.</summary>
     public interface ITemplateMapper
     {
-        /// <summary>Gets the result of the html template lookup.</summary>
+        /// <summary>Gets the result of the template lookup.</summary>
         /// <param name="templateId">Name of the template to load contents of.</param>
         /// <returns>Task&lt;TemplateInfo&gt; template information found.</returns>
         Task<ITemplateResult> GetTemplateContent(string templateId);
 
         /// <summary>
-        /// Maps to HTML and retuns the raw html string.
+        /// Maps to template and retuns the raw template result string.
         /// </summary>
-        /// <param name="templateId">Name of the template.</param>
+        /// <param name="templateId">Identity of the template to load.</param>
         /// <param name="model">The model.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<string> MapToHtml(string templateId, object model);
+        Task<string> MapTemplateUsingId(string templateId, object model);
 
-        /// <summary>Maps a model into HTML and returns the result as a PDF base64 string.</summary>
-        /// <param name="templateId">Name of the template to map to.</param>
-        /// <param name="model">The model.</param>
+        /// <summary>
+        /// Maps to template and retuns the raw template result string.
+        /// </summary>
+        /// <param name="templateContent">Content of the template to map.</param>
+        /// <param name="model">The model to use during replacement.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<string> MapToHtmlAsPdfBase64(string templateId, object model);
+        Task<string> MapTemplateContent(string templateContent, object model);
 
-        /// <summary>Maps a model into HTML and returns the result as a PDF stream.</summary>
-        /// <param name="templateId">Name of the template to map to.</param>
+        /// <summary>Maps a model into a template and returns the result as a PDF base64 string.</summary>
+        /// <param name="templateId">Identity of the template to map to.</param>
         /// <param name="model">The model.</param>
         /// <returns>Task&lt;System.String&gt;.</returns>
         /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
-        Task<Stream> MapToHtmlAsPdfStream(string templateId, object model);
+        Task<string> MapTemplateAsPdfBase64(string templateId, object model);
+
+        /// <summary>Maps a model into a template and returns the result as a PDF stream.</summary>
+        /// <param name="templateId">Identity of the template to map to.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>Task&lt;System.String&gt;.</returns>
+        /// <exception cref="TemplateMappingException">Error during template lookup.</exception>
+        Task<Stream> MapTemplateAsPdfStream(string templateId, object model);
     }
 
     /// <summary>Template lookup result.</summary>
