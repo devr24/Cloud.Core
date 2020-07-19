@@ -7,6 +7,7 @@ namespace System
     using Linq;
     using Reflection;
     using Newtonsoft.Json;
+    using Cloud.Core.Attributes;
 
     /// <summary>
     /// Extension methods for Type.
@@ -74,6 +75,56 @@ namespace System
         }
 
         /// <summary>
+        /// Determines whether this type contains [has pii data].
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns><c>True</c> if the specified type has Pii data; otherwise, <c>false</c>.</returns>
+        public static bool HasPiiData(this Type type)
+        {
+            return type.GetProperties().Any(p => p.IsPiiData());
+        }
+
+        /// <summary>
+        /// Determines whether this type contains [has sensitive information].
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns><c>True</c> if the specified type has Pii data; otherwise, <c>false</c>.</returns>
+        public static bool HasSensitiveInfo(this Type type)
+        {
+            return type.GetProperties().Any(p => p.IsSensitiveInfo());
+        }
+
+        /// <summary>
+        ///Gets a list of Pii Data Fields.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>Dictionary of PiiData properties.</returns>
+        public static Dictionary<string, PropertyInfo> GetPiiDataProperties(this Type type)
+        {
+            var items = new Dictionary<string, PropertyInfo>();
+            foreach (var item in type.GetProperties().Where(p => p.IsPiiData()))
+            {
+                items.Add(item.Name, item);
+            }
+            return items;
+        }
+
+        /// <summary>
+        ///Gets a list of Sensitive Information Fields.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>Dictionary of PiiData properties.</returns>
+        public static Dictionary<string, PropertyInfo> GetSensitiveInfoProperties(this Type type)
+        {
+            var items = new Dictionary<string, PropertyInfo>();
+            foreach (var item in type.GetProperties().Where(p => p.IsSensitiveInfo()))
+            {
+                items.Add(item.Name, item);
+            }
+            return items;
+        }
+
+        /// <summary>
         /// Determines if the property info contains required attributes.
         /// Checks "Required", "JsonRequired" and "JsonProperty(Required)" attributes.
         /// </summary>
@@ -111,6 +162,70 @@ namespace System
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified property [is pii data].
+        /// </summary>
+        /// <param name="prop">The property to check.</param>
+        /// <returns>System.Boolean true if has PersonalData attribute.</returns>
+        public static bool IsPiiData(this PropertyInfo prop)
+        {
+            foreach (var att in prop.CustomAttributes)
+            {
+                if (att.AttributeType == typeof(PersonalDataAttribute))
+                {
+                    return true;
+                }
+                if (att.AttributeType.Name.Contains("PersonalData"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified property [contains sensitive information].
+        /// </summary>
+        /// <param name="prop">The property to check.</param>
+        /// <returns>System.Boolean true if has SensitiveInformation attribute.</returns>
+        public static bool IsSensitiveInfo(this PropertyInfo prop)
+        {
+            return Attribute.IsDefined(prop, typeof(SensitiveInfoAttribute));
+        }
+
+        /// <summary>
+        /// Determines whether the specified property [contains sensitive information].
+        /// </summary>
+        /// <param name="prop">The property to check.</param>
+        /// <returns>System.Boolean true if has SensitiveInformation attribute.</returns>
+        internal static bool IsSensitiveOrPersonalData(this PropertyInfo prop)
+        {
+            foreach (var att in prop.CustomAttributes)
+            {
+                if (att.AttributeType == typeof(PersonalDataAttribute) || att.AttributeType == typeof(SensitiveInfoAttribute))
+                {
+                    return true;
+                }
+                if (att.AttributeType.Name.Contains("PersonalData"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///Gets a default value for the passed in property type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>Dictionary of PiiData properties.</returns>
+        internal static object GetDefault(this Type prop)
+        {
+            return prop.IsValueType ? Activator.CreateInstance(prop) : null;
         }
     }
 }

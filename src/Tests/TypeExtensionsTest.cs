@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Cloud.Core.Attributes;
 using Cloud.Core.Testing;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -54,6 +55,55 @@ namespace Cloud.Core.Tests
             requiredProps[2].PropertyType.IsAssignableFrom(testData.PropE.GetType()).Should().BeTrue();
         }
 
+        /// <summary>Verify sensitive data (SensitiveInfo and PersonalData) attributed properties are identified.</summary>
+        [Fact]
+        public void Test_Type_IsSensitiveData()
+        {
+            // Arrange
+            var testData = new TestClass() {
+                PropA = "test",
+                PropB = "test",
+                Name = "ROBERT",
+                Dob = new DateTime(2000, 1, 1),
+                PhoneNumber = "+442818283891",
+                Password = "Password123"
+            };
+
+            // Act
+            var hasPiiData = testData.GetType().HasPiiData();
+            var piiDataFields = testData.GetType().GetPiiDataProperties();
+            var hasSensitiveInfo = testData.GetType().HasSensitiveInfo();
+            var sensitiveInfoFields = testData.GetType().GetSensitiveInfoProperties();
+            var props = typeof(TestClass).Properties().ToList();
+
+            // Assert
+            hasPiiData.Should().BeTrue();
+            hasSensitiveInfo.Should().BeTrue();
+            piiDataFields.Keys.Contains("Dob").Should().BeTrue();
+            piiDataFields.Keys.Contains("Name").Should().BeTrue();
+            piiDataFields.Keys.Contains("PhoneNumber").Should().BeTrue();
+            sensitiveInfoFields.Keys.Contains("Password").Should().BeTrue();
+
+            props[0].PropertyType.Should().Be(testData.PropA.GetType());
+            props[0].IsPiiData().Should().BeFalse();
+            props[0].IsSensitiveInfo().Should().BeFalse();
+            props[1].PropertyType.Should().Be(testData.PropB.GetType());
+            props[1].IsPiiData().Should().BeFalse();
+            props[1].IsSensitiveInfo().Should().BeFalse();
+            props[6].PropertyType.Should().Be(testData.Name.GetType());
+            props[6].IsPiiData().Should().BeTrue();
+            props[6].IsSensitiveInfo().Should().BeFalse();
+            props[7].PropertyType.Should().Be(testData.Dob.GetType());
+            props[7].IsPiiData().Should().BeTrue();
+            props[7].IsSensitiveInfo().Should().BeFalse();
+            props[8].PropertyType.Should().Be(testData.PhoneNumber.GetType());
+            props[8].IsPiiData().Should().BeTrue();
+            props[8].IsSensitiveInfo().Should().BeFalse();
+            props[9].PropertyType.Should().Be(testData.Password.GetType());
+            props[9].IsSensitiveInfo().Should().BeTrue();
+            props[9].IsPiiData().Should().BeFalse();
+        }
+
         private class TestClass { 
             [Required]
             public string PropA { get; set; }
@@ -66,6 +116,18 @@ namespace Cloud.Core.Tests
             [JsonRequired]
             public IEnumerable<int> PropE { get; set; }
             public TestOther PropOther { get; set; }
+
+            [PersonalData]
+            public string Name { get; set; }
+
+            [PersonalData]
+            public DateTime Dob { get; set; }
+
+            [Microsoft.AspNetCore.Identity.PersonalData]
+            public string PhoneNumber { get; set; }
+
+            [SensitiveInfo]
+            public string Password { get; set; }
         }
 
         private class TestOther { }

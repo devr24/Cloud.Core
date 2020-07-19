@@ -5,7 +5,7 @@ namespace System.Collections.Generic
     using Linq;
 
     /// <summary>
-    /// Contains extensions to <see cref="System.Collections.IDictionary"/>.
+    /// Contains extensions to <see cref="IDictionary"/>.
     /// </summary>
     public static class DictionaryExtensions
     {
@@ -96,7 +96,7 @@ namespace System.Collections.Generic
         /// <returns>IDictionary object representing the object passed in.</returns>
         /// <exception cref="InvalidCastException">Cannot automatically cast enumerable to dictionary</exception>
         public static IDictionary<string, object> AsDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
-            where T: class, new()
+            where T : class, new()
         {
             return source.GetType().GetProperties(bindingAttr).ToDictionary
             (
@@ -104,102 +104,7 @@ namespace System.Collections.Generic
                 propInfo => propInfo.GetValue(source, null)
             );
         }
-
-        /// <summary>
-        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties
-        /// i.e. a class could be reflected as:
-        /// "Prop1"    "Value1"
-        /// "Prop2:A"  "Value2"
-        /// "Prop2:B"  "Value3"
-        /// "Prop2:C"  "Value4"
-        /// "Prop3"    true
-        /// "Prop4"    500
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="keyDelimiter">The delimiter.</param>
-        /// <param name="keyCasing">The string casing for outputted keys.</param>
-        /// <param name="prefix">The prefix.</param>
-        /// <param name="bindingAttr">The binding attribute.</param>
-        /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
-        public static Dictionary<string, object> AsFlatDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, string keyDelimiter = ":", string prefix = "", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
-            where T : class, new()
-        {
-            var returnDict = new Dictionary<string, object>();
-            var rootItems = source.GetType().GetProperties(bindingAttr);
-
-            // If the reflected values length is zero, just add now to the dictionary.
-            if (rootItems.Length == 0)
-            {
-                returnDict.Add(prefix, source);
-            }
-            else
-            {
-                if (!prefix.IsNullOrEmpty())
-                    prefix += keyDelimiter;
-
-                // Loop through each reflected property in order to build up the returned dictionary key/values.
-                foreach (var item in rootItems)
-                {
-                    var value = item.GetValue(source, null);
-                    var key = $"{prefix}{item.Name}".WithCasing(keyCasing);
-
-                    if (value == null)
-                    {
-                        // If we dont have a value, add as empty string.
-                        returnDict.Add(key, "");
-                    }
-                    else if (item.PropertyType.IsEnumerableType())
-                    {
-                        // If this is an enumerable, then loop through each item and get its value for the dictionary.
-                        IEnumerable vals = value as IEnumerable;
-                        var index = 0;
-
-                        foreach (var val in vals)
-                        {
-                            returnDict.AddRange(val.AsFlatDictionary(keyCasing, keyDelimiter, $"{key}[{index}]"));
-                            index++;
-                        }
-                    }
-                    else if (item.PropertyType.IsSystemType())
-                    {
-                        // If this is a plain old system type, then just add straight into the dictionary.
-                        returnDict.Add($"{key}", value);
-                    }
-                    else
-                    {
-                        // Otherwise, reflect all properties of this complex type in the next level of the dictionary.
-                        returnDict.AddRange(value.AsFlatDictionary(keyCasing, keyDelimiter, key));
-                    }
-                }
-            }
-
-            // Return final resulting flat dictionary.
-            return returnDict;
-        }
-
-        /// <summary>
-        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties
-        /// i.e. a class could be reflected as:
-        /// "Prop1"    "Value1"
-        /// "Prop2:A"  "Value2"
-        /// "Prop2:B"  "Value3"
-        /// "Prop2:C"  "Value4"
-        /// "Prop3"    true
-        /// "Prop4"    500
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="keyDelimiter">The delimiter.</param>
-        /// <param name="keyCasing">The string casing for outputted keys.</param>
-        /// <param name="prefix">The prefix.</param>
-        /// <param name="bindingAttr">The binding attribute.</param>
-        /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
-        public static Dictionary<string, object> AsFlatDictionary(this object source, StringCasing keyCasing = StringCasing.Unchanged, string keyDelimiter = ":", string prefix = "", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
-        {
-            return source.AsFlatDictionary<object>(keyCasing, keyDelimiter, prefix, bindingAttr);
-        }
-
+        
         /// <summary>
         /// Convert a dictionary to a list of key value pairs.
         /// </summary>
@@ -299,5 +204,127 @@ namespace System.Collections.Generic
             }
             return source;
         }
+
+        /// <summary>
+        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties
+        /// i.e. a class could be reflected as:
+        /// "Prop1"    "Value1"
+        /// "Prop2:A"  "Value2"
+        /// "Prop2:B"  "Value3"
+        /// "Prop2:C"  "Value4"
+        /// "Prop3"    true
+        /// "Prop4"    500
+        /// </summary>
+        /// <typeparam name="T">Type of object to reflect.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="keyDelimiter">The delimiter.</param>
+        /// <param name="keyCasing">The string casing for outputted keys.</param>
+        /// <param name="maskSensitiveData">If set to <c>true</c> mask pii data (properties marked with PersonalData attribute).</param>
+        /// <param name="bindingAttr">The binding attribute.</param>
+        /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
+        public static Dictionary<string, object> AsFlatDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, bool maskSensitiveData = false, 
+            string keyDelimiter = ":", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+            where T : class, new()
+        {
+            // Return final resulting flat dictionary.
+            return source.GetFlatDictionary(keyCasing, keyDelimiter, string.Empty, maskSensitiveData, bindingAttr);
+        }
+
+        /// <summary>
+        /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties
+        /// i.e. a class could be reflected as:
+        /// "Prop1"    "Value1"
+        /// "Prop2:A"  "Value2"
+        /// "Prop2:B"  "Value3"
+        /// "Prop2:C"  "Value4"
+        /// "Prop3"    true
+        /// "Prop4"    500
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="keyDelimiter">The delimiter.</param>
+        /// <param name="maskSensitiveData">If set to <c>true</c> mask pii data (properties marked with PersonalData attribute).</param>
+        /// <param name="keyCasing">The string casing for outputted keys.</param>
+        /// <param name="bindingAttr">The binding attribute.</param>
+        /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
+        public static Dictionary<string, object> AsFlatDictionary(this object source, StringCasing keyCasing = StringCasing.Unchanged, 
+            bool maskSensitiveData = false, string keyDelimiter = ":", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        {
+            // Return final resulting flat dictionary.
+            return source.GetFlatDictionary(keyCasing, keyDelimiter, string.Empty, maskSensitiveData, bindingAttr);
+        }
+
+        private static Dictionary<string, object> GetFlatDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, string keyDelimiter = ":", 
+            string prefix = "", bool maskSensitiveData = false, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+            where T : class, new()
+        {
+            var returnDict = new Dictionary<string, object>();
+            var rootItems = source.GetType().GetProperties(bindingAttr);
+
+            // If the reflected values length is zero, just add now to the dictionary.
+            if (rootItems.Length == 0)
+            {
+                returnDict.Add(prefix, source);
+            }
+            else
+            {
+                if (!prefix.IsNullOrEmpty())
+                    prefix += keyDelimiter;
+
+                // Loop through each reflected property in order to build up the returned dictionary key/values.
+                foreach (var item in rootItems)
+                {
+                    var value = item.GetValue(source, null);
+                    var key = $"{prefix}{item.Name}".WithCasing(keyCasing);
+
+                    if (value == null || value.Equals(item.PropertyType.GetDefault()))
+                    {
+                        // If we dont have a value, add as empty string.
+                        returnDict.Add(key, null);
+                    }
+                    else if (item.PropertyType.IsEnumerableType())
+                    {
+                        // If this is an enumerable, then loop through each item and get its value for the dictionary.
+                        IEnumerable vals = value as IEnumerable;
+                        var index = 0;
+
+                        foreach (var val in vals)
+                        {
+                            returnDict.AddRange(val.GetFlatDictionary(keyCasing, keyDelimiter, $"{key}[{index}]", maskSensitiveData, bindingAttr));
+                            index++;
+                        }
+                    }
+                    else if (item.PropertyType.IsSystemType())
+                    {
+                        object maskValue = value;
+
+                        if (maskSensitiveData && item.IsSensitiveOrPersonalData())
+                        {
+                            if (item.PropertyType == typeof(string) && (value as string).Length > 0)
+                            {
+                                // Strings get asterix as mask instead.
+                                maskValue = "*****";
+                            }
+                            else
+                            {
+                                // If we should mask pii data, then use default of type or null, rather than the real value.
+                                maskValue = item.PropertyType.GetDefault();
+                            }
+                        }
+
+                        // If this is a plain old system type, then just add straight into the dictionary.
+                        returnDict.Add($"{key}", maskValue);
+                    }
+                    else
+                    {
+                        // Otherwise, reflect all properties of this complex type in the next level of the dictionary.
+                        returnDict.AddRange(value.GetFlatDictionary(keyCasing, keyDelimiter, key, maskSensitiveData, bindingAttr));
+                    }
+                }
+            }
+
+            // Return final resulting flat dictionary.
+            return returnDict;
+        }
+
     }
 }

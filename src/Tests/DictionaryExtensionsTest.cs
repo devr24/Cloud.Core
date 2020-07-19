@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cloud.Core.Testing;
+using Cloud.Core.Attributes;
 using Cloud.Core.Extensions;
+using Cloud.Core.Testing;
 using FluentAssertions;
 using Xunit;
 
@@ -155,13 +157,16 @@ namespace Cloud.Core.Tests
                         PropE = "test4",
                         PropF = new List<int> { 1, 1, 1 }
                     }
-                }
+                },
+                Password = "Password123",
+                Name = "Robert",
+                PhoneNumber = ""
             };
 
             // Act
             var result = objTest.AsFlatStringDictionary();
-            var lowercaseResult = objTest.AsFlatDictionary(System.StringCasing.Lowercase);
-            var uppercaseResult = objTest.AsFlatDictionary(System.StringCasing.Uppercase);
+            var lowercaseResult = objTest.AsFlatDictionary(StringCasing.Lowercase, true);
+            var uppercaseResult = objTest.AsFlatDictionary(StringCasing.Uppercase);
 
             // Assert
             result.Should().NotBeNull();
@@ -180,7 +185,9 @@ namespace Cloud.Core.Tests
             result["PropZ:PropD:PropF[1]"].Should().Be("1");
             result["PropZ:PropD:PropF[2]"].Should().Be("1");
             lowercaseResult["propa"].Should().Be("test1");
-            uppercaseResult["PROPA"].Should().Be("test1");
+            lowercaseResult["password"].Should().Be("*****");
+            lowercaseResult["phonenumber"].Should().Be("");
+            uppercaseResult["PASSWORD"].Should().NotBe("*****");
         }
 
         /// <summary>Verify the conversion of an object to dictionary works as expected.</summary>
@@ -213,8 +220,8 @@ namespace Cloud.Core.Tests
 
             // Act
             var result = objTest.AsFlatDictionary();
-            var lowercaseResult = objTest.AsFlatDictionary(System.StringCasing.Lowercase);
-            var uppercaseResult = objTest.AsFlatDictionary(System.StringCasing.Uppercase);
+            var lowercaseResult = objTest.AsFlatDictionary(StringCasing.Lowercase);
+            var uppercaseResult = objTest.AsFlatDictionary(StringCasing.Uppercase);
 
             // Assert
             result.Should().NotBeNull();
@@ -376,6 +383,15 @@ namespace Cloud.Core.Tests
             public bool PropC { get; set; }
             public SubItem PropD { get; set; }
             public Test PropZ { get; set; }
+
+            [PersonalData]
+            public string Name { get; set; }
+            [PersonalData]
+            public DateTime Dob { get; set; }
+            [PersonalData]
+            public string PhoneNumber { get; set; }
+            [SensitiveInfo]
+            public string Password { get; set; }
         }
 
         public class SubItem
