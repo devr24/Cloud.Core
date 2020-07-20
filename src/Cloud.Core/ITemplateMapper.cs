@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
-    using Cloud.Core.Exceptions;
+    using Exceptions;
 
     /// <summary>Interface for ITemplateMapper implementations.</summary>
     public interface ITemplateMapper
@@ -13,8 +13,19 @@
         /// <returns>Task&lt;TemplateInfo&gt; template mapping information.</returns>
         Task<ITemplateResult> GetTemplateContent(string templateId);
 
+        /// <summary>Adds the template content.</summary>
+        /// <param name="templateContent">Content of the template to store.</param>
+        /// <returns>Task&lt;TemplateInfo&gt; template mapping information.</returns>
+        Task<ITemplateResult> CreateTemplateContent(string templateContent);
+
+        /// <summary>Updates an existing template.</summary>
+        /// <param name="templateId">Id of template to update.</param>
+        /// <param name="templateContent">Content of the template to update.</param>
+        /// <returns>Task&lt;TemplateInfo&gt; template mapping information.</returns>
+        Task<ITemplateResult> UpdateTemplateContent(string templateId, string templateContent);
+
         /// <summary>
-        /// Maps the model to a stored template contents (identified by template Id) and retuns the raw template result string.
+        /// Maps the model to a stored template contents (identified by template Id) and returns the raw template result string.
         /// </summary>
         /// <param name="templateId">Identity of the template to load.</param>
         /// <param name="model">The model to map to the content.</param>
@@ -23,7 +34,7 @@
         Task<ITemplateResult> MapTemplateId(string templateId, object model);
 
         /// <summary>
-        /// Maps the model to the template content passed in and retuns the raw template result string.
+        /// Maps the model to the template content passed in and returns the raw template result string.
         /// </summary>
         /// <param name="templateContent">Content of the template to map.</param>
         /// <param name="model">The model to map to the content.</param>
@@ -63,6 +74,9 @@
     /// <summary>Template mapping result.</summary>
     public interface ITemplateResult
     {
+        /// <summary>Identity of the template used (if applicable).</summary>
+        string TemplateId { get; set; }
+
         /// <summary>The list of Keys found on the template.</summary>
         List<string> TemplateKeys { get; set; }
 

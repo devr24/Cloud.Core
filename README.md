@@ -230,9 +230,9 @@ There are a number of useful attributes that can be added to classes to mark pro
 Example, take this class:
 
 ```csharp
-public class ShoppingAccount {
+public class PersonAccount {
 
-    public string ShopperId { get; set; }
+    public string PersonId { get; set; }
 	 
 	[PersonalData]
 	public string Name { get; set; }
@@ -253,15 +253,15 @@ Here's an example of the masking in action (taken from one of the tests for this
 
 ```csharp
 
-var shopperDetails = new ShoppingAccount {
-	ShopperId = "MY IDENTITY",
+var personDetails = new PersonAccount {
+	PersonId = "MY IDENTITY",
 	Name = "Robert",
 	Dob = new DateTime(1990, 1, 1),
 	PhoneNumber = "+44289012345",
 	Password = "Password123"
 };
 
-var objAsDictionary = shopperDetails.AsFlatDictionary(StringCasing.Unchanged, true); // where true is specifying masking turned on...
+var objAsDictionary = personDetails.AsFlatDictionary(StringCasing.Unchanged, true); // where true is specifying masking turned on...
 
 // Giving this result:
 objAsDictionary["ShopperId"].Should().Be("MY IDENTITY");
