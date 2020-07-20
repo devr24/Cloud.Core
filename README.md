@@ -223,6 +223,62 @@ servuces.AddSingleton<NamedInstanceFactory<TestInterface>>();
 > In the sample above with Dependency Injection, the NamedInstanceFactory will resolve instance X/Y/Z automatically, as they'll be injected into the constuctor during DI initialisation.
 
 
+### Sensitive Data Masking
+
+There are a number of useful attributes that can be added to classes to mark properties of the classes as personal or sensitive.  When used in conjuntion with the logging implementations, personal/sensitive data fields will be masked when the log files are being written.
+
+Example, take this class:
+
+```csharp
+public class ShoppingAccount {
+
+    public string ShopperId { get; set; }
+	 
+	[PersonalData]
+	public string Name { get; set; }
+	 
+	[PersonalData]
+	public DateTime Dob { get; set; }
+	 
+	[PersonalData]
+	public string PhoneNumber { get; set; }
+
+	[SensitiveInfo]
+	public string Password { get; set; }
+}
+```
+We can see fields have been marked as `Cloud.Core.Attributes.PersonalData` or `Cloud.Core.Attributes.SensitiveInfo`.  When used with an ITelemetryLogger implementation, these properties are masked automatically.  [Read more here](https://cloud1core.blob.core.windows.net/docs/Cloud.Core.Telemetry.AzureAppInsights/api/index.html)
+
+Here's an example of the masking in action (taken from one of the tests for this package):
+
+```csharp
+
+var shopperDetails = new ShoppingAccount {
+	ShopperId = "MY IDENTITY",
+	Name = "Robert",
+	Dob = new DateTime(1990, 1, 1),
+	PhoneNumber = "+44289012345",
+	Password = "Password123"
+};
+
+var objAsDictionary = shopperDetails.AsFlatDictionary(StringCasing.Unchanged, true); // where true is specifying masking turned on...
+
+// Giving this result:
+objAsDictionary["ShopperId"].Should().Be("MY IDENTITY");
+
+// Automatically masked fields
+objAsDictionary["Name"].Should().Be("*****"); 
+objAsDictionary["PhoneNumber"].Should().Be("*****");
+objAsDictionary["Password"].Should().Be("*****");
+
+// Masking for any type that is not string reverts to the default value for the type
+objAsDictionary["Dob"].Should().Be(new DateTime()); 
+```
+
+This masking automatically works for `Microsoft.AspNetCore.Identity.PersonalData` attribute also, if you want to use something which is standard.
+
+_NOTE: You can treat all values as strings by using the `AsFlatStringDictionary` instead, so that instead of using the default value for the type, it would be an emtpy string._
+
 
 ## Cloud.Core Project Templates
 The Cloud.Core project templates can be found in the **Cloud.Core Templates** folder - [read more about modifying and using the templates here](https://dev.azure.com/cloudcoreproject/CloudCore/_wiki/wikis/CloudCore.wiki/35/Cloud.Core-Templates).
