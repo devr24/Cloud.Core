@@ -15,7 +15,7 @@ namespace Cloud.Core.Tests
         [Fact]
         public void Test_EmailTemplateMessage_GetSetObject()
         {
-            // Arrange
+            // Arrange/Act
             var templatedEmail = new EmailTemplateMessage { 
                 Subject = "subject",
                 TemplateId = "templateid",
@@ -31,13 +31,8 @@ namespace Cloud.Core.Tests
                 "123"
             });
 
-            // Act
-            var serialized = JsonConvert.SerializeObject(templatedEmail.TemplateObject);
-
             // Assert
-            templatedEmail.TemplateObject.GetType().Should().Be(templatedEmail.GetTemplateObjectType());
-            templatedEmail.GetTemplateObjectAsJson().Should().Be(serialized);
-            templatedEmail.GetTemplateObjectType().Should().Be(typeof(Test));
+            templatedEmail.TemplateObject.GetType().Should().Be(typeof(Test));
         }
 
         private class Test

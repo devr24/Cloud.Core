@@ -10,7 +10,7 @@
     public interface IEmailProvider : INamedInstance
     {
         /// <summary>Whether the provider has its own template mapping capability. Varies from provider to provider,</summary>
-        bool HasBuiltInTemplateMapping { get; }
+        bool UseBuildInTemplates { get; }
 
         /// <summary>Sent an email synchronously.</summary>
         /// <param name="email">The email to send.</param>

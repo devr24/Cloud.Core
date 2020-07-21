@@ -221,7 +221,7 @@ namespace System
         /// <summary>
         ///Gets a default value for the passed in property type.
         /// </summary>
-        /// <param name="type">The type to check.</param>
+        /// <param name="prop">The type to check.</param>
         /// <returns>Dictionary of PiiData properties.</returns>
         internal static object GetDefault(this Type prop)
         {

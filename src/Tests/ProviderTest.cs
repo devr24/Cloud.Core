@@ -68,7 +68,6 @@ namespace Cloud.Core.Tests
                     Content = "text".ConvertToStream(Encoding.UTF8)
                 }
             });
-            var templateObjectJson = emailMessage.GetTemplateObjectAsJson();
             var attachment = emailMessage.Attachments.First();
 
             // Assert
@@ -76,8 +75,6 @@ namespace Cloud.Core.Tests
             emailMessage.Subject.Should().Be("test");
             emailMessage.To.Count.Should().Be(2);
             emailMessage.Attachments.Count.Should().Be(1);
-            templateObjectJson.Should().NotBeNullOrEmpty();
-            templateObjectJson.Should().Be("{\"PropAKey\":\"PropAVal\",\"PropBKey\":10,\"PropCKey\":[\"a\",\"b\",\"c\"]}");
             attachment.ContentType.Should().Be("text/plain");
             attachment.Name.Should().Be("example.txt");
             attachment.Content.Length.Should().BeGreaterThan(0);
