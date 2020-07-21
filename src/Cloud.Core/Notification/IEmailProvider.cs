@@ -1,10 +1,8 @@
 ﻿namespace Cloud.Core.Notification
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
 
     /// <summary>Interface for Email notification providers.</summary>
     public interface IEmailProvider : INamedInstance
