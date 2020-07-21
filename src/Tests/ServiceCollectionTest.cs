@@ -66,7 +66,7 @@ namespace Cloud.Core.Tests
         {
             public string Name { get; set; } = "EmailExample";
 
-            public bool UseBuildInTemplates => true;
+            public bool UseProviderTemplates => true;
 
             public bool Send(EmailMessage email)
             {
