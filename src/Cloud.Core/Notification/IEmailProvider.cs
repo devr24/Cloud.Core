@@ -7,9 +7,6 @@
     /// <summary>Interface for Email notification providers.</summary>
     public interface IEmailProvider : INamedInstance
     {
-        /// <summary>Whether the provider has its own template mapping capability. Varies from provider to provider,</summary>
-        bool UseProviderTemplates { get; }
-
         /// <summary>Sent an email synchronously.</summary>
         /// <param name="email">The email to send.</param>
         /// <returns><c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
