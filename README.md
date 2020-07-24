@@ -12,13 +12,6 @@ allows us to easily build cross-package functionality without creating a massive
 
 </div>
 
-## Design
-The Interfaces held in this package allow for abstraction of services. Each service can have a "factory" implementation.  This is known as the 
-_Abstract Factory_ design pattern, as covered in the link:  
-
-- *Abstract Factory* - https://www.c-sharpcorner.com/article/abstract-factory-design-pattern-in-c-sharp/
-
-
 ## Usage
 The Cloud.Core package contains the following interfaces:
 
@@ -214,9 +207,9 @@ Typically though this will all be used with .net's Dependency Injection (IServic
 
 ```csharp
 
-services.AddSingleton<TestInstance1>("x");
-services.AddSingleton<TestInstance1>("y");
-services.AddSingleton<TestInstance1>("z");
+services.AddSingleton<TestInstance>("x");
+services.AddSingleton<TestInstance>("y");
+services.AddSingleton<TestInstance>("z");
 servuces.AddSingleton<NamedInstanceFactory<TestInterface>>();
 ```
 
@@ -279,6 +272,11 @@ This masking automatically works for `Microsoft.AspNetCore.Identity.PersonalData
 
 _NOTE: You can treat all values as strings by using the `AsFlatStringDictionary` instead, so that instead of using the default value for the type, it would be an emtpy string._
 
+## Design
+The Interfaces held in this package allow for abstraction of services. Each service can have a "factory" implementation.  This is known as the 
+_Abstract Factory_ design pattern, as covered in the link:  
+
+- *Abstract Factory* - https://www.c-sharpcorner.com/article/abstract-factory-design-pattern-in-c-sharp/
 
 ## Cloud.Core Project Templates
 The Cloud.Core project templates can be found in the **Cloud.Core Templates** folder - [read more about modifying and using the templates here](https://dev.azure.com/cloudcoreproject/CloudCore/_wiki/wikis/CloudCore.wiki/35/Cloud.Core-Templates).
