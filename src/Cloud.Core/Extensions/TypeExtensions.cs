@@ -197,6 +197,20 @@ namespace System
         }
 
         /// <summary>
+        /// Determines whether the specified o is dictionary.
+        /// </summary>
+        /// <param name="source">The o.</param>
+        /// <returns><c>true</c> if the specified o is dictionary; otherwise, <c>false</c>.</returns>
+        public static bool IsDictionary(this object source)
+        {
+            if (source == null) return false;
+            var type = source.GetType();
+            return source is IDictionary &&
+                   type.IsGenericType &&
+                   type.GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
+        }
+
+        /// <summary>
         /// Determines whether the specified property [contains sensitive information].
         /// </summary>
         /// <param name="prop">The property to check.</param>

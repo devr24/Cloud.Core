@@ -282,8 +282,9 @@ namespace System.Collections.Generic
                 {
                     var value = item.GetValue(source, null);
                     var key = $"{prefix}{item.Name}".WithCasing(keyCasing);
+                    var isSysType = item.PropertyType.IsSystemType();
 
-                    if (value == null || value.Equals(item.PropertyType.GetDefault()))
+                    if (value == null || (!isSysType && value.Equals(item.PropertyType.GetDefault())))
                     {
                         // If we dont have a value, add as empty string.
                         returnDict.Add(key, null);
@@ -300,7 +301,7 @@ namespace System.Collections.Generic
                             index++;
                         }
                     }
-                    else if (item.PropertyType.IsSystemType())
+                    else if (isSysType)
                     {
                         object maskValue = value;
 

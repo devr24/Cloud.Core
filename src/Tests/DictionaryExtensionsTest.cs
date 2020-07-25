@@ -6,6 +6,7 @@ using Cloud.Core.Attributes;
 using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Cloud.Core.Tests
@@ -130,6 +131,64 @@ namespace Cloud.Core.Tests
             list[0].Value.Should().Be(1);
             list[1].Value.Should().Be(2);
             list[2].Value.Should().Be(3);
+        }
+
+        /// <summary>Verify a dictionary also converts to a flat string dictionary as expected.</summary>
+        [Fact]
+        public void Test_Dictionary_ToFlagStringDictionary()
+        {
+            // Arrange
+            var dictionary = new Dictionary<string, object>();
+            dictionary.Add("A", "A1");
+            dictionary.Add("B", 2);
+            dictionary.Add("C", true);
+            dictionary.Add("D", new[] { 1, 2, 3 });
+
+            // Act
+            var result = dictionary.AsFlatStringDictionary();
+
+            // Assert
+            result.Keys.Count.Should().Be(6);
+            result["A"].Should().NotBeNull();
+            result["A"].Should().Be("A1");
+            result["B"].Should().NotBeNull();
+            result["B"].Should().Be("2");
+            result["C"].Should().NotBeNull();
+            result["C"].Should().Be("True");
+            result["D[0]"].Should().NotBeNull();
+            result["D[0]"].Should().Be("1");
+            result["D[1]"].Should().NotBeNull();
+            result["D[1]"].Should().Be("2");
+            result["D[2]"].Should().NotBeNull();
+            result["D[2]"].Should().Be("3");
+        }
+
+        [Fact]
+        public void Test_JToken_ToFlatStringDictionary()
+        {
+            // Arrange
+            string json = "{ \"title\":\"test\", \"other\":true, \"arr\":[1,2,3,4,5] }";
+            JToken outer = JToken.Parse(json);
+
+            // Act
+            var result = outer.AsFlatStringDictionary();
+
+            // Assert
+            result.Keys.Count.Should().Be(7);
+            result["title"].Should().NotBeNull();
+            result["title"].Should().Be("test");
+            result["other"].Should().NotBeNull();
+            result["other"].Should().Be("True");
+            result["arr[0]"].Should().NotBeNull();
+            result["arr[0]"].Should().Be("1");
+            result["arr[1]"].Should().NotBeNull();
+            result["arr[1]"].Should().Be("2");
+            result["arr[2]"].Should().NotBeNull();
+            result["arr[2]"].Should().Be("3");
+            result["arr[3]"].Should().NotBeNull();
+            result["arr[3]"].Should().Be("4");
+            result["arr[4]"].Should().NotBeNull();
+            result["arr[4]"].Should().Be("5");
         }
 
         /// <summary>Verify the conversion of an object to dictionary (string key/object) works as expected.</summary>
