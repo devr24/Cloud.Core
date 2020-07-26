@@ -30,11 +30,24 @@
         /// <returns>System.String substituted content.</returns>
         public static SubstitutionResult SubstitutePlaceholders(this string content, object model, string startDelimiter = "{{", string endDelimiter = "}}")
         {
+            return GetSubstitutionResult(content, model.AsFlatStringDictionary(StringCasing.Lowercase), startDelimiter, endDelimiter);
+        }
+
+        /// <summary>Substitutes the placeholders in the given content string with the values in the JObject.</summary>
+        /// <param name="content">The content with placeholders to substitute.</param>
+        /// <param name="model">The JObject model to use during substitution.</param>
+        /// <param name="startDelimiter">The start delimiter for the placeholder text.</param>
+        /// <param name="endDelimiter">The end delimiter for the placeholder text.</param>
+        /// <returns>System.String substituted content.</returns>
+        public static SubstitutionResult SubstitutePlaceholders(this string content, JToken model, string startDelimiter = "{{", string endDelimiter = "}}")
+        {
+            return GetSubstitutionResult(content, model.AsFlatStringDictionary(StringCasing.Lowercase), startDelimiter, endDelimiter);
+        }
+
+        private static SubstitutionResult GetSubstitutionResult(string content, Dictionary<string,string> modelKeyValues, string startDelimiter, string endDelimiter)
+        {
             // Get all keys from within the template.
             var templateKeys = content.FindBetweenDelimiters(startDelimiter, endDelimiter);
-
-            // Get the key/values from the models properties.
-            var modelKeyValues = model.AsFlatStringDictionary(StringCasing.Lowercase);
 
             // Map the keys within the template to the model key/values to produce the final substituted template.
             var keyValuesToReplace = new Dictionary<string, string>();
@@ -61,6 +74,9 @@
             };
         }
 
+        /// <summary>
+        /// Result of substituting placeholders in content.
+        /// </summary>
         public class SubstitutionResult
         {
             public List<string> PlaceholderKeys { get; internal set; }
@@ -90,6 +106,10 @@
             string keyDelimiter = ":", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
                 where T : class, new()
         {
+            // If the source is not set, return empty.
+            if (source == null)
+                return new Dictionary<string, string>();
+
             // Return final resulting flat dictionary.
             return source.GetFlatDictionary(keyCasing, keyDelimiter, string.Empty, maskPiiData, bindingAttr);
         }
@@ -113,9 +133,6 @@
         public static Dictionary<string, string> AsFlatStringDictionary(this JToken source, StringCasing keyCasing = StringCasing.Unchanged, bool maskPiiData = false,
             string keyDelimiter = ":", BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
         {
-            // If the source is not set, return fault.
-            if (source == null)
-                return new Dictionary<string, string>();
 
             JObject inner = source.Root.Value<JObject>();
             var tokenDict = inner.ToDictionary();

@@ -6,6 +6,7 @@ using System.Text;
 using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Cloud.Core.Tests
@@ -37,7 +38,70 @@ namespace Cloud.Core.Tests
 
         /// <summary>Verify content between placeholders is found and substituted using a model expected.</summary>
         [Fact]
-        public void Test_String_SubstitutePlaceholders()
+        public void Test_String_SubstitutePlaceholders_AnonymousObject()
+        {
+            // Arrange
+            var searchString = "Lorem ipsum dolor sit amet, {{OBJECT1}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                               "quis nostrud exercitation {{OBJECT2}} laboris nisi ut aliquip ex ea commodo, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. " +
+                               "Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+
+            var expectedResult = "Lorem ipsum dolor sit amet, ROB adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                                 "quis nostrud exercitation ROB laboris nisi ut aliquip ex ea commodo, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. " +
+                                 "Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+
+            // Act
+            var dictionary = new Dictionary<string, object>();
+            dictionary.Add("Object1", "ROB");
+            dictionary.Add("OBJECT2", "ROB");
+
+            var result = searchString.SubstitutePlaceholders(dictionary);
+            var keys = string.Join(",", result.PlaceholderKeys);
+
+            // Assert
+            result.SubstitutedContent.Should().BeEquivalentTo(expectedResult);
+            result.ModelKeyValues.Should().BeEquivalentTo(new Dictionary<string, string>
+            {
+                { "object1", "ROB" },
+                { "object2", "ROB" }
+            });
+            result.SubstitutedValueCount.Should().Be(2);
+            keys.Should().BeEquivalentTo("OBJECT1,OBJECT2,OBJECT3");
+        }
+
+        /// <summary>Verify content between placeholders is found and substituted using a model expected.</summary>
+        [Fact]
+        public void Test_String_SubstitutePlaceholders_JObject()
+        {
+            // Arrange
+            var searchString = "Lorem ipsum dolor sit amet, {{OBJECT1}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                               "quis nostrud exercitation {{OBJECT2}} laboris nisi ut aliquip ex ea commodo, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. " +
+                               "Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+
+            var expectedResult = "Lorem ipsum dolor sit amet, ROB adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                                 "quis nostrud exercitation ROB laboris nisi ut aliquip ex ea commodo, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. " +
+                                 "Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+
+            // Act
+            string json = "{ \"Object1\":\"ROB\", \"OBJECT2\":\"ROB\" }";
+            JToken outer = JToken.Parse(json);
+
+            var result = searchString.SubstitutePlaceholders(outer);
+            var keys = string.Join(",", result.PlaceholderKeys);
+
+            // Assert
+            result.SubstitutedContent.Should().BeEquivalentTo(expectedResult);
+            result.ModelKeyValues.Should().BeEquivalentTo(new Dictionary<string, string>
+            {
+                { "object1", "ROB" },
+                { "object2", "ROB" }
+            });
+            result.SubstitutedValueCount.Should().Be(2);
+            keys.Should().BeEquivalentTo("OBJECT1,OBJECT2,OBJECT3");
+        }
+
+        /// <summary>Verify content between placeholders is found and substituted using a model expected.</summary>
+        [Fact]
+        public void Test_String_SubstitutePlaceholders_Dictionary()
         {
             // Arrange
             var searchString = "Lorem ipsum dolor sit amet, {{OBJECT1}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
