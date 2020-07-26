@@ -1,16 +1,74 @@
-﻿using System.Linq;
-using Newtonsoft.Json.Linq;
-
-namespace Cloud.Core.Extensions
+﻿namespace Cloud.Core.Extensions
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>List of common extensions that are not placed in the default namespaces.</summary>
-    public static class CommonExtensions
+    public static class SpecializedExtensions
     {
+        /// <summary>
+        /// Substitutes placeholders in the content string, using the passed in models values.  Example:
+        ///     "This {{PLACEHOLDER1}} is an example string {{PLACEHOLDER2}}."
+        ///
+        /// And this model:
+        ///     var model = new {
+        ///         Placeholder1 = "example1",
+        ///         Placeholder2 = "example2"
+        ///     }
+        ///
+        /// Resulting in:
+        ///     "This example1 is an example string example2."
+        /// </summary>
+        /// <param name="content">The content with placeholders to substitute.</param>
+        /// <param name="model">The model to use during substitution.</param>
+        /// <param name="startDelimiter">The start delimiter for the placeholder text.</param>
+        /// <param name="endDelimiter">The end delimiter for the placeholder text.</param>
+        /// <returns>System.String substituted content.</returns>
+        public static SubstitutionResult SubstitutePlaceholders(this string content, object model, string startDelimiter = "{{", string endDelimiter = "}}")
+        {
+            // Get all keys from within the template.
+            var templateKeys = content.FindBetweenDelimiters(startDelimiter, endDelimiter);
+
+            // Get the key/values from the models properties.
+            var modelKeyValues = model.AsFlatStringDictionary(StringCasing.Lowercase);
+
+            // Map the keys within the template to the model key/values to produce the final substituted template.
+            var keyValuesToReplace = new Dictionary<string, string>();
+            int substituedValueCount = 0;
+
+            // Replace each key in the template with the models information.
+            foreach (var k in templateKeys)
+            {
+                if (modelKeyValues.TryGetValue(k.ToLowerInvariant(), out var val))
+                {
+                    keyValuesToReplace.Add($"{startDelimiter}{k}{endDelimiter}", val);
+                    substituedValueCount++;
+                }
+            }
+
+            // Use the key/values to replace in the original string.
+            var result = content.ReplaceMultiple(keyValuesToReplace);
+            return new SubstitutionResult()
+            {
+                PlaceholderKeys = templateKeys,
+                ModelKeyValues = modelKeyValues,
+                SubstitutedContent = result,
+                SubstitutedValueCount = substituedValueCount
+            };
+        }
+
+        public class SubstitutionResult
+        {
+            public List<string> PlaceholderKeys { get; internal set; }
+            public Dictionary<string, string> ModelKeyValues { get; internal set; }
+            public string SubstitutedContent { get; internal set; }
+            public int SubstitutedValueCount { get; internal set; }
+        }
+
         /// <summary>
         /// Builds a dictionary of all reflected properties of an object, using a delimiter to denoate sub-type properties
         /// i.e. a class could be reflected as:

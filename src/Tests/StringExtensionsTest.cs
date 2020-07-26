@@ -1,37 +1,68 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using Cloud.Core.Testing;
-using Xunit;
-using FluentAssertions;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using Cloud.Core.Extensions;
+using Cloud.Core.Testing;
+using FluentAssertions;
+using Xunit;
 
 namespace Cloud.Core.Tests
 {
     [IsUnit]
     public class StringExtensionsTest
     {
-[Theory]
-[InlineData("{{", "}}", "OBJECT1,OBJECT2,OBJECT3")]
-[InlineData("<<", ">>", "OBJECT4")]
-[InlineData("mollit", "est", " anim id ")]
-[InlineData("[[", ">>", "OBJECT5")]
-public void Test_String_FindBetweenDelimiters(string startDelimiter, string endDelimiter, string expected)
-{
-    // Arrange
-    var expectedResult = expected.Split(",").ToHashSet();
-    var searchString = "Lorem ipsum dolor sit amet, {{OBJECT1}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
-        "quis nostrud exercitation {{OBJECT2}} laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
-        "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+        /// <summary>Verify content between placeholders is found as expected.</summary>
+        [Theory]
+        [InlineData("{{", "}}", "OBJECT1,OBJECT2,OBJECT3")]
+        [InlineData("<<", ">>", "OBJECT4")]
+        [InlineData("mollit", "est", " anim id ")]
+        [InlineData("[[", ">>", "OBJECT5")]
+        public void Test_String_FindBetweenDelimiters(string startDelimiter, string endDelimiter, string expected)
+        {
+            // Arrange
+            var expectedResult = expected.Split(",").ToHashSet();
+            var searchString = "Lorem ipsum dolor sit amet, {{OBJECT1}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                "quis nostrud exercitation {{OBJECT2}} laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
+                "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
 
-    // Act
-    var results = searchString.FindBetweenDelimiters(startDelimiter, endDelimiter);
+            // Act
+            var results = searchString.FindBetweenDelimiters(startDelimiter, endDelimiter);
 
-    // Assert
-    results.Should().BeEquivalentTo(expectedResult);
-    results.Count.Should().Be(expectedResult.Count);
-}
+            // Assert
+            results.Should().BeEquivalentTo(expectedResult);
+            results.Count.Should().Be(expectedResult.Count);
+        }
+
+        /// <summary>Verify content between placeholders is found and substituted using a model expected.</summary>
+        [Fact]
+        public void Test_String_SubstitutePlaceholders()
+        {
+            // Arrange
+            var searchString = "Lorem ipsum dolor sit amet, {{OBJECT1}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                               "quis nostrud exercitation {{OBJECT2}} laboris nisi ut aliquip ex ea commodo, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. " +
+                               "Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+
+            var expectedResult = "Lorem ipsum dolor sit amet, ROB adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                                 "quis nostrud exercitation ROB laboris nisi ut aliquip ex ea commodo, sunt in culpa {{OBJECT3}} officia deserunt mollit anim id est <<OBJECT4>>. " +
+                                 "Duis aute irure dolor in reprehenderit in voluptate [[OBJECT5>>";
+
+            // Act
+            var model = new { Object1 = "ROB", Object2 = "ROB" };
+            var result = searchString.SubstitutePlaceholders(model, "{{", "}}");
+            var keys = string.Join(",", result.PlaceholderKeys);
+
+            // Assert
+            result.SubstitutedContent.Should().BeEquivalentTo(expectedResult);
+            result.ModelKeyValues.Should().BeEquivalentTo(new Dictionary<string, string>
+            {
+                { "object1", "ROB" },
+                { "object2", "ROB" }
+            });
+            result.SubstitutedValueCount.Should().Be(2);
+            keys.Should().BeEquivalentTo("OBJECT1,OBJECT2,OBJECT3");
+        }
 
         /// <summary>Ensure non-alphanumeric characters are removed from the given string.</summary>
         [Fact]
