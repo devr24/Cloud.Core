@@ -154,7 +154,19 @@
             {
                 foreach (DictionaryEntry item in source as IDictionary)
                 {
-                    returnDict.AddRange(GetProperty(item.Key.ToString(), item.Value, prefix, keyCasing, keyDelimiter, maskPiiData, bindingAttr));
+                    var itemKey = $"{prefix}{(prefix.Length>0? keyDelimiter : "")}{item.Key}".WithCasing(keyCasing);
+                    if (item.Value.IsDictionary())
+                    {
+                        returnDict.AddRange(GetFlatDictionary(item.Value, keyCasing, keyDelimiter, itemKey, maskPiiData, bindingAttr));
+                    }
+                    else if (item.Value.GetType().IsEnumerableType())
+                    {
+                        returnDict.AddRange(GetProperty(item.Key.ToString(), item.Value, prefix, keyCasing, keyDelimiter, maskPiiData, bindingAttr));
+                    }
+                    else
+                    {
+                        returnDict.Add(itemKey, item.Value.ToString());
+                    }
                 }
             }
             else
@@ -189,13 +201,30 @@
             var returnDict = new Dictionary<string, string>();
             var key = $"{prefix}{name}".WithCasing(keyCasing);
             Type valueType = value != null ? value.GetType() : null;
+            bool isEnumerable = valueType != null ? valueType.IsEnumerableType() : false;
 
             if (value == null || value.Equals(valueType.GetDefault()))
             {
                 // If we dont have a value, add as empty string.
                 returnDict.Add(key, "");
             }
-            else if (valueType.IsEnumerableType())
+            else if (value.IsDictionary() && !isEnumerable)
+            {
+                foreach (DictionaryEntry item in value as IDictionary)
+                {
+                    var itemKey = $"{prefix}{(prefix.Length>0? keyDelimiter : "")}{item.Key}".WithCasing(keyCasing);
+                    if (item.Value.IsDictionary())
+                    {
+                        returnDict.AddRange(GetFlatDictionary(item.Value, keyCasing, keyDelimiter, itemKey, maskPiiData, bindingAttr));
+                    }
+                    else
+                    {
+                        returnDict.Add(itemKey, item.Value.ToString());
+                    //returnDict.AddRange(GetProperty(item.Key.ToString(), item.Value, prefix, keyCasing, keyDelimiter, maskPiiData, bindingAttr));
+                    }
+                }
+            }
+            else if (isEnumerable)
             {
                 // If this is an enumerable, then loop through each item and get its value for the dictionary.
                 IEnumerable vals = value as IEnumerable;
