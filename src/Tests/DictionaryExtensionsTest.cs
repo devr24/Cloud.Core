@@ -6,6 +6,7 @@ using Cloud.Core.Attributes;
 using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using FluentAssertions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
@@ -167,18 +168,18 @@ namespace Cloud.Core.Tests
         public void Test_JToken_ToFlatStringDictionary()
         {
             // Arrange
-            string json = "{ \"title\":\"test\", \"other\":true, \"arr\":[1,2,3,4,5] }";
+            string json = "{ \"arr\":[1,2,3,4,5], \"OrderNumber\": \"Order12345\", \"OrderDate\": \"31-07-2020\", \"InvoiceNumber\": \"Inv12345\", \"BillingAddress\":{ \"FirstName\": \"Robert\", \"LastName\": \"McCabe\", \"Address1\": \"24 Someroad\", \"Address2\": \"Somelane\", \"Address3\": \"SomePlace\", \"City\": \"Belfast\", \"PostalCode\": \"BT456YT\", \"Country\": \"N.Ireland\", \"Telephone\": \"0712345678\" }, \"ShippingAddress\":{ \"FirstName\": \"Robert\", \"LastName\": \"McCabe\", \"Address1\": \"24 Someroad\", \"Address2\": \"Somelane\", \"Address3\": \"SomePlace\", \"City\": \"Belfast\", \"PostalCode\": \"BT456YT\", \"Country\": \"N.Ireland\", \"Telephone\": \"0712345678\" }, \"CustomerNumber\":\"Cust12345\", \"PaymentMethod\":\"Visa Debit\", \"CurrencySymbol\": \"£\", \"Subtotal\": \"60.00\", \"ShippingTotal\":\"20.00\", \"Vat\":\"20.00\", \"Total\": \"100.00\" } ";//"{ \"title\":\"test\", \"other\":true, \"arr\":[1,2,3,4,5] }";
             JToken outer = JToken.Parse(json);
 
             // Act
             var result = outer.AsFlatStringDictionary();
 
             // Assert
-            result.Keys.Count.Should().Be(7);
-            result["title"].Should().NotBeNull();
-            result["title"].Should().Be("test");
-            result["other"].Should().NotBeNull();
-            result["other"].Should().Be("True");
+            result.Keys.Count.Should().Be(33);
+            result["OrderNumber"].Should().NotBeNull();
+            result["OrderNumber"].Should().Be("Order12345");
+            result["OrderDate"].Should().NotBeNull();
+            result["OrderDate"].Should().Be("31-07-2020");
             result["arr[0]"].Should().NotBeNull();
             result["arr[0]"].Should().Be("1");
             result["arr[1]"].Should().NotBeNull();

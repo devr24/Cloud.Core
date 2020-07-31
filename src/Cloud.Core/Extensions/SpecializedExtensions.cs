@@ -58,7 +58,7 @@
             {
                 if (modelKeyValues.TryGetValue(k.ToLowerInvariant(), out var val))
                 {
-                    keyValuesToReplace.Add($"{startDelimiter}{k}{endDelimiter}", val);
+                    keyValuesToReplace.AddOrUpdate($"{startDelimiter}{k}{endDelimiter}", val);
                     substituedValueCount++;
                 }
             }
@@ -109,6 +109,11 @@
             // If the source is not set, return empty.
             if (source == null)
                 return new Dictionary<string, string>();
+
+            if (source is JToken token)
+            {
+                return token.AsFlatStringDictionary(keyCasing, maskPiiData, keyDelimiter, bindingAttr);
+            }
 
             // Return final resulting flat dictionary.
             return source.GetFlatDictionary(keyCasing, keyDelimiter, string.Empty, maskPiiData, bindingAttr);
