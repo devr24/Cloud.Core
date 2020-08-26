@@ -55,6 +55,44 @@ namespace Cloud.Core.Tests
             requiredProps[2].PropertyType.IsAssignableFrom(testData.PropE.GetType()).Should().BeTrue();
         }
 
+        /// <summary>Verify identity attribute can be identified.</summary>
+        [Fact]
+        public void Test_Type_HasIdentityAttribute()
+        {
+            // Arrange
+            var testData = new IdentityExample()
+            {
+                Property1 = "test1",
+                Property2 = "test2"
+            };
+
+            // Act
+            var hasIdentity = testData.GetType().HasIdentityAttribute();
+            var identityVal = testData.GetIdentityField();
+
+            // Assert
+            hasIdentity.Should().BeTrue();
+            identityVal.Should().Be("test1");
+        }
+
+        /// <summary>Verify list of named attributes are returned.</summary>
+        [Fact]
+        public void Test_Type_HasNamedAttribute()
+        {
+            // Arrange
+            var testData = new IdentityExample()
+            {
+                Property1 = "test1",
+                Property2 = "test2"
+            };
+
+            // Act
+            var identityProps = testData.GetType().GetPropertiesWithAttributeName("Identity");
+
+            // Assert
+            identityProps.Count.Should().Be(1);
+        }
+
         /// <summary>Verify sensitive data (SensitiveInfo and PersonalData) attributed properties are identified.</summary>
         [Fact]
         public void Test_Type_IsSensitiveData()
@@ -131,5 +169,12 @@ namespace Cloud.Core.Tests
         }
 
         private class TestOther { }
+
+        private class IdentityExample
+        {
+            [Identity]
+            public string Property1 { get; set; }
+            public string Property2 { get; set; }
+        }
     }
 }

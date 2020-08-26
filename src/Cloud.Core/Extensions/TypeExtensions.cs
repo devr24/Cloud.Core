@@ -95,6 +95,42 @@ namespace System
         }
 
         /// <summary>
+        /// Works out if the "Identity" property has been used on a type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>True if has identity attribute and false if not.</returns>
+        public static bool HasIdentityAttribute(this Type type)
+        {
+            return type.GetProperties().Any(p => p.HasAttributeWithName(nameof(IdentityAttribute)));
+        }
+
+        /// <summary>
+        /// Works out if the "Identity" property has been used on a type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>True if has identity attribute and false if not.</returns>
+        public static PropertyInfo GetIdentityProperty(this Type type)
+        {
+            return type.GetProperties().FirstOrDefault(p => p.HasAttributeWithName(nameof(IdentityAttribute)));
+        }
+
+        /// <summary>
+        ///Gets a list of fields who has an attribute with the name provided.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="attributeName">Name of the attribute being searched.</param>
+        /// <returns>Dictionary of properties with attribute name specified.</returns>
+        public static Dictionary<string, PropertyInfo> GetPropertiesWithAttributeName(this Type type, string attributeName)
+        {
+            var items = new Dictionary<string, PropertyInfo>();
+            foreach (var item in type.GetProperties().Where(p => p.HasAttributeWithName(attributeName)))
+            {
+                items.Add(item.Name, item);
+            }
+            return items;
+        }
+
+        /// <summary>
         ///Gets a list of Pii Data Fields.
         /// </summary>
         /// <param name="type">The type to check.</param>
@@ -158,6 +194,25 @@ namespace System
                         if ((Required)val == Required.Always || (Required)val == Required.DisallowNull)
                             return true;
                     }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the property has an attribute with the passed in name.
+        /// </summary>
+        /// <param name="prop">The property to check.</param>
+        /// <param name="attributeName">Name of attribute to find.</param>
+        /// <returns>System.Boolean true if has attribute.</returns>
+        public static bool HasAttributeWithName(this PropertyInfo prop, string attributeName)
+        {
+            foreach (var att in prop.CustomAttributes)
+            {
+                if (att.AttributeType.Name.Contains(attributeName))
+                {
+                    return true;
                 }
             }
 

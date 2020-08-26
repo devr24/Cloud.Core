@@ -11,6 +11,18 @@ namespace System.Collections.Generic
     public static class GenericTypeExtensions
     {
         /// <summary>
+        /// Gets the identity field.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>System.Object.</returns>
+        public static object GetIdentityField<T>(this T value)
+        {
+            var identity = value.GetType().GetIdentityProperty();
+            return identity.GetValue(value);
+        }
+
+        /// <summary>
         /// Changes the type of an object to a desired type.
         /// </summary>
         /// <typeparam name="T"></typeparam>
