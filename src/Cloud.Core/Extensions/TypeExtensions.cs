@@ -101,7 +101,7 @@ namespace System
         /// <returns>True if has identity attribute and false if not.</returns>
         public static bool HasIdentityAttribute(this Type type)
         {
-            return type.GetProperties().Any(p => p.HasAttributeWithName(nameof(IdentityAttribute)));
+            return type.GetProperties().Any(prop => Attribute.IsDefined(prop, typeof(IdentityAttribute)));
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace System
         /// <returns>True if has identity attribute and false if not.</returns>
         public static PropertyInfo GetIdentityProperty(this Type type)
         {
-            return type.GetProperties().FirstOrDefault(p => p.HasAttributeWithName(nameof(IdentityAttribute)));
+            return type.GetProperties().FirstOrDefault(prop => Attribute.IsDefined(prop, typeof(IdentityAttribute)));
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace System
         /// <param name="type">The type to check.</param>
         /// <param name="attributeName">Name of the attribute being searched.</param>
         /// <returns>Dictionary of properties with attribute name specified.</returns>
-        public static Dictionary<string, PropertyInfo> GetPropertiesWithAttributeName(this Type type, string attributeName)
+        public static Dictionary<string, PropertyInfo> GetPropertiesWithAttribute(this Type type, string attributeName)
         {
             var items = new Dictionary<string, PropertyInfo>();
             foreach (var item in type.GetProperties().Where(p => p.HasAttributeWithName(attributeName)))

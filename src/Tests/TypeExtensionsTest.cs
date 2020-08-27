@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Cloud.Core.Attributes;
+using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -13,12 +14,27 @@ namespace Cloud.Core.Tests
     [IsUnit]
     public class TypeExtensionsTest
     {
+        [Fact]
+        public void Test_Type_GetNamedAttributeProperties()
+        {
+            // Arrange
+            var testData = new NamedAttExample { Property1 = "test", Property2 = "test" };
+
+            // Act
+            var attributes = testData.GetNamedAttributeProperties("RobTest1");
+
+            // Assert
+            attributes.Should().NotBeEmpty();
+            attributes.FirstOrDefault().Key.Should().Be("Property1");
+            attributes.FirstOrDefault().Value.Should().Be("test");
+        }
+
         /// <summary>Verify object type is or is not a system type as expected.</summary>
         [Fact]
         public void Test_Type_IsSystemType()
         {
             // Arrange
-            var testData = new TestClass() { PropA = "test", PropB = "test" };
+            var testData = new TestClass { PropA = "test", PropB = "test" };
 
             // Act
             var propA = testData.PropA.GetType().IsSystemType();
@@ -68,7 +84,7 @@ namespace Cloud.Core.Tests
 
             // Act
             var hasIdentity = testData.GetType().HasIdentityAttribute();
-            var identityVal = testData.GetIdentityField();
+            var identityVal = testData.GetIdentityProperty();
 
             // Assert
             hasIdentity.Should().BeTrue();
@@ -87,7 +103,7 @@ namespace Cloud.Core.Tests
             };
 
             // Act
-            var identityProps = testData.GetType().GetPropertiesWithAttributeName("Identity");
+            var identityProps = testData.GetType().GetPropertiesWithAttribute("Identity");
 
             // Assert
             identityProps.Count.Should().Be(1);
@@ -173,6 +189,13 @@ namespace Cloud.Core.Tests
         private class IdentityExample
         {
             [Identity]
+            public string Property1 { get; set; }
+            public string Property2 { get; set; }
+        }
+
+        private class NamedAttExample
+        {
+            [Named("RobTest1")]
             public string Property1 { get; set; }
             public string Property2 { get; set; }
         }

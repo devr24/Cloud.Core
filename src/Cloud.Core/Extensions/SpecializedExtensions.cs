@@ -6,10 +6,41 @@
     using System.Linq;
     using System.Reflection;
     using Newtonsoft.Json.Linq;
+    using Attributes;
 
     /// <summary>List of common extensions that are not placed in the default namespaces.</summary>
     public static class SpecializedExtensions
     {
+        /// <summary>Gets the identity field from type T object.</summary>
+        /// <typeparam name="T">Object to check.</typeparam>
+        /// <param name="value">The value found.</param>
+        /// <returns>System.Object value for property found.</returns>
+        public static object GetIdentityProperty<T>(this T value)
+            where T: new()
+        {
+            var identity = value.GetType().GetIdentityProperty();
+            return identity.GetValue(value);
+        }
+
+        /// <summary>Gets the fields from type T object which have "NamedAttribute" attribute with the specified name.</summary>
+        /// <typeparam name="T">Object to check.</typeparam>
+        /// <param name="value">The value found.</param>
+        /// <param name="name">Name of "NamedAttribute" being searched for.</param>
+        /// <returns>System.Object value for property found.</returns>
+        public static Dictionary<string, object> GetNamedAttributeProperties<T>(this T value, string name)
+            where T : new()
+        {
+            var items = new Dictionary<string, object>();
+            var props = value.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(NamedAttribute)));
+
+            foreach (var item in props)
+            {
+                items.Add(item.Name, item.GetValue(value));
+            }
+
+            return items;
+        }
+
         /// <summary>
         /// Substitutes placeholders in the content string, using the passed in models values.  Example:
         ///     "This {{PLACEHOLDER1}} is an example string {{PLACEHOLDER2}}."
@@ -44,7 +75,7 @@
             return GetSubstitutionResult(content, model.AsFlatStringDictionary(StringCasing.Lowercase), startDelimiter, endDelimiter);
         }
 
-        private static SubstitutionResult GetSubstitutionResult(string content, Dictionary<string,string> modelKeyValues, string startDelimiter, string endDelimiter)
+        private static SubstitutionResult GetSubstitutionResult(string content, Dictionary<string, string> modelKeyValues, string startDelimiter, string endDelimiter)
         {
             // Get all keys from within the template.
             var templateKeys = content.FindBetweenDelimiters(startDelimiter, endDelimiter);
@@ -116,7 +147,7 @@
             }
 
             // Return final resulting flat dictionary.
-            return source.GetFlatDictionary(keyCasing, keyDelimiter, string.Empty, maskPiiData, bindingAttr);
+            return source.GetFlatDictionary(keyCasing, keyDelimiter, String.Empty, maskPiiData, bindingAttr);
         }
 
         /// <summary>
@@ -141,7 +172,7 @@
 
             JObject inner = source.Root.Value<JObject>();
             var tokenDict = inner.ToDictionary();
-            return tokenDict.GetFlatDictionary(keyCasing, keyDelimiter, string.Empty, maskPiiData, bindingAttr);
+            return tokenDict.GetFlatDictionary(keyCasing, keyDelimiter, String.Empty, maskPiiData, bindingAttr);
         }
 
         private static Dictionary<string, string> GetFlatDictionary<T>(this T source, StringCasing keyCasing = StringCasing.Unchanged, string keyDelimiter = ":", 
@@ -182,7 +213,7 @@
                 // If the reflected values length is zero, just add now to the dictionary.
                 if (rootItems.Length == 0)
                 {
-                    returnDict.Add(prefix, source == null ? string.Empty : source.ToString());
+                    returnDict.Add(prefix, source == null ? String.Empty : source.ToString());
                 }
                 else
                 {
@@ -206,7 +237,7 @@
             var returnDict = new Dictionary<string, string>();
             var key = $"{prefix}{name}".WithCasing(keyCasing);
             Type valueType = value != null ? value.GetType() : null;
-            bool isEnumerable = valueType != null ? valueType.IsEnumerableType() : false;
+            bool isEnumerable = valueType != null && valueType.IsEnumerableType();
 
             if (value == null || value.Equals(valueType.GetDefault()))
             {
@@ -225,7 +256,6 @@
                     else
                     {
                         returnDict.Add(itemKey, item.Value.ToString());
-                    //returnDict.AddRange(GetProperty(item.Key.ToString(), item.Value, prefix, keyCasing, keyDelimiter, maskPiiData, bindingAttr));
                     }
                 }
             }
