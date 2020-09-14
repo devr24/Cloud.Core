@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cloud.Core.Testing;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace Cloud.Core.Tests
@@ -9,6 +10,42 @@ namespace Cloud.Core.Tests
     [IsUnit]
     public class NamedInstanceTest
     {
+        /// <summary>Make sure the NamedInstance can be mocked as expected.</summary>
+        [Fact]
+        public void Test_NamedInstance_UsingMocking()
+        {
+            var i1 = new TestInstance1("testInstance1");
+            var i2 = new TestInstance1("testInstance2");
+
+            // Arrange
+            var mocked = new Mock<NamedInstanceFactory<ITestInterface>>(new List<ITestInterface> { i1,  i2 });
+
+            // Act
+            var foundInstance = mocked.Object["testInstance1"];
+
+            // Assert
+            foundInstance.Should().NotBeNull();
+        }
+
+        /// <summary>Make sure the NamedInstance can be populated with mocked instances as expected.</summary>
+        [Fact]
+        public void Test_NamedInstance_UsingMockedInstances()
+        {
+            var i1 = new Mock<ITestInterface>();
+            var i2 = new Mock<ITestInterface>();
+            i1.Setup(m => m.Name).Returns("testInstance1");
+            i2.Setup(m => m.Name).Returns("testInstance2");
+
+            // Arrange
+            var mocked = new Mock<NamedInstanceFactory<ITestInterface>>(new List<ITestInterface> { i1.Object, i2.Object });
+
+            // Act
+            var foundInstance = mocked.Object["testInstance1"];
+
+            // Assert
+            foundInstance.Should().NotBeNull();
+        }
+
         /// <summary>Make sure we can resolve multiple instances of a class with unique names.</summary>
         [Fact]
         public void Test_NamedInstance_MultipleInstanceResolved()
