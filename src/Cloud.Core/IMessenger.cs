@@ -49,6 +49,14 @@
         IDictionary<string, object> ReadProperties<T>(T msg) where T : class;
 
         /// <summary>
+        /// Read system properties from a message.
+        /// </summary>
+        /// <typeparam name="T">Type T of message.</typeparam>
+        /// <param name="msg">Message body, used to identity the message to read from.</param>
+        /// <returns>Dictionary of string, object system properties.</returns>
+        IDictionary<string, object> ReadSystemProperties<T>(T msg) where T : class;
+
+        /// <summary>
         /// Completes the message and removes from the queue.
         /// </summary>
         /// <typeparam name="T"></typeparam>
