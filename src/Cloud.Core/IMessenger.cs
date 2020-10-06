@@ -69,8 +69,9 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message we want to abandon.</param>
+        /// <param name="propertiesToModify">The message properties to modify on abandon.</param>
         /// <returns>The async <see cref="Task" /> wrapper.</returns>
-        Task Abandon<T>(T message) where T : class;
+        Task Abandon<T>(T message, KeyValuePair<string, object>[] propertiesToModify = null) where T : class;
 
         /// <summary>
         /// Errors a message by moving it specifically to the error queue (dead-letter).
