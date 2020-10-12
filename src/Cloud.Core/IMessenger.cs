@@ -69,8 +69,34 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message we want to abandon.</param>
+        /// <param name="propertiesToModify">The message properties to modify on abandon.</param>
         /// <returns>The async <see cref="Task" /> wrapper.</returns>
-        Task Abandon<T>(T message) where T : class;
+        Task Abandon<T>(T message, KeyValuePair<string, object>[] propertiesToModify = null) where T : class;
+
+        /// <summary>
+        /// Defers a message in the the queue.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="message">The message we want to abandon.</param>
+        /// <param name="propertiesToModify">The message properties to modify on abandon.</param>
+        /// <returns>The async <see cref="Task" /> wrapper.</returns>
+        Task Defer<T>(T message, KeyValuePair<string, object>[] propertiesToModify = null) where T : class;
+
+        /// <summary>
+        /// Receives a batch of deferred messages of type T.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sequenceNumbers">The list of sequence numbers pertaining to the batch</param>
+        /// <returns>IMessageItem&lt;T&gt;.</returns>
+        Task<List<T>> ReceiveDeferredBatch<T>(IEnumerable<long> sequenceNumbers) where T : class;
+
+        /// <summary>
+        /// Receives a batch of deferred messages of type IMessageEntity types.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sequenceNumbers">The list of sequence numbers pertaining to the batch</param>
+        /// <returns>IMessageEntity&lt;T&gt;.</returns>
+        Task<List<IMessageEntity<T>>> ReceiveDeferredBatchEntity<T>(IEnumerable<long> sequenceNumbers) where T : class;
 
         /// <summary>
         /// Errors a message by moving it specifically to the error queue (dead-letter).
