@@ -86,17 +86,17 @@
         /// Receives a batch of deferred messages of type T.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="sequenceNumbers">The list of sequence numbers pertaining to the batch</param>
+        /// <param name="identities">The list of identities pertaining to the batch.</param>
         /// <returns>IMessageItem&lt;T&gt;.</returns>
-        Task<List<T>> ReceiveDeferredBatch<T>(IEnumerable<long> sequenceNumbers) where T : class;
+        Task<List<T>> ReceiveDeferredBatch<T>(IEnumerable<long> identities) where T : class;
 
         /// <summary>
         /// Receives a batch of deferred messages of type IMessageEntity types.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="sequenceNumbers">The list of sequence numbers pertaining to the batch</param>
+        /// <param name="identities">The list of identities pertaining to the batch</param>
         /// <returns>IMessageEntity&lt;T&gt;.</returns>
-        Task<List<IMessageEntity<T>>> ReceiveDeferredBatchEntity<T>(IEnumerable<long> sequenceNumbers) where T : class;
+        Task<List<IMessageEntity<T>>> ReceiveDeferredBatchEntity<T>(IEnumerable<long> identities) where T : class;
 
         /// <summary>
         /// Errors a message by moving it specifically to the error queue (dead-letter).
