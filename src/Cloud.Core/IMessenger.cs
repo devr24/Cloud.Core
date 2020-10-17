@@ -313,7 +313,7 @@
         /// <param name="createIfNotExists">The resource will be created if it does not exist.</param>
         /// <param name="entityFilter">A filter that will be applied to the entity if created through this method.</param>
         /// <returns>Task.</returns>
-        Task UpdateReceiver(string entityName, string entityDeadletterName, string entitySubscriptionName = null, bool createIfNotExists = false, KeyValuePair<string, string>? entityFilter = null);
+        Task UpdateReceiver(string entityName, string entitySubscriptionName = null, bool createIfNotExists = false, KeyValuePair<string, string>? entityFilter = null, string entityDeadletterName = null);
     }
 
     /// <summary>
