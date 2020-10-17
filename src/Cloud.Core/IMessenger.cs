@@ -30,7 +30,7 @@
         /// <typeparam name="T">Type of object on the entity.</typeparam>
         /// <param name="batchSize">Size of the batch.</param>
         /// <returns>IMessageItem&lt;T&gt;.</returns>
-        List<T> ReceiveBatch<T>(int batchSize) where T : class;
+        Task<List<T>> ReceiveBatch<T>(int batchSize) where T : class;
 
         /// <summary>
         /// Receives a batch of message in a synchronous manner of type IMessageEntity types.
@@ -38,7 +38,7 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="batchSize">Size of the batch.</param>
         /// <returns>IMessageEntity&lt;T&gt;.</returns>
-        List<IMessageEntity<T>> ReceiveBatchEntity<T>(int batchSize) where T : class;
+        Task<<List<IMessageEntity<T>> ReceiveBatchEntity<T>(int batchSize) where T : class;
 
         /// <summary>
         /// Read additional properties from a message.
