@@ -38,7 +38,7 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="batchSize">Size of the batch.</param>
         /// <returns>IMessageEntity&lt;T&gt;.</returns>
-        Task<<List<IMessageEntity<T>> ReceiveBatchEntity<T>(int batchSize) where T : class;
+        Task<List<IMessageEntity<T>>> ReceiveBatchEntity<T>(int batchSize) where T : class;
 
         /// <summary>
         /// Read additional properties from a message.
