@@ -160,7 +160,7 @@
         /// <summary>
         /// Creates the entity.
         /// </summary>
-        Task CreateEntity(IEntityConfig config);
+        Task CreateEntity(string entityName);
 
         /// <summary>
         /// Check if the entity exists.
@@ -313,7 +313,7 @@
         /// <param name="createIfNotExists">The resource will be created if it does not exist.</param>
         /// <param name="entityFilter">A filter that will be applied to the entity if created through this method.</param>
         /// <returns>Task.</returns>
-        Task UpdateReceiver(string entityName, string entitySubscriptionName = null, bool createIfNotExists = false, KeyValuePair<string, string>? entityFilter = null, string entityDeadletterName = null);
+        Task UpdateReceiver(string entityName, string entitySubscriptionName = null, KeyValuePair<string, string>? entityFilter = null);
     }
 
     /// <summary>
@@ -331,13 +331,6 @@
         /// Collection of properties for the entity message.
         /// </summary>
         IDictionary<string, object> Properties { get; set; }
-
-        /// <summary>
-        /// Gets the message properties as a concrete type.
-        /// </summary>
-        /// <typeparam name="O">Type of object to return when mapping the properties.</typeparam>
-        /// <returns>Concrete type TO, representing the message.</returns>
-        O GetPropertiesTyped<O>() where O : class, new();
     }
 }
 
