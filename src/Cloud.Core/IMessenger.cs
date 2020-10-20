@@ -308,9 +308,7 @@
         /// Update the receiver details
         /// </summary>
         /// <param name="entityName">The name of the entity to listen to.</param>
-        /// <param name="entityDeadletterName">Name of the entity dead-letter.</param>
         /// <param name="entitySubscriptionName">The name of the subscription on the entity to listen to.</param>
-        /// <param name="createIfNotExists">The resource will be created if it does not exist.</param>
         /// <param name="entityFilter">A filter that will be applied to the entity if created through this method.</param>
         /// <returns>Task.</returns>
         Task UpdateReceiver(string entityName, string entitySubscriptionName = null, KeyValuePair<string, string>? entityFilter = null);
