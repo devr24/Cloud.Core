@@ -167,10 +167,12 @@ namespace Cloud.Core.Tests
 
             // Act
             var val = testData.GetPropertyValueByName("property1");
+            var nonVal = testData.GetPropertyValueByName("doesntexist");
 
             // Assert
             val.Should().NotBeNull();
             val.Should().Be("test");
+            nonVal.Should().BeNull();
         }
 
         private class TestClass { 
