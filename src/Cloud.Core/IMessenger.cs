@@ -172,9 +172,11 @@
         Task<EntityMessageCount> GetSenderMessageCount();
 
         /// <summary>
-        /// Creates the entity.
+        /// Creates the entity using the passed in config.
         /// </summary>
-        Task CreateEntity(IMessageEntityConfig entityName);
+        /// <param name="entityConfig">The entity configuration.</param>
+        /// <returns>Task.</returns>
+        Task CreateEntity(IMessageEntityConfig entityConfig);
 
         /// <summary>
         /// Check if the entity exists.
