@@ -5,6 +5,20 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
+    /// <summary>	
+    /// A config with the necessary info on what should be done during entity creation/deletion etc.	
+    /// </summary>	
+    public interface IMessageEntityConfig
+    {
+        /// <summary>	
+        /// Gets or sets the name of the entity that will be created.	
+        /// </summary>	
+        /// <value>	
+        /// The name of the entity.	
+        /// </value>	
+        string EntityName { get; set; }
+    }
+
     /// <summary>
     /// Contract specifying the functionality of message operations like "Complete" and "Abandon".
     /// </summary>
@@ -160,7 +174,7 @@
         /// <summary>
         /// Creates the entity.
         /// </summary>
-        Task CreateEntity(string entityName);
+        Task CreateEntity(IMessageEntityConfig entityName);
 
         /// <summary>
         /// Check if the entity exists.
