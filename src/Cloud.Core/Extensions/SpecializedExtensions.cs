@@ -11,6 +11,23 @@
     /// <summary>List of common extensions that are not placed in the default namespaces.</summary>
     public static class SpecializedExtensions
     {
+
+        /// <summary>
+        /// Gets the name of the property value by.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>System.Object.</returns>
+        public static object GetPropertyValueByName(this object item, string propertyName)
+        {
+            var key = propertyName.ToLowerInvariant();
+            var type = item.GetType();
+            var prop = type.GetProperties().FirstOrDefault(x => x.Name.ToLowerInvariant() == key);
+
+            return prop == null ? null : prop.GetValue(item);
+        }
+
+
         /// <summary>Gets the identity field from type T object.</summary>
         /// <typeparam name="T">Object to check.</typeparam>
         /// <param name="value">The value found.</param>

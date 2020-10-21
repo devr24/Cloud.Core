@@ -158,6 +158,21 @@ namespace Cloud.Core.Tests
             props[9].IsPiiData().Should().BeFalse();
         }
 
+        /// <summary>Verify a property can be read from an object using the property name.</summary>
+        [Fact]
+        public void Test_Object_GetPropertyValueByName()
+        {
+            // Arrange
+            var testData = new NamedAttExample { Property1 = "test", Property2 = "test" };
+
+            // Act
+            var val = testData.GetPropertyValueByName("property1");
+
+            // Assert
+            val.Should().NotBeNull();
+            val.Should().Be("test");
+        }
+
         private class TestClass { 
             [Required]
             public string PropA { get; set; }
