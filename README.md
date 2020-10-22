@@ -10,7 +10,7 @@
 Cross package functionality for all Cloud Core projects.  Contains the main interface contracts used as a top level API for other packages, this 
 allows us to easily build cross-package functionality without creating a massive dependency chain.
 
-**[ApiDoc](https://cloud1core.blob.core.windows.net/docs/Cloud.Core/api/index.html)**
+**[Read full Api documentation](https://cloud1core.blob.core.windows.net/docs/Cloud.Core/api/index.html)**
 </div>
 
 ## Usage
