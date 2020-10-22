@@ -120,13 +120,6 @@
         /// <param name="reason">(optional) The reason for erroring the message.</param>
         /// <returns>The async <see cref="Task" /> wrapper</returns>
         Task Error<T>(T message, string reason = null) where T : class;
-
-        /// <summary>
-        /// Gets a signed access URL to the current messenger.
-        /// </summary>
-        /// <param name="accessConfig">Access config including required permissions and Access URL Expiry.</param>
-        /// <returns>The signed access URL for the specified messenger.</returns>
-        string GetSignedAccessUrl(ISignedAccessConfig accessConfig);
     }
 
     /// <summary>
