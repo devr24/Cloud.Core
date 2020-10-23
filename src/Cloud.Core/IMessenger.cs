@@ -282,6 +282,15 @@
         /// </summary>
         /// <typeparam name="T">The type of the message that we are cancelling the receive on.</typeparam>
         void CancelReceive<T>() where T : class;
+
+        /// <summary>
+        /// Update the receiver details
+        /// </summary>
+        /// <param name="entityName">The name of the entity to listen to.</param>
+        /// <param name="entitySubscriptionName">The name of the subscription on the entity to listen to.</param>
+        /// <param name="entityFilter">A filter that will be applied to the entity if created through this method.</param>
+        /// <returns>Task.</returns>
+        Task UpdateReceiver(string entityName, string entitySubscriptionName = null, KeyValuePair<string, string>? entityFilter = null);
     }
 
     /// <summary>
