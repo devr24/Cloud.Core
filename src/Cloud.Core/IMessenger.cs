@@ -44,7 +44,7 @@
         /// <typeparam name="T">Type of object on the entity.</typeparam>
         /// <param name="batchSize">Size of the batch.</param>
         /// <returns>IMessageItem&lt;T&gt;.</returns>
-        Task<List<T>> ReceiveBatch<T>(int batchSize) where T : class;
+        Task<IEnumerable<T>> ReceiveBatch<T>(int batchSize) where T : class;
 
         /// <summary>
         /// Receives a batch of message in a synchronous manner of type IMessageEntity types.
@@ -52,7 +52,7 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="batchSize">Size of the batch.</param>
         /// <returns>IMessageEntity&lt;T&gt;.</returns>
-        Task<List<IMessageEntity<T>>> ReceiveBatchEntity<T>(int batchSize) where T : class;
+        Task<IEnumerable<IMessageEntity<T>>> ReceiveBatchEntity<T>(int batchSize) where T : class;
 
         /// <summary>
         /// Read additional properties from a message.
@@ -63,7 +63,7 @@
         IDictionary<string, object> ReadProperties<T>(T msg) where T : class;
 
         /// <summary>
-        /// Completes the message and removes from the queue.
+        /// Completes the message and removes from the entity.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message we want to complete.</param>
@@ -79,7 +79,7 @@
         Task CompleteAll<T>(IEnumerable<T> message) where T : class;
 
         /// <summary>
-        /// Abandons a message by returning it to the queue.
+        /// Abandons a message by returning it to the entity.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message we want to abandon.</param>
@@ -88,35 +88,10 @@
         Task Abandon<T>(T message, KeyValuePair<string, object>[] propertiesToModify = null) where T : class;
 
         /// <summary>
-        /// Defers a message in the the queue.
+        /// Errors a message by moving it specifically to the error entity (dead-letter).
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="message">The message we want to abandon.</param>
-        /// <param name="propertiesToModify">The message properties to modify on abandon.</param>
-        /// <returns>The async <see cref="Task" /> wrapper.</returns>
-        Task Defer<T>(T message, KeyValuePair<string, object>[] propertiesToModify = null) where T : class;
-
-        /// <summary>
-        /// Receives a batch of deferred messages of type T.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="identities">The list of identities pertaining to the batch.</param>
-        /// <returns>IMessageItem&lt;T&gt;.</returns>
-        Task<List<T>> ReceiveDeferredBatch<T>(IEnumerable<long> identities) where T : class;
-
-        /// <summary>
-        /// Receives a batch of deferred messages of type IMessageEntity types.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="identities">The list of identities pertaining to the batch</param>
-        /// <returns>IMessageEntity&lt;T&gt;.</returns>
-        Task<List<IMessageEntity<T>>> ReceiveDeferredBatchEntity<T>(IEnumerable<long> identities) where T : class;
-
-        /// <summary>
-        /// Errors a message by moving it specifically to the error queue (dead-letter).
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="message">The message that we want to move to the error queue.</param>
+        /// <param name="message">The message that we want to move to the error (dead-letter) entity.</param>
         /// <param name="reason">(optional) The reason for erroring the message.</param>
         /// <returns>The async <see cref="Task" /> wrapper</returns>
         Task Error<T>(T message, string reason = null) where T : class;
@@ -273,7 +248,7 @@
         /// <typeparam name="T">The type of the message that we are subscribing to.</typeparam>
         /// <param name="successCallback">The <see cref="Action{T}" /> delegate that will be called for each message received.</param>
         /// <param name="errorCallback">The <see cref="Action{Exception}" /> delegate that will be called when an error occurs.</param>
-        /// <param name="batchSize">The size of the batch when reading for a queue.</param>
+        /// <param name="batchSize">The size of the batch when reading.</param>
         /// <exception cref="InvalidOperationException">Thrown when you attempt to setup multiple callbacks against the same <typeparamref name="T" /> parameter.</exception>
         void Receive<T>([NotNull] Action<T> successCallback, [MaybeNull] Action<Exception> errorCallback, int batchSize = 10) where T : class;
 
@@ -312,7 +287,7 @@
         /// Set up the required receive pipeline, for the given message type, and return a reactive <see cref="IObservable{T}" /> that you can subscribe to.
         /// </summary>
         /// <typeparam name="T">The type of the message returned by the observable.</typeparam>
-        /// <param name="batchSize">The size of the batch when reading from a queue.</param>
+        /// <param name="batchSize">The size of the batch when reading.</param>
         /// <returns>The typed <see cref="IObservable{T}" /> that you subscribed to.</returns>
         IObservable<T> StartReceive<T>(int batchSize = 10) where T : class;
 
