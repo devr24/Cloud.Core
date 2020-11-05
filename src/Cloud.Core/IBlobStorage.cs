@@ -174,6 +174,20 @@
         Task<Stream> DownloadBlob(IBlobItem blob);
 
         /// <summary>
+        /// Downloads the BLOB to stream.
+        /// </summary>
+        /// <param name="blobPath">The BLOB path to download.</param>
+        /// <returns>Stream blob contents.</returns>
+        Task<Stream> DownloadBlobToStream(string blobPath);
+
+        /// <summary>
+        /// Uploads the BLOB from stream.
+        /// </summary>
+        /// <param name="blobPath">The BLOB path to upload to.</param>
+        /// <returns>Stream blob content.</returns>
+        Task<Stream> UploadBlobFromStream(string blobPath);
+
+        /// <summary>
         /// Upload the BLOB to storage.  BLOB is read from the passed in stream.
         /// </summary>
         /// <param name="blobPath">The BLOB path.</param>
