@@ -318,7 +318,7 @@ namespace Cloud.Core.Tests
                 // Assert
                 rx.GetType().Should().Be(typeof(RequestFailedException<string>));
                 rx.Message.Should().Be("Request failed");
-                rx.ResponseStatusCode.Should().Be(400);
+                rx.ResponseStatusCode.Should().Be(HttpStatusCode.BadRequest);
                 rx.ResponseBody.Should().Be("failed");
                 rx.RequestObject.Should().Be("test");
             }
@@ -337,7 +337,7 @@ namespace Cloud.Core.Tests
                 // Assert
                 rx.GetType().Should().Be(typeof(RequestFailedException<string>));
                 rx.Message.Should().Be("example");
-                rx.ResponseStatusCode.Should().Be(400);
+                rx.ResponseStatusCode.Should().Be(HttpStatusCode.BadRequest);
                 rx.ResponseBody.Should().Be("failed");
                 rx.RequestObject.Should().Be("test");
             }
@@ -357,7 +357,7 @@ namespace Cloud.Core.Tests
                 rx.GetType().Should().Be(typeof(RequestFailedException<string>));
                 rx.Message.Should().Be("example");
                 rx.InnerException.Message.Should().Be("inner example");
-                rx.ResponseStatusCode.Should().Be(400);
+                rx.ResponseStatusCode.Should().Be(HttpStatusCode.BadRequest);
                 rx.ResponseBody.Should().Be("failed");
                 rx.RequestObject.Should().Be("test");
             }
