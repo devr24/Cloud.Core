@@ -39,19 +39,4 @@
     <DotNetCliToolReference Include="dotnet-reportgenerator-cli" Version="4.0.0-rc4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="FakeObjects\jsonObjectWithEmptyEnumValue.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="FakeObjects\jsonObjectWithInvalidEnumValue.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="FakeObjects\jsonObjectWithEnumValue.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="FakeObjects\jsonObjectWithNoEnumValue.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

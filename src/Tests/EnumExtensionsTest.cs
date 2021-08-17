@@ -2,7 +2,7 @@
 using Cloud.Core.Testing;
 using Xunit;
 using FluentAssertions;
-using System;
+using Cloud.Core.Extensions;
 
 namespace Cloud.Core.Tests
 {

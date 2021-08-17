@@ -1,6 +1,7 @@
-﻿namespace Newtonsoft.Json
+﻿namespace Cloud.Core.Extensions
 {
     using System.Diagnostics;
+    using System.Text.Json;
 
     /// <summary>Json converter extensions.</summary>
     public static class JsonConvertExtensions
@@ -16,7 +17,7 @@
             try
             {
                 // Attempt to convert and catch exception if caught.
-                return JsonConvert.DeserializeObject<T>(source);
+                return JsonSerializer.Deserialize<T>(source);
             }
             catch (System.Exception ex)
             {

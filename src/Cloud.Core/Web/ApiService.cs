@@ -6,7 +6,7 @@
     using System.Net.Http.Headers;
     using System.Net.Sockets;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
+    using Cloud.Core.Extensions;
     using Polly;
 
     /// <summary>
@@ -257,7 +257,7 @@
                 return (T)(object)result;
             }
 
-            return JsonConvert.DeserializeObject<T>(result);
+            return System.Text.Json.JsonSerializer.Deserialize<T>(result);
         }
 
         /// <summary>
@@ -383,7 +383,7 @@
 
                 if (jsonCall)
                 {
-                    throw new HttpRequestException($"Request to url: {url} failed, Response: {JsonConvert.SerializeObject(response)}");
+                    throw new HttpRequestException($"Request to url: {url} failed, Response: {System.Text.Json.JsonSerializer.Serialize(response)}");
                 }
             }
 

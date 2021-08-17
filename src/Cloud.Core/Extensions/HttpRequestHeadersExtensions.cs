@@ -1,5 +1,7 @@
-﻿namespace System.Net.Http.Headers
+﻿namespace Cloud.Core.Extensions
 {
+    using System.Net.Http.Headers;
+
     /// <summary>
     /// Extension methods for the HttpRequestHeaders.
     /// </summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using Xunit;
 

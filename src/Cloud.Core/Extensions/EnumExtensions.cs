@@ -1,8 +1,9 @@
-﻿namespace System
+﻿namespace Cloud.Core.Extensions
 {
-    using Collections.Generic;
-    using Linq;
-    using ComponentModel;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.ComponentModel;
+    using System;
 
     /// <summary>
     /// Contains methods that extend the enum struct with utility and mapping methods.

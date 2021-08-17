@@ -1,10 +1,10 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System
+﻿namespace Cloud.Core.Extensions
 {
-    using IO;
-    using Text;
-    using Text.RegularExpressions;
-    using Diagnostics.CodeAnalysis;
+    using System;
+    using System.IO;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Diagnostics.CodeAnalysis;
     using System.Collections.Generic;
 
     /// <summary>Enum string casing type.</summary>

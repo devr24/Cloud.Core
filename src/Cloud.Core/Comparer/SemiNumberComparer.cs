@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text.RegularExpressions;
+    using Cloud.Core.Extensions;
 
     /// <summary>
     /// Semi Numeric Comparer can be used to compare any two strings with semi-numeric properties.

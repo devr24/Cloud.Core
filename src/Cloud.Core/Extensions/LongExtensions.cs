@@ -1,6 +1,7 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System
+﻿namespace Cloud.Core.Extensions
 {
+    using System;
+
     /// <summary>
     /// Extension methods for Long.
     /// </summary>

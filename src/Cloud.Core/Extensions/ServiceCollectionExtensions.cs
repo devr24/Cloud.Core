@@ -1,9 +1,10 @@
-﻿namespace Microsoft.Extensions.DependencyInjection
+﻿namespace Cloud.Core.Extensions
 {
     using System;
     using System.Linq;
     using Cloud.Core;
     using Cloud.Core.Notification;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>Service Collection extensions.</summary>
     public static class ServiceCollectionExtensions

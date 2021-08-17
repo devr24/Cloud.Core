@@ -1,8 +1,10 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System.Collections.Generic
+﻿namespace Cloud.Core.Extensions
 {
-    using Reflection;
-    using Linq;
+    using System.Reflection;
+    using System.Linq;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System;
 
     /// <summary>
     /// Contains extensions to <see cref="IDictionary"/>.

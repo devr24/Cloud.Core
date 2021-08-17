@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cloud.Core.Extensions;
 using Cloud.Core.Notification;
 using Cloud.Core.Testing;
 using FluentAssertions;

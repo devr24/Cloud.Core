@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Cloud.Core.Extensions;
 using Cloud.Core.Notification;
 using Cloud.Core.Testing;
 using FluentAssertions;

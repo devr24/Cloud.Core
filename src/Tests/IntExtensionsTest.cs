@@ -1,4 +1,5 @@
 ﻿using System;
+using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using Xunit;
 

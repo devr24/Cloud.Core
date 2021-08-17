@@ -1,9 +1,10 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System.Collections.Generic
+﻿namespace Cloud.Core.Extensions
 {
-    using ComponentModel;
-    using ComponentModel.DataAnnotations;
-    using Reflection;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Reflection;
+    using System.Collections.Generic;
+    using System;
 
     /// <summary>
     /// Extension methods for generic type T

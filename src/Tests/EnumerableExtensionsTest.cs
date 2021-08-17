@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cloud.Core.Extensions;
 using Cloud.Core.Testing;
 using FluentAssertions;
 using Xunit;

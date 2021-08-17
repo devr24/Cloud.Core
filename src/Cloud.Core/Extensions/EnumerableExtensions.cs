@@ -1,9 +1,10 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System.Collections.Generic
+﻿namespace Cloud.Core.Extensions
 {
-    using Linq;
-    using Concurrent;
-    using Threading.Tasks;
+    using System.Linq;
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using System;
 
     /// <summary>
     /// Extension methods for <see cref="IEnumerable{T}"/>.

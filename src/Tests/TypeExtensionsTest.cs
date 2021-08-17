@@ -14,21 +14,6 @@ namespace Cloud.Core.Tests
     [IsUnit]
     public class TypeExtensionsTest
     {
-        [Fact]
-        public void Test_Type_GetNamedAttributeProperties()
-        {
-            // Arrange
-            var testData = new NamedAttExample { Property1 = "test", Property2 = "test" };
-
-            // Act
-            var attributes = testData.GetNamedAttributeProperties("RobTest1");
-
-            // Assert
-            attributes.Should().NotBeEmpty();
-            attributes.FirstOrDefault().Key.Should().Be("Property1");
-            attributes.FirstOrDefault().Value.Should().Be("test");
-        }
-
         /// <summary>Verify object type is or is not a system type as expected.</summary>
         [Fact]
         public void Test_Type_IsSystemType()
@@ -45,50 +30,6 @@ namespace Cloud.Core.Tests
             propA.Should().BeTrue();
             propB.Should().BeTrue();
             propOther.Should().BeFalse();
-        }
-
-        /// <summary>Verify list of property info generated matches expected types.</summary>
-        [Fact]
-        public void Test_Type_GetRequiredProperties()
-        {
-            // Arrange
-            var testData = new TestClass
-            {
-                PropA = "PropAVal",
-                PropB = "PropBVal",
-                PropC = new List<int> { 1, 2, 3 },
-                PropD = new int[] { 1, 2, 3 },
-                PropE = new List<int> { 1, 2, 3 }
-            };
-
-            // Act
-            var requiredProps = typeof(TestClass).GetRequiredProperties().ToList();
-
-            // Assert
-            requiredProps.Count.Should().Be(3);
-            requiredProps[0].PropertyType.Should().Be(testData.PropA.GetType());
-            requiredProps[1].PropertyType.Should().Be(testData.PropD.GetType());
-            requiredProps[2].PropertyType.IsAssignableFrom(testData.PropE.GetType()).Should().BeTrue();
-        }
-
-        /// <summary>Verify identity attribute can be identified.</summary>
-        [Fact]
-        public void Test_Type_HasIdentityAttribute()
-        {
-            // Arrange
-            var testData = new IdentityExample()
-            {
-                Property1 = "test1",
-                Property2 = "test2"
-            };
-
-            // Act
-            var hasIdentity = testData.GetType().HasIdentityAttribute();
-            var identityVal = testData.GetIdentityProperty();
-
-            // Assert
-            hasIdentity.Should().BeTrue();
-            identityVal.Should().Be("test1");
         }
 
         /// <summary>Verify list of named attributes are returned.</summary>
@@ -156,23 +97,6 @@ namespace Cloud.Core.Tests
             props[9].PropertyType.Should().Be(testData.Password.GetType());
             props[9].IsSensitiveInfo().Should().BeTrue();
             props[9].IsPiiData().Should().BeFalse();
-        }
-
-        /// <summary>Verify a property can be read from an object using the property name.</summary>
-        [Fact]
-        public void Test_Object_GetPropertyValueByName()
-        {
-            // Arrange
-            var testData = new NamedAttExample { Property1 = "test", Property2 = "test" };
-
-            // Act
-            var val = testData.GetPropertyValueByName("property1");
-            var nonVal = testData.GetPropertyValueByName("doesntexist");
-
-            // Assert
-            val.Should().NotBeNull();
-            val.Should().Be("test");
-            nonVal.Should().BeNull();
         }
 
         private class TestClass { 

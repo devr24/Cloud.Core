@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Cloud.Core.Extensions;
 
     /// <summary>
     /// Contract for a Named Instance implementation.  Enables support for the Named Instance Factory.

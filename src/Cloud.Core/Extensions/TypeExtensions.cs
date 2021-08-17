@@ -1,12 +1,12 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System
+﻿namespace Cloud.Core.Extensions
 {
-    using Collections;
-    using Collections.Generic;
-    using ComponentModel.DataAnnotations;
-    using Linq;
-    using Reflection;
-    using Newtonsoft.Json;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Text.Json;
+    using System.Reflection;
     using Cloud.Core.Attributes;
 
     /// <summary>
@@ -175,25 +175,6 @@ namespace System
                 if (att.AttributeType == typeof(RequiredAttribute))
                 {
                     return true;
-                }
-
-                // Json required annotation.
-                if (att.AttributeType == typeof(JsonRequiredAttribute))
-                {
-                    return true;
-                }
-
-                // Json property (required) annotation.
-                if (att.AttributeType == typeof(JsonPropertyAttribute))
-                {
-                    var requiredArg = att.NamedArguments?.Where(a => a.MemberName == "Required").FirstOrDefault();
-                    var val = requiredArg?.TypedValue.Value;
-
-                    if (val != null)
-                    {
-                        if ((Required)val == Required.Always || (Required)val == Required.DisallowNull)
-                            return true;
-                    }
                 }
             }
 

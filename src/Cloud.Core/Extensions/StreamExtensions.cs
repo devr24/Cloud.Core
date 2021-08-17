@@ -1,7 +1,8 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System.IO
+﻿namespace Cloud.Core.Extensions
 {
     using System.Threading.Tasks;
+    using System;
+    using System.IO;
 
     /// <summary>
     /// Extension methods for Stream.
