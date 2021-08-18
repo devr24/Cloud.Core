@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
+using System.Timers;
 using Microsoft.Extensions.Logging;
 
 namespace Cloud.Core.Services
@@ -78,12 +78,14 @@ namespace Cloud.Core.Services
         private void StartMonitor()
         {
             _elapsedTime.Start();
-            var monitor = new Timer(_ =>
-            {
+            var monitor = new Timer();
+            monitor.Elapsed += (time, args) => {
                 var timespan = _elapsedTime.Elapsed;
                 _logger?.LogDebug($"{AppDomain.CurrentDomain.FriendlyName} running time: {timespan:dd} day(s) {timespan:hh}:{timespan:mm}:{timespan:ss}.{timespan:fff}");
                 BackgroundTimerTick?.Invoke(timespan);
-            }, null, TimeSpan.FromSeconds(_config.MonitorFrequencySeconds), TimeSpan.FromSeconds(_config.MonitorFrequencySeconds));
+            };
+            monitor.Interval = TimeSpan.FromSeconds(_config.MonitorFrequencySeconds).TotalMilliseconds;
+            monitor.Start();
         }
     }
 }
