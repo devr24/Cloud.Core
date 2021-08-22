@@ -69,24 +69,24 @@ namespace Cloud.Core.Tests
 
             public bool UseProviderTemplates => true;
 
-            public bool Send(EmailMessage email)
+            public EmailSendResult Send(EmailMessage email)
             {
-                return true;
+                return new EmailSendResult { Success = true };
             }
 
-            public bool Send(EmailTemplateMessage templatedEmail)
+            public EmailSendResult Send(EmailTemplateMessage templatedEmail)
             {
-                return true;
+                return new EmailSendResult { Success = true };
             }
 
-            public Task<bool> SendAsync(EmailMessage email)
+            public Task<EmailSendResult> SendAsync(EmailMessage email)
             {
-                return Task.FromResult(true);
+                return Task.FromResult(new EmailSendResult { Success = true });
             }
 
-            public Task<bool> SendAsync(EmailTemplateMessage templatedEmail)
+            public Task<EmailSendResult> SendAsync(EmailTemplateMessage templatedEmail)
             {
-                return Task.FromResult(true);
+                return Task.FromResult(new EmailSendResult { Success = true });
             }
         }
 

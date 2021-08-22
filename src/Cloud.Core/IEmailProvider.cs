@@ -12,13 +12,13 @@
         /// <param name="email">The email to send.</param>
         /// <returns><c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
         /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
-        bool Send(EmailMessage email);
+        EmailSendResult Send(EmailMessage email);
 
         /// <summary>Sends an email synchronously.</summary>
         /// <param name="templatedEmail">The templated email.</param>
         /// <returns><c>True</c> if sent successfully, <c>false</c> otherwise.</returns>
         /// <exception cref="Exceptions.RequestFailedException{T}">Error during processing.</exception>
-        bool Send(EmailTemplateMessage templatedEmail);
+        EmailSendResult Send(EmailTemplateMessage templatedEmail);
 
         /// <summary>Sends an email asynchronously.</summary>
         /// <param name="email">The email to send.</param>
