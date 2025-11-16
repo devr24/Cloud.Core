@@ -1,21 +1,25 @@
-MIT License
+Dual License
 
-Copyright (c) 2020 Rob McCabe
+Copyright (c) 2024 Robert McCabe
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+in non-profit Software usage.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+For commercial usage, the terms are outlined as:
+1. Definitions
+"Commercial Use" refers to any use of the Software by an individual, entity, organization, or enterprise for direct or indirect financial gain, including but not limited to integrating the Software into a product or service that is sold, offered for sale, licensed, leased, or rented.
+2. Grant of License
+This Software is provided under a dual-license model. The terms outlined herein apply to all users of the Software, except as explicitly provided under a separate commercial license agreement.
+3. Non-Commercial License
+Subject to the terms and conditions of this License, the Licensor hereby grants you a worldwide, royalty-free, non-exclusive, non-transferable license to use, reproduce, modify, display, and distribute the Software for Non-Commercial purposes only.
+4. Commercial License Requirement
+Commercial Use of the Software requires a valid Commercial License Agreement. You must obtain a Commercial License if you, your organization, or enterprise uses the Software for Commercial Use. For information on obtaining a Commercial License, please contact robert.mccabe@outlook.com.
+5. Disclaimer of Warranty
+The Software is provided "as is", without warranty of any kind, express or implied. The Licensor shall not be liable for any claim, damages, or other liability arising from the Software's use, whether in an action of contract, tort, or otherwise.
+6. Limitation of Liability
+In no event shall the Licensor be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including but not limited to procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this Software, even if advised of the possibility of such damage.
+7. General
+This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor, except as required for reasonable and customary use in describing the origin of the Software and reproducing the content of the NOTICE file.
+8. Termination
+This License and the rights granted hereunder will terminate automatically if you fail to comply with terms herein and fail to cure such breach within 30 days of becoming aware of the breach. All provisions of this License which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.
